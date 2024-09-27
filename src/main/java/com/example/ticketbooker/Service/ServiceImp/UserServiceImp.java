@@ -68,7 +68,7 @@ public class UserServiceImp implements UserService {
     public Users findUserById(int userId) {
         Users user = null;
         try {
-            user = this.usersRepo.findByUserId(userId);
+            user = this.usersRepo.findById(userId);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return null;

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Repository
 public interface UserRepo extends JpaRepository<Users, Integer> {
     ArrayList<Users> findAll();
-    Users findByUserId(int id);
+    Users findById(int id);
     ArrayList<Users> findAllUsersByGender(Gender gender);
     ArrayList<Users> findAllUserByAddress(String address);
 }
