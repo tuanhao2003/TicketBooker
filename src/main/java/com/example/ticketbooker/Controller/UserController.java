@@ -13,12 +13,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/profile")
-    public String profile(Model model) {
-        Users user = userService.findUserById(3);
-        if (user == null) {
-            throw new NullPointerException("User not found");
-        }
-        System.out.println(user.getLastName());
+    public String profile(Model model, @RequestParam int userId) {
+        Users user = userService.findUserById(userId);
         model.addAttribute("user", user);
 
         return "View/User/Profile";
