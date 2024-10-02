@@ -30,9 +30,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean updateUser(int id, UpdateUserDTO dto) {
+    public boolean updateUser(UpdateUserDTO dto) {
         try {
-            Users user = UserMapper.fromUpdate(id, dto);
+            Users user = UserMapper.fromUpdate(dto.getUserId(), dto);
             this.usersRepo.save(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -7,6 +7,7 @@ import java.sql.Date;
 
 @Data
 public class UpdateUserDTO {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String address;
@@ -15,6 +16,7 @@ public class UpdateUserDTO {
     private String profilePhoto;
 
     public UpdateUserDTO() {
+        this.userId = null;
         this.firstName = "";
         this.lastName = "";
         this.address = "";
@@ -22,7 +24,9 @@ public class UpdateUserDTO {
         this.gender = null;
         this.profilePhoto = "";
     }
-    public UpdateUserDTO(String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
+
+    public UpdateUserDTO(Integer userId, String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
