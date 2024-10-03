@@ -16,7 +16,6 @@ public class UserController {
     public String profile(Model model, @RequestParam int userId) {
         Users user = userService.findUserById(userId);
         model.addAttribute("user", user);
-
         return "View/User/Profile";
     }
 }
