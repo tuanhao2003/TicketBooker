@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @GetMapping
     public String profile(Model model) {
         model.addAttribute("listUsers", userService.findAllUsers());

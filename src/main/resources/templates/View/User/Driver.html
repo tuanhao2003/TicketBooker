@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver</title>
+</head>
+<body>
+<h1>Driver Profile</h1>
+<h1 th:text="'Hello ' + ${driver.name} "></h1>
+<h2 th:text="'Your address currently is: ' + ${driver.address}"></h2>
+<h3 th:text="'License: ' + ${driver.licenseNumber}"></h3>
+<h3 th:text="'Status: ' + ${driver.status}"></h3>
+</body>
+</html>
