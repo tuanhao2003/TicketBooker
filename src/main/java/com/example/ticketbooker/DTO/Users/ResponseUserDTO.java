@@ -9,7 +9,7 @@ import java.sql.Date;
 @Getter
 @Builder
 public class ResponseUserDTO {
-    private int accountId;
+    private Integer accountId;
     private String firstName;
     private String lastName;
     private String address;
@@ -18,7 +18,7 @@ public class ResponseUserDTO {
     private String profilePhoto;
 
     public ResponseUserDTO() {
-        this.accountId = 0;
+        this.accountId = null;
         this.firstName = "";
         this.lastName = "";
         this.address = "";
@@ -26,7 +26,7 @@ public class ResponseUserDTO {
         this.gender = null;
         this.profilePhoto = "";
     }
-    public ResponseUserDTO(int accountId,String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
+    public ResponseUserDTO(Integer accountId,String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
         this.accountId = accountId;
         this.firstName = firstName;
         this.lastName = lastName;

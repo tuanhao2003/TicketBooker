@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface UserService {
     public boolean addUser(AddUserDTO dto);
-    public boolean updateUser(int id, UpdateUserDTO dto);
+    public boolean updateUser(UpdateUserDTO dto);
     public boolean deleteUser(int userId);
     public ArrayList<Users> findAllUsers();
     public Users findUserById(int userId);
