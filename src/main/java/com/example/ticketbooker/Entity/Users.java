@@ -15,10 +15,10 @@ import java.sql.Date;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Integer userId;
 
     @Column(name = "accountId", nullable = true)
-    private int accountId;
+    private Integer accountId;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -50,7 +50,7 @@ public class Users {
         this.profilePhoto = "";
     }
 
-    public Users(int usersId, int accountId,String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
+    public Users(Integer usersId, Integer accountId,String firstName, String lastName, String address, Date dateOfBirth, Gender gender, String profilePhoto) {
         this.userId = usersId;
         this.accountId = accountId;
         this.firstName = firstName;
