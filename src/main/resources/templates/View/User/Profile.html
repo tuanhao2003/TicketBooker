@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <h1 th:text="'Hello ' + ${user.firstName} +' '+ ${user.lastName}"></h1>
+    <h2 th:text="'Your address currently is: ' + ${user.address}"></h2>
+    <h3 th:text="'Birthday: ' + ${user.dateOfBirth}"></h3>
+</body>
+</html>
