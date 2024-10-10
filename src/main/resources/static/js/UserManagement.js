@@ -21,19 +21,23 @@ deleteBtn.forEach(btn => {
                 userId: btn.getAttribute("name")
             })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Delete failed');
-                }
-                return response.json();
-            })
-            .then(response => {
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Delete failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data === true){
                 alert("Delete successfully");
                 btn.closest(".userContainer").remove();
-            })
-            .catch(error => {
-                alert("Delete failed: " + error);
-            });
+            }else{
+                alert("Some error while deleting");
+            }
+        })
+        .catch(error => {
+            alert("Delete failed: " + error);
+        });
     });
 });
 
@@ -56,7 +60,6 @@ searchBox.addEventListener("input", function () {
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response.listUsers)
                 if (response.listUsers && response.listUsers.length > 0) {
                     response.listUsers.forEach(user => {
                         searchContainer.innerHTML += `

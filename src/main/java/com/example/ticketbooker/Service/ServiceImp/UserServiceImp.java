@@ -51,7 +51,7 @@ public class UserServiceImp implements UserService {
             System.out.println(e.getMessage());
             return false;
         }
-        return false;
+        return true;
     }
 
     @Override
