@@ -1,0 +1,26 @@
+.header-admin {
+    height: 10vh;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.content-admin {
+    height: 90vh;
+    position: relative;
+    bottom: 0;
+    left: 0;
+}
+
+.content-admin > div{
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.content-admin .collapse{
+    background-color:darkviolet;
+    width: 10% !important;
+}
+
+.content-admin .collapse button {
+    height: 10vh;
+}
