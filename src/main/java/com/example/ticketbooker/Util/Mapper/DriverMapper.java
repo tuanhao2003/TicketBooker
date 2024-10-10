@@ -10,6 +10,7 @@ public class DriverMapper {
                 .licenseNumber(dto.getLicenseNumber())
                 .phone(dto.getPhone())
                 .address(dto.getAddress())
+                .status(dto.getStatus())
                 .build();
     }
     public static Driver fromUpdate (int id, AddDriverDTO dto){
@@ -19,7 +20,7 @@ public class DriverMapper {
                 .licenseNumber(dto.getLicenseNumber())
                 .phone(dto.getPhone())
                 .address(dto.getAddress())
-//                .status(dto.getStatus())
+                .status(dto.getStatus())
                 .build();
     }
 }

@@ -21,7 +21,30 @@ public class DriverServiceImp implements DriverService {
     public boolean addDriver(AddDriverDTO dto) {
         try{
             Driver driver = DriverMapper.fromAdd(dto);
-            driverRepo.save(driver);
+            this.driverRepo.save(driver);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateDriver(int id, AddDriverDTO dto) {
+        try{
+            Driver driver = DriverMapper.fromUpdate(id,dto);
+            this.driverRepo.save(driver);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteDriver(int id) {
+        try{
+            this.driverRepo.deleteById(id);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return false;
@@ -44,7 +67,7 @@ public class DriverServiceImp implements DriverService {
 
     @Override
     public ArrayList<Driver> findAll() {
-        ArrayList<Driver> drivers = new ArrayList<>();
+        ArrayList<Driver> drivers;
         try{
             drivers = this.driverRepo.findAll();
         }catch (Exception e){
@@ -56,11 +79,25 @@ public class DriverServiceImp implements DriverService {
 
     @Override
     public ArrayList<Driver> findDriverByName(String driverName) {
-        return null;
+        ArrayList<Driver> drivers;
+        try{
+            drivers = this.driverRepo.findDriverByName(driverName);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return drivers;
     }
 
     @Override
     public ArrayList<Driver> findDriverByStatus(DriverStatus status) {
-        return null;
+        ArrayList<Driver> drivers;
+        try{
+            drivers = this.driverRepo.findDriversByStatus(status);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return drivers;
     }
 }

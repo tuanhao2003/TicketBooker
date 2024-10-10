@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public interface DriverService {
     public boolean addDriver(AddDriverDTO dto);
+    public boolean updateDriver(int id, AddDriverDTO dto);
+    public boolean deleteDriver(int id);
     public Driver getDriver(int id);
     public ArrayList<Driver> findAll();
     public ArrayList<Driver> findDriverByName(String name);
