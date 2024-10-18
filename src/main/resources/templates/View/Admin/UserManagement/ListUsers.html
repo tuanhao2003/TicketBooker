@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+    <title>Users Management</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <ul class="space-y-10 container mx-auto">
+            <li th:each="user : ${listUsers.listUsers}"
+                class="rounded-xl md:h-20 shadow-md border text-black md:py-3 md:px-10">
+                <div class="flex h-full w-full justify-between">
+                    <div class="flex justify-start w-5/6 items-center space-x-10">
+                        <img th:src="${user.profilePhoto}" class="rounded-full shadow-inner h-full aspect-square border shadow-gray-100">
+                        <div class="flex flex-col items-start justify-center">
+                            <div th:text="${user.firstName} + ' ' + ${user.lastName}"></div>
+                            <div>test@example.mail.com</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end flex-1 space-x-3 items-center">
+                        <button class="px-3 font-semibold h-2/3 rounded-md bg-green-500 hover:bg-green-600 text-white" th:attr="data-id=${user.userId}">
+                            Update
+                        </button>
+                        <button class="px-3 font-semibold h-2/3 rounded-md bg-red-500 hover:bg-red-600 text-white" th:attr="data-id=${user.userId}">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>
