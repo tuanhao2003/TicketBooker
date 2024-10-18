@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin/userManagement")
+@RequestMapping("/admin/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -19,8 +19,14 @@ public class UserController {
     public String profile(Model model) {
         model.addAttribute("listUsers", userService.findAllUsers());
         model.addAttribute("createUserForm", new AddUserDTO());
+        return "View/Admin/UserManagement/ListUsers";
+    }
+
+    @GetMapping("/details/{id}")
+    public String profile(@PathVariable int id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("updateUserForm", new UpdateUserDTO());
-        return "View/Admin/UserManagement";
+        return "View/Admin/UserManagement/UserDetails";
     }
 
     @PostMapping("/create")
@@ -35,7 +41,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/userManagement";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/update")
@@ -50,7 +56,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/userManagement";
+        return "redirect:/admin/users/details/"+updateUserDTO.getUserId();
     }
 
 }
