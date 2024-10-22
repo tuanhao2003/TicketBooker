@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}"
+>
+
+<head>
+    <title>Users Management</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="row w-100">
+        <div class="col-6">
+            <h1>Users list</h1>
+        </div>
+        <div class="col-6">
+            <input type="text" class="form-control w-100 border border-1 border-success searchBox"
+                   placeholder="Search user">
+            <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
+               aria-controls="searchCollapsed">
+            </a>
+            <div class="collapse" id="searchCollapsed"></div>
+        </div>
+    </div>
+    <ul>
+        <li th:each="user : ${listUsers.listUsers}" class="userContainer">
+            <input type="button" class="btn btn-success btn-lg updateBtn" th:name="${user.userId}"
+                   data-bs-toggle="modal" data-bs-target="#updateUser" value="Update">
+            <input type="button" class="btn btn-danger btn-lg deleteBtn" th:name="${user.userId}" value="Delete">
+            <img th:src="${user.profilePhoto}">
+            <div th:text="${user.firstName} + ' ' + ${user.lastName}">User name:</div>
+            <div th:text="${user.address}">Address:</div>
+            <div th:text="${user.dateOfBirth}">Date of birth:</div>
+            <div th:text="${user.gender}">Gender:</div>
+        </li>
+    </ul>
+    <form th:action="@{/admin/userManagement/create}" th:object="${createUserForm}" method="post">
+        <input type="text" th:field="*{firstName}" class="form-control mb-3" placeholder="User first name">
+        <input type="text" th:field="*{lastName}" class="form-control mb-3" placeholder="User last name">
+        <input type="date" th:field="*{dateOfBirth}" class="form-control mb-3" placeholder="User date of birth">
+        <select th:field="*{gender}" class="form-select form-select-lg">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <input class="btn btn-outline-success" type="submit" value="Add">
+    </form>
+    <hr>
+
+    <div class="modal fade" id="updateUser" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+         role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Modal title
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/userManagement/update}" th:object="${updateUserForm}" method="post">
+
+                        <input type="text" th:field="*{userId}" class="form-control mb-3 d-none userId">
+                        <input type="text" th:field="*{firstName}" class="form-control mb-3"
+                               placeholder="User first name">
+                        <input type="text" th:field="*{lastName}" class="form-control mb-3"
+                               placeholder="User last name">
+                        <input type="text" th:field="*{address}" class="form-control mb-3" placeholder="User address">
+                        <input type="date" th:field="*{dateOfBirth}" class="form-control mb-3"
+                               placeholder="User date of birth">
+                        <select th:field="*{gender}" class="form-select form-select-lg mb-3">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="file" th:field="*{profilePhoto}" class="form-control mb-3" placeholder="User photo"
+                               enctype="multipart/form-data">
+                        <input class="btn btn-outline-success" type="submit" value="Update">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
