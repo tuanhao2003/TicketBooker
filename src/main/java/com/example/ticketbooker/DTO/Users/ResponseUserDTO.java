@@ -3,9 +3,7 @@ package com.example.ticketbooker.DTO.Users;
 import com.example.ticketbooker.Entity.Users;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 @Data

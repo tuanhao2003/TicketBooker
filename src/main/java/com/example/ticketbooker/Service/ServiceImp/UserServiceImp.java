@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean updateUser(UpdateUserDTO dto) {
         try {
-            Users user = UserMapper.fromUpdate(dto.getUserId(), dto);
+            Users user = UserMapper.fromUpdate(dto);
             this.usersRepo.save(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -55,88 +55,74 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ResponseUserDTO findAllUsers() {
+    public ResponseUserDTO getAllUsers() {
         ResponseUserDTO result = new ResponseUserDTO();
-        ArrayList<Users> listUsers = new ArrayList<>();
         try {
-            listUsers = this.usersRepo.findAll();
-            result.setUsersCount(listUsers.size());
-            result.setListUsers(listUsers);
+            result = UserMapper.toResponseDTO(this.usersRepo.findAll());
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
         return result;
     }
 
     @Override
-    public Users findUserById(int userId) {
-        Users user = null;
-        try {
-            user = this.usersRepo.findById(userId);
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        return user;
-    }
-
-    @Override
-    public ResponseUserDTO findAllUserByName(String username) {
+    public ResponseUserDTO getUserById(int userId) {
         ResponseUserDTO result = new ResponseUserDTO();
-        ArrayList<Users> listUsers = new ArrayList<>();
         try {
-            listUsers = this.usersRepo.findAllByFirstNameContainingOrLastNameContaining(username, username);
-            result.setUsersCount(listUsers.size());
-            result.setListUsers(listUsers);
+            result = UserMapper.toResponseDTO(this.usersRepo.findAllById(userId));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
         return result;
     }
 
     @Override
-    public ResponseUserDTO findAllUsersByGender(Gender gender) {
+    public ResponseUserDTO getAllUserByName(String username) {
         ResponseUserDTO result = new ResponseUserDTO();
-        ArrayList<Users> usersArrayList = new ArrayList<>();
         try {
-            usersArrayList = this.usersRepo.findAllUsersByGender(gender);
-            result.setUsersCount(usersArrayList.size());
-            result.setListUsers(usersArrayList);
+            result = UserMapper.toResponseDTO(this.usersRepo.findAllByFullNameContaining(username));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
         return result;
     }
 
     @Override
-    public ArrayList<Users> sortUserByName(ArrayList<Users> users) {
+    public ResponseUserDTO getAllUsersByGender(Gender gender) {
+        ResponseUserDTO result = new ResponseUserDTO();
         try {
-            users.sort((user1, user2) -> {
-                String name1 = user1.getFirstName() +" "+ user1.getLastName();
-                String name2 = user2.getFirstName() +" "+ user2.getLastName();
-                return name1.compareTo(name2);
-            });
+            result = UserMapper.toResponseDTO(this.usersRepo.findAllByGender(gender));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
+        }
+        return result;
+    }
+
+    @Override
+    public ResponseUserDTO sortUserByName(ResponseUserDTO users) {
+        try {
+            if (!users.getListUsers().isEmpty()) {
+                users.getListUsers().sort((user1, user2) -> user1.getFullName().compareTo(user2.getFullName()));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return users;
         }
         return users;
     }
 
     @Override
-    public ResponseUserDTO findAllUserByAddress(String address) {
+    public ResponseUserDTO getAllUserByAddress(String address) {
         ResponseUserDTO result = new ResponseUserDTO();
-        ArrayList<Users> usersArrayList = new ArrayList<>();
         try {
-            usersArrayList = this.usersRepo.findAllUserByAddress(address);
-            result.setUsersCount(usersArrayList.size());
-            result.setListUsers(usersArrayList);
-        } catch (Exception e) {
+            result = UserMapper.toResponseDTO(this.usersRepo.findAllByAddress(address));
+        } catch (Exception e){
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
         return result;
     }
