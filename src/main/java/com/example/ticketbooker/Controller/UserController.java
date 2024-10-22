@@ -2,8 +2,9 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Users.AddUserDTO;
 import com.example.ticketbooker.DTO.Users.UpdateUserDTO;
-import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Service.UserService;
+import com.example.ticketbooker.Util.Enum.UserStatus;
+import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,22 +17,27 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public String profile(Model model) {
-        model.addAttribute("listUsers", userService.findAllUsers());
+    public String allUsers(Model model) {
+        model.addAttribute("responseDTO", userService.getAllUsers());
         model.addAttribute("createUserForm", new AddUserDTO());
         return "View/Admin/UserManagement/ListUsers";
     }
 
     @GetMapping("/details/{id}")
-    public String profile(@PathVariable int id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
-        model.addAttribute("updateUserForm", new UpdateUserDTO());
+    public String userDetails(@PathVariable int id, Model model) {
+        UpdateUserDTO updateUserDTO = new UpdateUserDTO();
+        if(userService.getUserById(id).getUsersCount() == 1){
+            updateUserDTO = UserMapper.toUpdateDTO(userService.getUserById(id).getListUsers().get(0));
+        }
+        model.addAttribute("updateUserForm", updateUserDTO);
         return "View/Admin/UserManagement/UserDetails";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("createUserForm") AddUserDTO addUserDTO, Model model) {
+    public String createUser(@ModelAttribute("createUserForm") AddUserDTO addUserDTO, Model model) {
+        System.out.println("Creating user: " + addUserDTO);
         try {
+            addUserDTO.setStatus(UserStatus.ACTIVE);
             boolean result = userService.addUser(addUserDTO);
             if (result) {
                 model.addAttribute("successMessage", "Successfully created");
@@ -45,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("updateUserForm") UpdateUserDTO updateUserDTO, Model model) {
+    public String updateUser(@ModelAttribute("updateUserForm") UpdateUserDTO updateUserDTO, Model model) {
         try {
             boolean result = userService.updateUser(updateUserDTO);
             if (result) {

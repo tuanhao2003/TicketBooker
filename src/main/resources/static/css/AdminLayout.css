@@ -7,5 +7,5 @@
 }
 
 #buttonList button:hover {
-    border-left: 4px solid white;
+    border-left: 4px solid white !important;
 }

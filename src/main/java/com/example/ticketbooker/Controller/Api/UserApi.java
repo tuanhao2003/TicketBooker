@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/userManagement")
+@RequestMapping("/admin/users")
 public class UserApi {
     @Autowired
     private UserService userService;
@@ -28,7 +28,7 @@ public class UserApi {
     public ResponseUserDTO searchUser(@RequestBody String name) {
         ResponseUserDTO responseUserDTO = new ResponseUserDTO();
         try {
-            responseUserDTO = this.userService.findAllUserByName(name);
+            responseUserDTO = this.userService.getAllUserByName(name);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;

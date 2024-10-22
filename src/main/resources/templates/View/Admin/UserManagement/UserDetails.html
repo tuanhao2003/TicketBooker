@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+    <title>Quản lý người dùng</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="w-full md:px-10 flex flex-col justify-start items-center h-full rounded-2xl bg-white">
+            <div class="text-start w-full">
+                <div class="font-bold text-3xl capitalize text-gray-700">thông tin tài khoản</div>
+                <div class="text-lg capitalize text-gray-700 italic">quản lý và chỉnh sửa thông tin tài khoản</div>
+                <hr class="w-full text-gray-800">
+            </div>
+            <form th:action="@{/admin/users/update}" th:object="${updateUserForm}" method="post"
+                class="flex-grow w-full grid grid-cols-12 md:py-5">
+                <div class="col-span-4 flex flex-col justify-center items-center">
+                    <div class="h-1/6">
+                        <img th:if="*{profilePhoto != null}" th:src="*{profilePhoto}"
+                            class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+                        <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
+                            th:src="@{/components/noavt_male.png}"
+                            class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+                        <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
+                            th:src="@{/components/noavt_female.png}"
+                            class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+                        <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
+                            th:src="@{/components/noavt_other.png}"
+                            class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+                    </div>
+                </div>
+                <div
+                    class="col-span-8 border border-transparent border-l-gray-800 border-dashed flex flex-col justify-center items-start md:p-10 w-full h-full">
+                    <input type="hidden" th:field="*{userId}" />
+                    <input type="hidden" th:field="*{accountId}" />
+                    <input type="file" accept=".jpg, .jpeg, .png" class="hidden" th:field="*{profilePhoto}" />
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="fullNameInput" class="text-gray-700 italic text-lg w-2/6">Họ và tên:</label>
+                        <input type="text" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                            id="fullNameInput" th:field="*{fullName}">
+                    </div>
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="phoneInput" class="text-gray-700 italic text-lg w-2/6">Số điện thoại:</label>
+                        <input type="text" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                            id="phoneInput" th:field="*{phone}">
+                    </div>
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="addressInput" class="text-gray-700 italic text-lg w-2/6">Địa chỉ:</label>
+                        <input type="text" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                            id="addressInput" th:field="*{address}">
+                    </div>
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="dateOfBirthInput" class="text-gray-700 italic text-lg w-2/6">Ngày sinh:</label>
+                        <input type="text" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                            id="dateOfBirthInput" th:field="*{dateOfBirth}">
+                    </div>
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="gender" class="text-gray-700 italic text-lg w-2/6">Giới tính:</label>
+                        <select id="gender" th:field="*{gender}"
+                            class="bg-transparent border-none outline-none focus:outline-none text-lg">
+                            <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
+                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}">
+                            </option>
+                            <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
+                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}">
+                            </option>
+                            <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
+                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex justify-start items-center w-full h-10">
+                        <label for="status" class="text-gray-700 italic text-lg w-2/6">Trạng thái:</label>
+                        <select id="status" th:field="*{status}"
+                            class="bg-transparent border-none outline-none focus:outline-none text-lg">
+                            <option th:value="${T(com.example.ticketbooker.Util.Enum.UserStatus).ACTIVE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.UserStatus).ACTIVE}"
+                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.UserStatus).ACTIVE}">
+                            </option>
+                            <option th:value="${T(com.example.ticketbooker.Util.Enum.UserStatus).INACTIVE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.UserStatus).INACTIVE}"
+                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.UserStatus).INACTIVE}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end w-full h-10">
+                        <button
+                            class="add-user-open px-3 font-semibold w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script type="text/javascript" th:src="@{/js/UserManagement.js}"></script>

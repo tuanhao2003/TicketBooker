@@ -1,31 +1,26 @@
 package com.example.ticketbooker.DTO.Users;
 
-import com.example.ticketbooker.Util.Enum.Gender;
-import jakarta.persistence.Column;
+import com.example.ticketbooker.Util.Enum.UserStatus;
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Date;
 
 @Data
+@Builder
 public class AddUserDTO {
-    private Integer accountId;
-    private String firstName;
-    private String lastName;
-    private Date dateOfBirth;
-    private Gender gender;
+    private String fullName;
+    private String phone;
+    private UserStatus status;
 
     public AddUserDTO() {
-        this.accountId = null;
-        this.firstName = "";
-        this.lastName = "";
-        this.dateOfBirth = null;
-        this.gender = null;
+        this.fullName = null;
+        this.phone = null;
+        this.status = UserStatus.ACTIVE;
     }
-    public AddUserDTO(Integer accountId,String firstName, String lastName, Gender gender, Date dateOfBirth,String profilePhoto) {
-        this.accountId = accountId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
+    public AddUserDTO(String fullName, String phone, UserStatus status) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.status = status;
     }
 }
