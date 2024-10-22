@@ -1,0 +1,11 @@
+*::-webkit-scrollbar {
+    display: none;
+}
+
+#buttonList button {
+    border-left: 4px solid transparent;
+}
+
+#buttonList button:hover {
+    border-left: 4px solid white !important;
+}
