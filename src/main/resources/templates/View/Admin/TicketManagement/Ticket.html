@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+    <title>Quản lý Vé Xe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container mx-auto mt-5">
+        <div class="flex justify-between items-center mb-3">
+            <h1 class="text-2xl font-bold">Ticket Management</h1>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="showAddModal()">Add Ticket</button>
+        </div>
+
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="px-4 py-2 border">Ticket ID</th>
+                <th class="px-4 py-2 border">Customer Name</th>
+                <th class="px-4 py-2 border">Customer Phone</th>
+                <th class="px-4 py-2 border">Trip ID</th>
+                <th class="px-4 py-2 border">Seat ID</th>
+                <th class="px-4 py-2 border">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="ticketTableBody" class="text-gray-700">
+            <!-- Data will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Adding and Editing Ticket -->
+    <div class="fixed inset-0 flex items-center justify-center hidden" id="ticketModal">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto p-5">
+            <div class="flex justify-between items-center mb-4">
+                <h5 class="text-xl font-semibold" id="modalTitle">Add Ticket</h5>
+                <button class="text-gray-500 hover:text-gray-700" onclick="closeModal()">×</button>
+            </div>
+            <form id="ticketForm">
+                <input type="hidden" id="ticketId">
+                <div class="mb-4">
+                    <label for="customerName" class="block text-gray-700 font-semibold">Customer Name</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded" id="customerName" required>
+                </div>
+                <div class="mb-4">
+                    <label for="customerPhone" class="block text-gray-700 font-semibold">Customer Phone</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded" id="customerPhone" required>
+                </div>
+                <div class="mb-4">
+                    <label for="tripId" class="block text-gray-700 font-semibold">Trip ID</label>
+                    <input type="number" class="w-full px-3 py-2 border rounded" id="tripId" required>
+                </div>
+                <div class="mb-4">
+                    <label for="seatId" class="block text-gray-700 font-semibold">Seat ID</label>
+                    <input type="number" class="w-full px-3 py-2 border rounded" id="seatId" required>
+                </div>
+            </form>
+            <div class="flex justify-end mt-4">
+                <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" onclick="closeModal()">Close</button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="saveTicket()">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind modal handling
+        function showAddModal() {
+            document.getElementById("modalTitle").textContent = "Add Ticket";
+            document.getElementById("ticketForm").reset();
+            document.getElementById("ticketId").value = "";
+            document.getElementById("ticketModal").classList.remove("hidden");
+        }
+
+        function showEditModal(id) {
+            document.getElementById("modalTitle").textContent = "Edit Ticket";
+            $.get(`/api/tickets/${id}`, function(ticket) {
+                document.getElementById("ticketId").value = ticket.id;
+                document.getElementById("customerName").value = ticket.customerName;
+                document.getElementById("customerPhone").value = ticket.customerPhone;
+                document.getElementById("tripId").value = ticket.tripId;
+                document.getElementById("seatId").value = ticket.seatId;
+                document.getElementById("ticketModal").classList.remove("hidden");
+            });
+        }
+
+        function closeModal() {
+            document.getElementById("ticketModal").classList.add("hidden");
+        }
+
+        // Function to save ticket and load tickets
+        function saveTicket() {
+            const ticket = {
+                id: document.getElementById("ticketId").value,
+                customerName: document.getElementById("customerName").value,
+                customerPhone: document.getElementById("customerPhone").value,
+                tripId: document.getElementById("tripId").value,
+                seatId: document.getElementById("seatId").value
+            };
+
+            const url = ticket.id ? `/api/tickets/${ticket.id}` : "/api/tickets";
+            const method = ticket.id ? "PUT" : "POST";
+
+            $.ajax({
+                url: url,
+                type: method,
+                contentType: "application/json",
+                data: JSON.stringify(ticket),
+                success: function() {
+                    closeModal();
+                    loadTickets();
+                }
+            });
+        }
+
+        // Function to delete a ticket
+        function deleteTicket(id) {
+            if (confirm("Are you sure you want to delete this ticket?")) {
+                $.ajax({
+                    url: `/api/tickets/${id}`,
+                    type: "DELETE",
+                    success: function() {
+                        loadTickets();
+                    }
+                });
+            }
+        }
+
+        // Load tickets when page loads
+        $(document).ready(function() {
+            loadTickets();
+        });
+
+        function loadTickets() {
+            $.get("/api/tickets", function(data) {
+                let rows = "";
+                data.forEach(ticket => {
+                    rows += `
+                        <tr class="border-b">
+                            <td class="px-4 py-2">${ticket.id}</td>
+                            <td class="px-4 py-2">${ticket.customerName}</td>
+                            <td class="px-4 py-2">${ticket.customerPhone}</td>
+                            <td class="px-4 py-2">${ticket.tripId}</td>
+                            <td class="px-4 py-2">${ticket.seatId}</td>
+                            <td class="px-4 py-2">
+                                <button class="bg-yellow-400 text-white px-2 py-1 rounded mr-2" onclick="showEditModal(${ticket.id})">Edit</button>
+                                <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteTicket(${ticket.id})">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $("#ticketTableBody").html(rows);
+            });
+        }
+    </script>
+
+</div>
+</body>
+</html>
