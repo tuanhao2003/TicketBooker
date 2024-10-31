@@ -38,7 +38,7 @@ public class RouteController {
         }catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/routeManagement";
+        return "redirect:/admin/routes";
     }
 
     @PostMapping("/update")

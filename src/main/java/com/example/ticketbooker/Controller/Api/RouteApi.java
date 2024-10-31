@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/routeManagement")
+@RequestMapping("/admin/routes")
 public class RouteApi {
     @Autowired
     private RouteService routeService;

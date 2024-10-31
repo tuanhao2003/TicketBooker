@@ -1,114 +1,126 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
 
 <head>
-    <meta charset="UTF-8">
-    <!-- #####bs5##### -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- #####bs5##### -->
-    <title>Users Management</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <title>Quản lý người dùng</title>
 </head>
 
 <body>
-<h1>Users list</h1>
-<ul>
-    <li th:each="user : ${routes}">
-        <input type="button" class="btn btn-success btn-lg updateBtn" th:name="${route.routeId}" data-bs-toggle="modal"
-               data-bs-target="#updateUser" value="Update">
-        <input type="button" class="btn btn-danger btn-lg deleteBtn" th:name="${route.routeId}" value="Delete">
-        <div th:text="${user.departureLocation}">depart: </div>
-        <div th:text="${user.arrivalLocation}">Arrivals: </div>
-        <div th:text="${user.estimatedTime}">Estimated Time: </div>
-        <div th:text="${user.status}">Status:</div>
-    </li>
-</ul>
-<form th:action="@{/admin/routeManagement/create}" th:object="${createRouteForm}" method="post">
-    <input type="text" th:field="*{departureLocation}" class="form-control mb-3" placeholder="Start from">
-    <input type="text" th:field="*{arrivalLocation}" class="form-control mb-3" placeholder="Destination">
-    <input type="date" th:field="*{estimatedTime}" class="form-control mb-3" placeholder="Estimated time">
-    <select th:field="*{gender}" class="form-select form-select-lg" disabled="true">
-        <option value="Active" selected="true">Active</option>
-    </select>
-    <input class="btn btn-outline-success" type="submit" value="Add">
-</form>
-<hr>
-
-<div class="modal fade" id="updateUser" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-     role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">
-                    Modal title
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/userManagement/update}" th:object="${updateUserForm}" method="post">
-
-                    <input type="text" th:field="*{userId}" class="form-control mb-3 d-none userId">
-                    <input type="text" th:field="*{firstName}" class="form-control mb-3"
-                           placeholder="User first name">
-                    <input type="text" th:field="*{lastName}" class="form-control mb-3"
-                           placeholder="User last name">
-                    <input type="text" th:field="*{address}" class="form-control mb-3" placeholder="User address">
-                    <input type="date" th:field="*{dateOfBirth}" class="form-control mb-3"
-                           placeholder="User date of birth">
-                    <select th:field="*{gender}" class="form-select form-select-lg mb-3">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="file" th:field="*{profilePhoto}" class="form-control mb-3"
-                           placeholder="User photo" enctype="multipart/form-data">
-                    <input class="btn btn-outline-success" type="submit" value="Update">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-            </div>
-        </div>
+<div layout:fragment="content">
+  <div class="col-6">
+    <input type="text" class="form-control w-100 border border-1 border-success searchBox"
+           placeholder="Search user">
+    <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
+       aria-controls="searchCollapsed">
+    </a>
+    <div class="collapse" id="searchCollapsed"></div>
+  </div>
+  <div class="flex w-full h-20 md:px-5">
+    <div class="flex w-1/2 h-full justify-start items-center">
+      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách chuyến xe</div>
     </div>
+    <div class="flex w-1/2 h-full justify-end items-center">
+      <button
+              class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
+        Thêm
+      </button>
+    </div>
+  </div>
+  <div class="block md:m-5 md:mt-0">
+    <ul class="space-y-5 container mx-auto">
+      <li th:each="route : ${response.list}"
+          class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">
+        <div class="flex h-full w-full justify-between">
+          <div class="flex justify-start w-5/6 items-center space-x-10">
+
+            <img th:src="@{/components/noavt_male.png}"
+                 class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+
+            <div class="flex flex-col items-start justify-center">
+              <div th:text="'Bắt đầu từ:  ' + ${route.departureLocation}"></div>
+              <div th:text="'Kết thúc ở: ' + ${route.arrivalLocation}"></div>
+            </div>
+            <div class="flex flex-col items-start justify-center">
+              <div th:text="'Thời gian dự kiến:  ' + ${route.estimatedTime}"></div>
+              <div th:text="'Trạng thái: ' + ${route.status}"></div>
+            </div>
+          </div>
+          <div class="flex justify-end flex-1 space-x-3 items-center">
+            <button
+                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white details-btn"
+                    th:attr="data-id=${route.routeId}">
+              Chi tiết
+            </button>
+            <button
+                    class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-red-500 hover:bg-red-600 shadow shadow-gray-500 text-white delete-btn"
+                    th:attr="data-id=${route.routeId}">
+              Xóa
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div layout:fragment="popup">
+  <!-- modal -->
+  <div
+          class="flex items-start modal md:px-3 absolute -bottom-5 -bottom-full md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
+    <div class="flex flex-grow flex-col justify-start items-start">
+      <div
+              class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-300">
+        <div class="col-span-2">
+          <button
+                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">
+            Hủy
+          </button>
+        </div>
+        <div class="col-span-8 text-center">
+
+        </div>
+        <div class="col-span-2 flex items-center justify-center">
+          <button
+                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">
+            Thêm
+          </button>
+        </div>
+      </div>
+      <form id="add-user-form" th:action="@{/admin/routes/create}" th:object="${createRouteForm}" method="post"
+            class="w-full h-full md:px-5 md:mt-7">
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="departureLocation" class="capitalize font-medium">Địa điểm xuất phát: </label>
+          <input id="departureLocation" type="text" th:field="*{departureLocation}"
+                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 required pattern="[a-zA-Z]" placeholder="Bắt đầu ở...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="arrivalLocation" class="capitalize font-medium">Điểm đích: </label>
+          <input id="arrivalLocation" type="text" th:field="*{arrivalLocation}"
+                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 required pattern="[a-zA-Z]" placeholder="Đi đến...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="estimatedTime" class="capitalize font-medium">Thời gian dự kiến: </label>
+          <input id="estimatedTime" type="time" th:field="*{estimatedTime}"
+                 class="w-1/2 focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 placeholder="Thời gian di chuyển...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="status" class="capitalize font-medium">Trạng thái:</label>
+          <select id="status" type="text" th:field="*{status}"
+                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white">
+            <option value="ACTIVE" selected> Active </option>
+          </select>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- /modal -->
 </div>
 
 </body>
 
 </html>
-<script>
-    const updateBtn = document.querySelectorAll(".updateBtn");
-    const deleteBtn = document.querySelectorAll(".deleteBtn");
-    const userId = document.querySelector(".userId");
-    updateBtn.forEach(btn => {
-        btn.addEventListener("click", function(){
-            userId.setAttribute("value", btn.getAttribute("name"));
-        });
-    });
-    deleteBtn.forEach(btn => {
-        btn.addEventListener("click", function(e){
-            e.preventDefault();
-            $.ajax({
-                url: "http://localhost:8080/admin/userManagement",
-                type: "DELETE",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    userId: btn.getAttribute("name")
-                }),
-                success: function(response) {
-                    alert("Delete successfully");
-                },
-                error: function(error) {
-                    alert("Delete failed" + error);
-                }
-            });
-        });
-    });
-
-</script>
+<script type="text/javascript" th:src="@{/js/RouteManagement.js}"></script>
