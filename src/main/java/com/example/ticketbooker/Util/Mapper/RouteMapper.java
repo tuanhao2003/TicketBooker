@@ -8,18 +8,19 @@ import com.example.ticketbooker.Entity.Routes;
 public class RouteMapper {
     public static Routes fromAdd (AddRouteDTO dto){
         return Routes.builder()
-                .id(dto.getRouteId())
                 .departureLocation(dto.getDepartureLocation())
                 .arrivalLocation(dto.getArrivalLocation())
-                .routeStatus(dto.getStatus())
+                .estimatedTime(dto.getEstimatedTime())
+                .status(dto.getStatus())
                 .build();
     }
     public static Routes fromUpdate (int id, UpdateRouteDTO dto){
         return Routes.builder()
-                .id(dto.getRouteId())
+                .routeId(id)
                 .departureLocation(dto.getDepartureLocation())
                 .arrivalLocation(dto.getArrivalLocation())
-                .routeStatus(dto.getStatus())
+                .estimatedTime(dto.getEstimatedTime())
+                .status(dto.getStatus())
                 .build();
     }
 }

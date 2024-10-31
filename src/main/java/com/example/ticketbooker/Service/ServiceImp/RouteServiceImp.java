@@ -1,6 +1,8 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Routes.AddRouteDTO;
+import com.example.ticketbooker.DTO.Routes.RequestRouteIdDTO;
+import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
 import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
 import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Repository.RouteRepo;
@@ -42,9 +44,9 @@ public class RouteServiceImp implements RouteService {
     }
 
     @Override
-    public boolean deleteRoute(int id) {
+    public boolean deleteRoute(RequestRouteIdDTO dto) {
         try {
-            this.routeRepo.deleteById(id);
+            this.routeRepo.deleteById(dto.getRouteId());
         }catch (Exception e){
             System.out.println(e.getMessage());
             return false;
@@ -65,50 +67,77 @@ public class RouteServiceImp implements RouteService {
     }
 
     @Override
-    public ArrayList<Routes> findAllRoutes() {
+    public ResponseRouteDTO findAllRoutes() {
+        ResponseRouteDTO result = new ResponseRouteDTO();
         ArrayList<Routes> routes;
         try{
             routes = this.routeRepo.findAll();
+            result.setRouteCount(routes.size());
+            result.setList(routes);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        return routes;
+        return result;
     }
 
     @Override
-    public ArrayList<Routes> findByStatus(RouteStatus status) {
+    public ResponseRouteDTO findByStatus(RouteStatus status) {
+        ResponseRouteDTO result = new ResponseRouteDTO();
         ArrayList<Routes> routes;
         try{
-            routes = this.routeRepo.findByRouteStatus(status);
+            routes = this.routeRepo.findByStatus(status);
+            result.setRouteCount(routes.size());
+            result.setList(routes);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        return routes;
+        return result;
     }
 
     @Override
-    public ArrayList<Routes> findByDepartureLocation(String departureLocation) {
+    public ResponseRouteDTO findByDepartureLocation(String departureLocation) {
+        ResponseRouteDTO result = new ResponseRouteDTO();
         ArrayList<Routes> routes;
         try{
             routes = this.routeRepo.findByDepartureLocation(departureLocation);
+            result.setRouteCount(routes.size());
+            result.setList(routes);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return routes;
+        return result;
     }
 
     @Override
-    public ArrayList<Routes> findByArrivalLocation(String arrivalLocation) {
+    public ResponseRouteDTO findByArrivalLocation(String arrivalLocation) {
+        ResponseRouteDTO result = new ResponseRouteDTO();
         ArrayList<Routes> routes;
         try{
             routes = this.routeRepo.findByArrivalLocation(arrivalLocation);
+            result.setRouteCount(routes.size());
+            result.setList(routes);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return routes;
+        return result;
+    }
+
+    @Override
+    public ResponseRouteDTO findByLocation(String location) {
+        ResponseRouteDTO result = new ResponseRouteDTO();
+        ArrayList<Routes> routes;
+        try{
+            routes = this.routeRepo.findByDepartureLocationAndArrivalLocation(location, location);
+            result.setRouteCount(routes.size());
+            result.setList(routes);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return result;
     }
 }

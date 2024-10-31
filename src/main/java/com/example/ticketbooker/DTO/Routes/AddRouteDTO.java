@@ -7,25 +7,22 @@ import lombok.Data;
 import java.time.LocalTime;
 @Data
 public class AddRouteDTO {
-    private int routeId;
     private String departureLocation;
     private String arrivalLocation;
     private LocalTime estimatedTime;
     private RouteStatus status;
 
     public AddRouteDTO() {
-        this.routeId = 0;
         this.departureLocation = "";
-        this.arrivalLocation = null;
+        this.arrivalLocation = "";
         this.estimatedTime = null;
-        this.status = RouteStatus.ACTIVE;
+        this.status = null;
     }
 
-    public AddRouteDTO(int routeId, String departureLocation, String arrivalLocation, String estimatedTime, RouteStatus status) {
-        this.routeId = 0;
-        this.departureLocation = "";
-        this.arrivalLocation = null;
-        this.estimatedTime = null;
+    public AddRouteDTO(String departureLocation, String arrivalLocation, String estimatedTime, RouteStatus status) {
+        this.departureLocation = departureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.estimatedTime = LocalTime.parse(estimatedTime);
         this.status = status;
     }
 }
