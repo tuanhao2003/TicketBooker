@@ -11,7 +11,9 @@ import java.util.ArrayList;
 public interface RouteRepo extends JpaRepository<Routes, Integer> {
     Routes findById(int id);
     ArrayList<Routes> findAll();
-    ArrayList<Routes> findByRouteStatus(RouteStatus status);
+    ArrayList<Routes> findByStatus(RouteStatus status);
     ArrayList<Routes> findByDepartureLocation(String departureLocation);
     ArrayList<Routes> findByArrivalLocation(String arrivalLocation);
+    ArrayList<Routes> findByDepartureLocationAndArrivalLocation(String departureLocation, String arrivalLocation);
+
 }

@@ -1,0 +1,37 @@
+package com.example.ticketbooker.Controller.Api;
+
+import com.example.ticketbooker.DTO.Routes.RequestRouteIdDTO;
+import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
+import com.example.ticketbooker.Service.RouteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/admin/routeManagement")
+public class RouteApi {
+    @Autowired
+    private RouteService routeService;
+    @DeleteMapping("/delete")
+    public boolean deleteRoute(@RequestBody RequestRouteIdDTO dto) {
+        boolean result = false;
+        try {
+            result = routeService.deleteRoute(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
+    }
+
+    @PostMapping("/search")
+    public ResponseRouteDTO searchRouteByLocation(@RequestBody String location) {
+        ResponseRouteDTO dto = new ResponseRouteDTO();
+        try{
+            dto = this.routeService.findByLocation(location);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return dto;
+    }
+}

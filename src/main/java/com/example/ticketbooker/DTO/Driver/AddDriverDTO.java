@@ -15,13 +15,13 @@ public class AddDriverDTO {
 
     public AddDriverDTO() {
         this.name = "";
-        this.licenseNumber = null;
-        this.phone = null;
+        this.licenseNumber = "";
+        this.phone = "";
         this.address = "";
         this.status = null;
     }
 
-    public AddDriverDTO(int driverId, String name, String licenseNumber, String address, String phone, DriverStatus status) {
+    public AddDriverDTO( String name, String licenseNumber, String address, String phone, DriverStatus status) {
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.phone = phone;

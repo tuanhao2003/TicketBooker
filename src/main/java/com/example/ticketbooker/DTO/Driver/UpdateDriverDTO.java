@@ -1,7 +1,10 @@
 package com.example.ticketbooker.DTO.Driver;
 
 import com.example.ticketbooker.Util.Enum.DriverStatus;
-
+import lombok.Builder;
+import lombok.Data;
+@Builder
+@Data
 public class UpdateDriverDTO {
     private Integer driverId;
     private String name;

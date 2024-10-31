@@ -13,18 +13,17 @@ public class UpdateRouteDTO {
     private RouteStatus status;
 
     public UpdateRouteDTO() {
-        this.routeId = 0;
         this.departureLocation = "";
-        this.arrivalLocation = null;
+        this.arrivalLocation = "";
         this.estimatedTime = null;
-        this.status = RouteStatus.ACTIVE;
+        this.status = null;
     }
 
     public UpdateRouteDTO(int routeId, String departureLocation, String arrivalLocation, String estimatedTime, RouteStatus status) {
-        this.routeId = 0;
-        this.departureLocation = "";
-        this.arrivalLocation = null;
-        this.estimatedTime = null;
+        this.routeId = routeId;
+        this.departureLocation = departureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.estimatedTime = LocalTime.parse(estimatedTime);
         this.status = status;
     }
 }

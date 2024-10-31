@@ -1,11 +1,14 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Driver.AddDriverDTO;
+import com.example.ticketbooker.DTO.Driver.ResponseDriverDTO;
+import com.example.ticketbooker.DTO.Driver.UpdateDriverDTO;
 import com.example.ticketbooker.Entity.Driver;
 import com.example.ticketbooker.Repository.DriverRepo;
 import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Util.Enum.DriverStatus;
 import com.example.ticketbooker.Util.Mapper.DriverMapper;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +33,9 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public boolean updateDriver(int id, AddDriverDTO dto) {
+    public boolean updateDriver(UpdateDriverDTO dto) {
         try{
-            Driver driver = DriverMapper.fromUpdate(id,dto);
+            Driver driver = DriverMapper.fromUpdate(dto);
             this.driverRepo.save(driver);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -53,51 +56,57 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public Driver getDriver(int id) {
-        Driver driver = null;
+    public ResponseDriverDTO getDriver(int id) {
+        ResponseDriverDTO response;
         try{
-            driver = this.driverRepo.findById(id);
+            response = DriverMapper.toResponseDTO(driverRepo.findById(id));
 
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return driver;
+        return response;
     }
 
     @Override
-    public ArrayList<Driver> findAll() {
-        ArrayList<Driver> drivers;
+    public ResponseDriverDTO findAll() {
+        ResponseDriverDTO response;
         try{
-            drivers = this.driverRepo.findAll();
+            ArrayList<Driver> drivers = this.driverRepo.findAll();
+            response = DriverMapper.toResponseDTO(drivers);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return drivers;
+        return response;
     }
 
     @Override
-    public ArrayList<Driver> findDriverByName(String driverName) {
-        ArrayList<Driver> drivers;
+    public ResponseDriverDTO findDriverByName(String driverName) {
+        ResponseDriverDTO response;
         try{
-            drivers = this.driverRepo.findDriverByName(driverName);
+            response = DriverMapper.toResponseDTO( this.driverRepo.findAllDriversByName(driverName));
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return drivers;
+        return response;
     }
 
     @Override
-    public ArrayList<Driver> findDriverByStatus(DriverStatus status) {
-        ArrayList<Driver> drivers;
+    public ResponseDriverDTO findDriverByStatus(DriverStatus status) {
+        ResponseDriverDTO response;
         try{
-            drivers = this.driverRepo.findDriversByDriverStatus(status);
+            response = DriverMapper.toResponseDTO(this.driverRepo.findAllDriversByDriverStatus(status));
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return drivers;
+        return response;
+    }
+
+    @Override
+    public ResponseDriverDTO findDriverByPhone(String phone) {
+        return null;
     }
 }
