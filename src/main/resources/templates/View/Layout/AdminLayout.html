@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style type="text/tailwindcss">
         @layer utilities {
             .font-montserrat {
@@ -94,6 +95,13 @@
                             </div>
                         </button>
                     </li>
+                    <li class="md:h-14">
+                        <button id="sidebarTicket" onclick="location.href='/admin/tickets'" class="w-full h-full">
+                            <div class="flex w-full h-full items-center justify-center px-5">
+                                <i class="fa fa-chart-line md:text-xl"></i>
+                            </div>
+                        </button>
+                    </li>
 
                 </ul>
 
@@ -159,6 +167,14 @@
                             <label class="capitalize font-medium flex-1 h-full flex items-center pe-5 text-nowrap"
                                 for="sidebarStatistical">
                                 <div>thống kê</div>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="md:h-14">
+                        <div class="flex w-full h-full items-center text-start">
+                            <label class="capitalize font-medium flex-1 h-full flex items-center pe-5 text-nowrap"
+                                   for="sidebarTicket">
+                                <div>vé</div>
                             </label>
                         </div>
                     </li>
