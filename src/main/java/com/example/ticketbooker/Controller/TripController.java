@@ -28,7 +28,7 @@ public class TripController {
     @PostMapping("/create")
     public String create(@ModelAttribute("createTripForm") AddTripDTO addTripDTO, Model model) {
         try {
-            if (addTripDTO.getDriverId() == null) {
+            if (addTripDTO.getDriver().getId() == null) {
                 model.addAttribute("errorMessage", "Mã tài xế không được để trống.");
                 return "redirect:/admin/tripManagement";
             }

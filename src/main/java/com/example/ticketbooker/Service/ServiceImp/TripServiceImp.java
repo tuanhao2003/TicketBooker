@@ -60,7 +60,7 @@ public class TripServiceImp implements TripService {
             Trips existingTrip = tripRepo.findById(updateTripDTO.getTripId()).orElse(null);
             if (existingTrip != null) {
                 // Chuyển đổi DTO thành Entity
-                Trips updatedTrip = TripMapper.fromUpdate(existingTrip.getTripId(), updateTripDTO);
+                Trips updatedTrip = TripMapper.fromUpdate(updateTripDTO);
                 tripRepo.save(updatedTrip);
                 return true; // Cập nhật thành công
             }
