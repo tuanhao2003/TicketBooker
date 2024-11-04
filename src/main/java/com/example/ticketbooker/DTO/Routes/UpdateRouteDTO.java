@@ -1,9 +1,11 @@
 package com.example.ticketbooker.DTO.Routes;
 
 import com.example.ticketbooker.Util.Enum.RouteStatus;
+import java.time.LocalTime;
+import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalTime;
+@Builder
 @Data
 public class UpdateRouteDTO {
     private int routeId;
@@ -19,11 +21,11 @@ public class UpdateRouteDTO {
         this.status = null;
     }
 
-    public UpdateRouteDTO(int routeId, String departureLocation, String arrivalLocation, String estimatedTime, RouteStatus status) {
+    public UpdateRouteDTO(int routeId, String departureLocation, String arrivalLocation, LocalTime estimatedTime, RouteStatus status) {
         this.routeId = routeId;
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
-        this.estimatedTime = LocalTime.parse(estimatedTime);
+        this.estimatedTime = estimatedTime;
         this.status = status;
     }
 }

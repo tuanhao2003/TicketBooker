@@ -11,23 +11,23 @@ public class UpdateDriverDTO {
     private String licenseNumber;
     private String phone;
     private String address;
-    private DriverStatus status;
+    private DriverStatus driverStatus;
 
     public UpdateDriverDTO() {
         this.name = "";
         this.licenseNumber = null;
         this.phone = null;
         this.address = "";
-        this.status = null;
+        this.driverStatus = null;
     }
 
-    public UpdateDriverDTO(Integer driverId, String name, String licenseNumber, String address, String phone, DriverStatus status) {
+    public UpdateDriverDTO(Integer driverId, String name, String licenseNumber, String phone, String address, DriverStatus status) {
         this.driverId = driverId;
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.phone = phone;
         this.address = address;
-        this.status = status;
+        this.driverStatus = status;
     }
 }
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+  <title>Quản lý tài xế</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+  <div class="w-full md:px-10 flex flex-col justify-start items-center h-full rounded-2xl bg-white">
+    <div class="text-start w-full">
+      <div class="font-bold text-3xl capitalize text-gray-700">thông tin tài xế</div>
+      <div class="text-lg capitalize text-gray-700 italic">quản lý và chỉnh sửa thông tin tài xế</div>
+      <hr class="w-full text-gray-800">
+    </div>
+    <form th:action="@{/admin/drivers/update}" th:object="${updateDriverForm}" method="post"
+          class="flex-grow w-full grid grid-cols-12 md:py-5">
+      <div class="col-span-4 flex flex-col justify-center items-center">
+        <div class="h-1/6">
+          <img th:src="@{/components/noavt_male.png}"
+               class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+          <!--                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
+          <!--                         th:src="@{/components/noavt_other.png}"-->
+          <!--                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+        </div>
+      </div>
+      <div class="col-span-8 border border-transparent border-l-gray-800 border-dashed flex flex-col justify-center items-start md:p-10 w-full h-full">
+        <input type="hidden" th:field="*{driverId}" />
+        <div class="flex justify-start items-center w-full h-10">
+          <label for="name" class="text-gray-700 italic text-lg w-2/6">Họ và tên: </label>
+          <input id="name" type="text" th:field="*{name}"
+                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
+        </div>
+        <div class="flex justify-start items-center w-full h-10">
+          <label for="phone" class="text-gray-700 italic text-lg w-2/6">Số điện thoại:</label>
+          <input id="phone" type="text" th:field="*{phone}"
+                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
+        </div>
+        <div class="flex justify-start items-center w-full h-10">
+          <label for="address" class="text-gray-700 italic text-lg w-2/6">Địa chỉ liên hệ:</label>
+          <input id="address" type="text" th:field="*{address}"
+                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
+        </div>
+        <div class="flex justify-start items-center w-full h-10">
+          <label for="licenseNumber" class="text-gray-700 italic text-lg w-2/6">Bằng lái:</label>
+          <input id="licenseNumber" type="text" th:field="*{licenseNumber}"
+                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
+        </div>
+        <div class="flex justify-start items-center w-full h-10">
+          <label for="driverStatus" class="text-gray-700 italic text-lg w-2/6">Trạng thái:</label>
+          <select id="driverStatus" th:field="*{driverStatus}"
+                  class="bg-transparent border-none outline-none focus:outline-none text-lg">
+            <option th:value="${T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}"
+                    th:text="${T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}"
+                    th:selected="*{driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}">
+            </option>
+            <option th:value="${T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}"
+                    th:text="${T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}"
+                    th:selected="*{driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}">
+            </option>
+          </select>
+        </div>
+        <div class="flex justify-end w-full h-10">
+          <button
+                  class="add-user-open px-3 font-semibold w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
+            Lưu
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+
+</html>
+<script type="text/javascript" th:src="@{/js/DriverManagement.js}"></script>
