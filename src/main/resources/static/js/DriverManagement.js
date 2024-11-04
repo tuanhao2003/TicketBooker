@@ -17,7 +17,7 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            routeId: btn.dataset.id
+                            driverId: btn.dataset.id
                         })
                     })
                         .then(response => {
@@ -45,48 +45,50 @@
             const detailsBtn = document.querySelectorAll(".update-btn");
             detailsBtn.forEach(btn => {
                 btn.addEventListener("click", function () {
-                    window.location.href = "/admin/routes/updating/" + btn.dataset.id;
+                    window.location.href = "/admin/drivers/details/" + btn.dataset.id;
                 });
             });
         }
 
         function searchController() {
             const searchBox = document.querySelector(".search-box");
-            const searchContainer = document.getElementById("search-result-collapse");
+            console.log(searchBox);
+            const searchContainer = document.getElementById("searchCollapsed");
             let timeout;
 
             searchBox.addEventListener("input", function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    if (!searchContainer.classList.contains("show") && searchBox.value !== "") {
+                    console.log(searchBox.value);
+                    if (searchContainer.classList.contains("hidden") && searchBox.value !== "") {
                         searchContainer.classList.remove("hidden");
+                        searchContainer.classList.add("show");
                     } else if (searchContainer.classList.contains("show") && searchBox.value === "") {
-                        searchContainer.classList.remove("hidden");
+                        searchContainer.classList.remove("show");
+                        searchContainer.classList.add("hidden");
                     }
-                    fetch("http://localhost:8080/admin/routes/search", {
+                    fetch("http://localhost:8080/admin/drivers/search", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            name: searchBox.value
+                            searchTerm: searchBox.value
                         })
                     })
                         .then(response => response.json())
                         .then(response => {
-                            if (response.list && response.list.length > 0) {
-                                response.list.forEach(route => {
+                            if (response.listDriver && response.driverCount > 0) {
+                                response.listDriver.forEach(driver => {
                                     searchContainer.innerHTML += `
                                 <div class="user-card">
-                                    <div>Departure: ${route.departureLocation}</div>
-                                    <div>Arrival: ${route.arrivalLocation}</div>
-                                    <div>Time estimate: ${route.estimatedTime}</div>
-                                    <div>Status: ${route.status}</div>
+                                    <div>Họ tên: ${driver.name}</div>
+                                    <div>Số điện thoại: ${driver.phone}</div>
                                 </div>
                             `;
                                 });
                             } else {
-                                searchContainer.innerHTML = '<div>No routes found</div>';
+                                searchContainer.innerHTML = '<div>No drivers found</div>';
                             }
                         })
                         .catch(error => {

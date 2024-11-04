@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+  <title>Quản lý tài xế</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+  <div class="col-6">
+    <input type="text" class="form-control w-100 border border-1 border-success searchBox"
+           placeholder="Search user">
+    <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
+       aria-controls="searchCollapsed">
+    </a>
+    <div class="collapse" id="searchCollapsed"></div>
+  </div>
+  <div class="flex w-full h-20 md:px-5">
+    <div class="flex w-1/2 h-full justify-start items-center">
+      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách tài xế</div>
+    </div>
+    <div class="flex w-1/2 h-full justify-end items-center">
+      <button
+              class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
+        Thêm
+      </button>
+    </div>
+  </div>
+  <div class="block md:m-5 md:mt-0">
+    <ul class="space-y-5 container mx-auto">
+      <li th:each="driver : ${response.listDriver}"
+          class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">
+        <div class="flex h-full w-full justify-between">
+          <div class="flex justify-start w-5/6 items-center space-x-10">
+
+            <img th:src="@{/components/noavt_male.png}"
+                 class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+
+            <div class="flex flex-col items-start justify-center">
+              <div th:text="'Họ và tên:  ' + ${driver.name}"></div>
+              <div th:text="'Số điện thoại: ' + ${driver.phone}"></div>
+            </div>
+          </div>
+          <div class="flex justify-end flex-1 space-x-3 items-center">
+            <button
+                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white update-btn"
+                    th:attr="data-id=${driver.driverId}">
+              Cập nhật
+            </button>
+            <button
+                    class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-red-500 hover:bg-red-600 shadow shadow-gray-500 text-white delete-btn"
+                    th:attr="data-id=${driver.driverId}">
+              Xóa
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div layout:fragment="popup">
+  <!-- modal -->
+  <div
+          class="flex items-start modal md:px-3 absolute bottom-0  md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
+    <div class="flex flex-grow flex-col justify-start items-start">
+      <div
+              class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-300">
+        <div class="col-span-2">
+          <button
+                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">
+            Hủy
+          </button>
+        </div>
+        <div class="col-span-8 text-center">
+
+        </div>
+        <div class="col-span-2 flex items-center justify-center">
+          <button
+                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">
+            Thêm
+          </button>
+        </div>
+      </div>
+      <form id="add-user-form" th:action="@{/admin/drivers/create}" th:object="${createDriverForm}" method="post"
+            class="w-full h-full md:px-5 md:mt-7">
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="name" class="capitalize font-medium">Họ và tên: </label>
+          <input id="name" type="text" th:field="*{name}"
+                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 required pattern="[a-zA-Z]" placeholder="Họ và tên...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="phone" class="capitalize font-medium">Số điện thoại:</label>
+          <input id="phone" type="text" th:field="*{phone}"
+                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 required pattern="[a-zA-Z]" placeholder="Số điện thoại...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="address" class="capitalize font-medium">Địa chỉ liên hệ:</label>
+          <input id="address" type="text" th:field="*{address}"
+                 class="w-1/2 focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 placeholder="Địa chỉ...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="licenseNumber" class="capitalize font-medium">Bằng lái:</label>
+          <input id="licenseNumber" type="text" th:field="*{licenseNumber}"
+                 class="w-1/2 focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                 placeholder="Số đăng ký bằng lái...">
+        </div>
+        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+          <label for="driverStatus" class="capitalize font-medium">Trạng thái:</label>
+          <select id="driverStatus" type="text" th:field="*{driverStatus}"
+                  class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white">
+            <option value="ACTIVE" selected> Active </option>
+          </select>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- /modal -->
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript" th:src="@{/js/DriverManagement.js}"></script>

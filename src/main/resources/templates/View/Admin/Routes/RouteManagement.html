@@ -3,7 +3,7 @@
       layout:decorate="~{View/Layout/AdminLayout.html}">
 
 <head>
-  <title>Quản lý người dùng</title>
+  <title>Quản lý tuyến xe</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
   </div>
   <div class="flex w-full h-20 md:px-5">
     <div class="flex w-1/2 h-full justify-start items-center">
-      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách chuyến xe</div>
+      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách tuyến xe</div>
     </div>
     <div class="flex w-1/2 h-full justify-end items-center">
       <button
@@ -48,9 +48,9 @@
           </div>
           <div class="flex justify-end flex-1 space-x-3 items-center">
             <button
-                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white details-btn"
+                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white update-btn"
                     th:attr="data-id=${route.routeId}">
-              Chi tiết
+              Cập nhật
             </button>
             <button
                     class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-red-500 hover:bg-red-600 shadow shadow-gray-500 text-white delete-btn"
@@ -66,7 +66,7 @@
 <div layout:fragment="popup">
   <!-- modal -->
   <div
-          class="flex items-start modal md:px-3 absolute -bottom-5 -bottom-full md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
+          class="flex items-start modal md:px-3 absolute bottom-0  md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
     <div class="flex flex-grow flex-col justify-start items-start">
       <div
               class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-300">

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+
+<head>
+    <title>Quản lý tuyến xe</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="w-full md:px-10 flex flex-col justify-start items-center h-full rounded-2xl bg-white">
+        <div class="text-start w-full">
+            <div class="font-bold text-3xl capitalize text-gray-700">thông tin tuyến xe</div>
+            <div class="text-lg capitalize text-gray-700 italic">quản lý và chỉnh sửa thông tin các tuyến</div>
+            <hr class="w-full text-gray-800">
+        </div>
+        <form th:action="@{/admin/routes/update}" th:object="${updateRouteForm}" method="post"
+              class="flex-grow w-full grid grid-cols-12 md:py-5">
+            <div class="col-span-4 flex flex-col justify-center items-center">
+                <div class="h-1/6">
+                    <img th:src="@{/components/noavt_male.png}"
+                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+<!--                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
+<!--                         th:src="@{/components/noavt_other.png}"-->
+<!--                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+                </div>
+            </div>
+            <div class="col-span-8 border border-transparent border-l-gray-800 border-dashed flex flex-col justify-center items-start md:p-10 w-full h-full">
+                <input type="hidden" th:field="*{routeId}" />
+                <div class="flex justify-start items-center w-full h-10">
+                    <label for="departureLocation" class="text-gray-700 italic text-lg w-2/6">Nơi bắt đầu: </label>
+                    <input type="text" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                           id="departureLocation" th:field="*{departureLocation}">
+                </div>
+                <div class="flex justify-start items-center w-full h-10">
+                    <label for="arrivalLocation" class="text-gray-700 italic text-lg w-2/6">Nơi kết thúc: </label>
+                    <input type="text" class="bg-transparent border-none ou`tline-none focus:outline-none text-lg"
+                           id="arrivalLocation" th:field="*{arrivalLocation}">
+                </div>
+                <div class="flex justify-start items-center w-full h-10">
+                    <label for="estimatedTime" class="text-gray-700 italic text-lg w-2/6">Thời gian dự kiến: </label>
+                    <input type="time" class="bg-transparent border-none outline-none focus:outline-none text-lg"
+                           id="estimatedTime" th:field="*{estimatedTime}">
+                </div>
+                <div class="flex justify-start items-center w-full h-10">
+                    <label for="status" class="text-gray-700 italic text-lg w-2/6">Trạng thái:</label>
+                    <select id="status" th:field="*{status}"
+                            class="bg-transparent border-none outline-none focus:outline-none text-lg">
+                        <option th:value="${T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}"
+                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}">
+                        </option>
+                        <option th:value="${T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}"
+                                th:text="${T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}"
+                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}">
+                        </option>
+                    </select>
+                </div>
+                <div class="flex justify-end w-full h-10">
+                    <button
+                            class="add-user-open px-3 font-semibold w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
+                        Lưu
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>
+<script type="text/javascript" th:src="@{/js/RouteManagement.js}"></script>

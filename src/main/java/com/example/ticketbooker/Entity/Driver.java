@@ -13,7 +13,7 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driverId", nullable = false)
-    private Integer id;
+    private Integer driverId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
@@ -32,7 +32,7 @@ public class Driver {
     private DriverStatus driverStatus;
 
     public Driver() {
-        this.id = null;
+        this.driverId = null;
         this.name = "";
         this.licenseNumber = "";
         this.phone = null;
@@ -40,8 +40,8 @@ public class Driver {
         this.driverStatus = DriverStatus.ACTIVE;
     }
 
-    public Driver(Integer id, String name, String licenseNumber, String phone, String address, DriverStatus driverStatus) {
-        this.id = id;
+    public Driver(Integer driverId, String name, String licenseNumber, String phone, String address, DriverStatus driverStatus) {
+        this.driverId = driverId;
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.phone = phone;
