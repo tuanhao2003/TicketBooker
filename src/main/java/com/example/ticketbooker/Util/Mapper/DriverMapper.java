@@ -14,27 +14,27 @@ public class DriverMapper {
                 .licenseNumber(dto.getLicenseNumber())
                 .phone(dto.getPhone())
                 .address(dto.getAddress())
-                .driverStatus(dto.getStatus())
+                .driverStatus(dto.getDriverStatus())
                 .build();
     }
     public static Driver fromUpdate (UpdateDriverDTO dto){
         return Driver.builder()
-                .id(dto.getDriverId())
+                .driverId(dto.getDriverId())
                 .name(dto.getName())
                 .licenseNumber(dto.getLicenseNumber())
                 .phone(dto.getPhone())
                 .address(dto.getAddress())
-                .driverStatus(dto.getStatus())
+                .driverStatus(dto.getDriverStatus())
                 .build();
     }
     public static UpdateDriverDTO toUpdateDTO (Driver driver){
         return UpdateDriverDTO.builder()
-                .driverId(driver.getId())
+                .driverId(driver.getDriverId())
                 .name(driver.getName())
                 .licenseNumber(driver.getLicenseNumber())
                 .phone(driver.getPhone())
                 .address(driver.getAddress())
-                .status(driver.getDriverStatus())
+                .driverStatus(driver.getDriverStatus())
                 .build();
     }
     public static ResponseDriverDTO toResponseDTO (ArrayList<Driver> drivers){

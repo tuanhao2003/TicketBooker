@@ -23,4 +23,13 @@ public class RouteMapper {
                 .status(dto.getStatus())
                 .build();
     }
+    public static UpdateRouteDTO toUpdateDTO (Routes route){
+        return UpdateRouteDTO.builder()
+                .routeId(route.getRouteId())
+                .departureLocation(route.getDepartureLocation())
+                .arrivalLocation(route.getArrivalLocation())
+                .estimatedTime(route.getEstimatedTime())
+                .status(route.getStatus())
+                .build();
+    }
 }
