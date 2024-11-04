@@ -47,5 +47,9 @@ public class Routes {
         this.estimatedTime = estimatedTime;
         this.status = status;
     }
+
+    public Integer getId() {
+        return routeId;
+    }
 }
 
