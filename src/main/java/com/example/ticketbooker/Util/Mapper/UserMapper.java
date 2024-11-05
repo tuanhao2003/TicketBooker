@@ -1,7 +1,6 @@
 package com.example.ticketbooker.Util.Mapper;
 
 import com.example.ticketbooker.DTO.Users.AddUserDTO;
-import com.example.ticketbooker.DTO.Users.RequestIdUserDTO;
 import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
 import com.example.ticketbooker.DTO.Users.UpdateUserDTO;
 import com.example.ticketbooker.Entity.Users;

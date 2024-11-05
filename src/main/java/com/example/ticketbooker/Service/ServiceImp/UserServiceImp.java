@@ -12,8 +12,6 @@ import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class UserServiceImp implements UserService {
     @Autowired
@@ -82,7 +80,7 @@ public class UserServiceImp implements UserService {
     public ResponseUserDTO getAllUserByName(String username) {
         ResponseUserDTO result = new ResponseUserDTO();
         try {
-            result = UserMapper.toResponseDTO(this.usersRepo.findAllByFullNameContaining(username));
+            result = UserMapper.toResponseDTO(this.usersRepo.findByFullNameContainingIgnoreCase(username));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return result;

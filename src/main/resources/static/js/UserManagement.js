@@ -5,12 +5,31 @@
         deleteController();
         getDetailsController();
         searchController();
+        updateController();
 
+        function updateController() {
+            const fileInput = document.querySelector(".avatar-input");
+            const avatarShow = fileInput.closest("img");
+
+            fileInput.addEventListener('change', function (event) {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        avatarShow.src = e.target.result;
+                    };
+
+                    fileInput.value = reader.readAsDataURL(file);
+                }
+            });
+        }
         function deleteController() {
             const deleteBtn = document.querySelectorAll(".delete-btn");
             deleteBtn.forEach(btn => {
                 btn.addEventListener("click", function (e) {
-                    fetch("http://localhost:8080/admin/users/delete", {
+                    fetch("http://localhost:8080/api/users/delete", {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json"
@@ -57,12 +76,14 @@
             searchBox.addEventListener("input", function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    if (!searchContainer.classList.contains("show") && searchBox.value !== "") {
-                        searchContainer.classList.remove("hidden");
-                    } else if (searchContainer.classList.contains("show") && searchBox.value === "") {
-                        searchContainer.classList.remove("hidden");
+                    if (searchBox.value !== "") {
+                        searchContainer.classList.remove("h-0");
+                        searchContainer.classList.add("h-fit");
+                    } else if (searchBox.value === "") {
+                        searchContainer.classList.add("h-0");
+                        searchContainer.classList.remove("h-fit");
                     }
-                    fetch("http://localhost:8080/admin/users/search", {
+                    fetch("http://localhost:8080/api/users/search", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -75,15 +96,23 @@
                         .then(response => {
                             if (response.listUsers && response.listUsers.length > 0) {
                                 response.listUsers.forEach(user => {
-                                    searchContainer.innerHTML += `
-                                <div class="user-card">
-                                    <img src="${user.profilePhoto}" alt="Profile Photo">
-                                    <div>User Name: ${user.firstName} ${user.lastName}</div>
-                                    <div>Address: ${user.address}</div>
-                                    <div>Date of Birth: ${user.dateOfBirth}</div>
-                                    <div>Gender: ${user.gender}</div>
-                                </div>
-                            `;
+                                    searchContainer.innerHTML +=
+                                        '<div class="shadow hover:bg-gray-100 flex justify-start w-5/6 items-center space-x-10 search-data" th:attr="data-id=${user.id}>' +
+                                        '<img th:if="${user.profilePhoto != null}" th:src="${user.profilePhoto}" class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">' +
+                                        '<img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}" th:src="@{/components/noavt_male.png}" class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500" >' +
+                                        '<img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}" th:src="@{/components/noavt_female.png}" class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">' +
+                                        '<img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}" th:src="@{/components/noavt_other.png}" class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">' +
+                                        '<div class="flex flex-col items-start justify-center">' +
+                                        '<div th:text="${user.fullName}"> </div>' +
+                                        '<div th:text="${user.account != null ? user.account.email : ' + "'No email'" + '}"></div>' +
+                                        '</div>' +
+                                        '</div>';
+                                });
+                                let searchData = searchContainer.querySelectorAll(".search-data");
+                                searchData.forEach(data => {
+                                    data.addEventListener("click", function () {
+                                        window.location.href = "/admin/users/details/" + data.dataset.id;
+                                    });
                                 });
                             } else {
                                 searchContainer.innerHTML = '<div>No users found</div>';
