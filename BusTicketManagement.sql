@@ -17,7 +17,7 @@ CREATE TABLE Users (
     address VARCHAR(255),
     dateOfBirth DATE,
     gender ENUM('MALE', 'FEMALE', 'OTHER'),
-    profilePhoto VARCHAR(255),
+    profilePhoto BLOB,
     FOREIGN KEY (accountId) REFERENCES Account(accountId),
     userStatus ENUM('ACTIVE', 'INACTIVE') NOT NULL
 );
@@ -74,7 +74,6 @@ CREATE TABLE Seats (
     seatId INT AUTO_INCREMENT PRIMARY KEY,
     tripId INT NOT NULL,
     seatCode VARCHAR(10) NOT NULL,
-    seatStatus ENUM('SOLD', 'AVAILABLE', 'BOOKING') NOT NULL,
     FOREIGN KEY (tripId) REFERENCES Trips(tripId)
 );
 

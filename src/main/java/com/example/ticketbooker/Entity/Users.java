@@ -25,7 +25,7 @@ public class Users {
     @Column(name = "fullName", nullable = false)
     private String fullName;
 
-    @Column(name = "phone", unique = true, nullable = false)
+    @Column(name = "phone", nullable = false, length = 11)
     private String phone;
 
     @Column(name = "address")
@@ -34,12 +34,14 @@ public class Users {
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
 
-    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
     private Gender gender;
 
+    @Lob
     @Column(name = "profilePhoto")
-    private String profilePhoto;
+    private byte[] profilePhoto;
+
 
     @Column(name = "userStatus", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -57,7 +59,7 @@ public class Users {
         this.userStatus = UserStatus.ACTIVE;
     }
 
-    public Users(Integer id, Account account, String fullName, String phone, String address, Date dateOfBirth, Gender gender, String profilePhoto, UserStatus userStatus) {
+    public Users(Integer id, Account account, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus userStatus) {
         this.id = id;
         this.account = account;
         this.fullName = fullName;
