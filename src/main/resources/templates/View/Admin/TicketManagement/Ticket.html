@@ -23,6 +23,10 @@
                 <th class="px-4 py-2 border">Customer Phone</th>
                 <th class="px-4 py-2 border">Trip ID</th>
                 <th class="px-4 py-2 border">Seat ID</th>
+                <th class="px-4 py-2 border">Invoice ID</th>
+                <th class="px-4 py-2 border">QRCode</th>
+                <th class="px-4 py-2 border">Ticket Status</th>
+                <th class="px-4 py-2 border">Booker ID</th>
                 <th class="px-4 py-2 border">Actions</th>
             </tr>
             </thead>
@@ -57,6 +61,26 @@
                     <label for="seatId" class="block text-gray-700 font-semibold">Seat ID</label>
                     <input type="number" class="w-full px-3 py-2 border rounded" id="seatId" required>
                 </div>
+                <div class="mb-4">
+                    <label for="invoiceId" class="block text-gray-700 font-semibold">Invoice ID</label>
+                    <input type="number" class="w-full px-3 py-2 border rounded" id="invoiceId">
+                </div>
+                <div class="mb-4">
+                    <label for="qrCode" class="block text-gray-700 font-semibold">QRCode</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded" id="qrCode">
+                </div>
+                <div class="mb-4">
+                    <label for="ticketStatus" class="block text-gray-700 font-semibold">Ticket Status</label>
+                    <select class="w-full px-3 py-2 border rounded" id="ticketStatus" required>
+                        <option value="BOOKED">Booked</option>
+                        <option value="CANCELLED">Cancelled</option>
+                        <option value="CONFIRMED">Confirmed</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="bookerId" class="block text-gray-700 font-semibold">Booker ID</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded" id="bookerId" required>
+                </div>
             </form>
             <div class="flex justify-end mt-4">
                 <button class="bg-gray-400 text-white px-4 py-2 rounded mr-2" onclick="closeModal()">Close</button>
@@ -66,7 +90,6 @@
     </div>
 
     <script>
-        // Tailwind modal handling
         function showAddModal() {
             document.getElementById("modalTitle").textContent = "Add Ticket";
             document.getElementById("ticketForm").reset();
@@ -82,6 +105,10 @@
                 document.getElementById("customerPhone").value = ticket.customerPhone;
                 document.getElementById("tripId").value = ticket.tripId;
                 document.getElementById("seatId").value = ticket.seatId;
+                document.getElementById("invoiceId").value = ticket.invoiceId || "";
+                document.getElementById("qrCode").value = ticket.qrCode || "";
+                document.getElementById("ticketStatus").value = ticket.ticketStatus;
+                document.getElementById("bookerId").value = ticket.bookerId || ""; // Thêm dòng này
                 document.getElementById("ticketModal").classList.remove("hidden");
             });
         }
@@ -90,14 +117,17 @@
             document.getElementById("ticketModal").classList.add("hidden");
         }
 
-        // Function to save ticket and load tickets
         function saveTicket() {
             const ticket = {
                 id: document.getElementById("ticketId").value,
                 customerName: document.getElementById("customerName").value,
                 customerPhone: document.getElementById("customerPhone").value,
                 tripId: document.getElementById("tripId").value,
-                seatId: document.getElementById("seatId").value
+                seatId: document.getElementById("seatId").value,
+                invoiceId: document.getElementById("invoiceId").value || null,
+                qrCode: document.getElementById("qrCode").value || null,
+                ticketStatus: document.getElementById("ticketStatus").value,
+                bookerId: document.getElementById("bookerId").value // Thêm dòng này
             };
 
             const url = ticket.id ? `/api/tickets/${ticket.id}` : "/api/tickets";
@@ -115,7 +145,32 @@
             });
         }
 
-        // Function to delete a ticket
+        function loadTickets() {
+            $.get("/api/tickets", function(data) {
+                let rows = "";
+                data.forEach(ticket => {
+                    rows += `
+                        <tr class="border-b">
+                            <td class="px-4 py-2">${ticket.id}</td>
+                            <td class="px-4 py-2">${ticket.customerName}</td>
+                            <td class="px-4 py-2">${ticket.customerPhone}</td>
+                            <td class="px-4 py-2">${ticket.tripId}</td>
+                            <td class="px-4 py-2">${ticket.seatId}</td>
+                            <td class="px-4 py-2">${ticket.invoiceId || ""}</td>
+                            <td class="px-4 py-2">${ticket.qrCode || ""}</td>
+                            <td class="px-4 py-2">${ticket.ticketStatus}</td>
+                            <td class="px-4 py-2">${ticket.bookerId || ""}</td> <!-- Thêm dòng này -->
+                            <td class="px-4 py-2">
+                                <button class="bg-yellow-400 text-white px-2 py-1 rounded" onclick="showEditModal(${ticket.id})">Edit</button>
+                                <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteTicket(${ticket.id})">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.getElementById("ticketTableBody").innerHTML = rows;
+            });
+        }
+
         function deleteTicket(id) {
             if (confirm("Are you sure you want to delete this ticket?")) {
                 $.ajax({
@@ -128,34 +183,10 @@
             }
         }
 
-        // Load tickets when page loads
         $(document).ready(function() {
             loadTickets();
         });
-
-        function loadTickets() {
-            $.get("/api/tickets", function(data) {
-                let rows = "";
-                data.forEach(ticket => {
-                    rows += `
-                        <tr class="border-b">
-                            <td class="px-4 py-2">${ticket.id}</td>
-                            <td class="px-4 py-2">${ticket.customerName}</td>
-                            <td class="px-4 py-2">${ticket.customerPhone}</td>
-                            <td class="px-4 py-2">${ticket.tripId}</td>
-                            <td class="px-4 py-2">${ticket.seatId}</td>
-                            <td class="px-4 py-2">
-                                <button class="bg-yellow-400 text-white px-2 py-1 rounded mr-2" onclick="showEditModal(${ticket.id})">Edit</button>
-                                <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteTicket(${ticket.id})">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                $("#ticketTableBody").html(rows);
-            });
-        }
     </script>
-
 </div>
 </body>
 </html>
