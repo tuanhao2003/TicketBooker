@@ -17,7 +17,7 @@ public class UpdateUserDTO {
     private String address;
     private Date dateOfBirth;
     private Gender gender;
-    private String profilePhoto;
+    private byte[] profilePhoto;
     private UserStatus status;
 
     public UpdateUserDTO() {
@@ -32,7 +32,7 @@ public class UpdateUserDTO {
         this.status = UserStatus.ACTIVE;
     }
 
-    public UpdateUserDTO(Integer userId, Integer accountId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, String profilePhoto, UserStatus status) {
+    public UpdateUserDTO(Integer userId, Integer accountId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus status) {
         this.userId = userId;
         this.accountId = accountId;
         this.fullName = fullName;

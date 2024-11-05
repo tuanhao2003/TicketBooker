@@ -97,7 +97,8 @@
 
                 </ul>
 
-                <ul class="text-white overflow-hidden w-0 md:w-full transition-all ease-out duration-700" id="collapse-component">
+                <ul class="text-white overflow-hidden w-0 md:w-full transition-all ease-out duration-700"
+                    id="collapse-component">
                     <li class="md:h-14">
                         <div class="flex w-full h-full items-center text-start">
                             <label class="capitalize font-medium flex-1 h-full flex items-center pe-5 text-nowrap"
@@ -182,10 +183,14 @@
                 <div class="flex justify-between w-1/2">
                     <div class="relative w-3/4">
                         <input type="text"
-                            class="search-box bg-neutral-50 rounded-full shadow shadow-zinc-300 hover:shadow-zinc-400 focus:shadow-zinc-400 border w-full h-full focus:outline-none md:px-4"
+                            class="search-box bg-neutral-50 rounded-full shadow shadow-zinc-300 hover:shadow-zinc-400 focus:shadow-zinc-400 border border-zinc-300 w-full h-full focus:outline-none md:px-4"
                             placeholder="Search">
+
                         <button class="absolute md:top-1/2 md:-translate-y-1/2 md:right-1 aspect-square h-full"><i
                                 class="fa fa-magnifying-glass"></i></button>
+                        <div id="search-result-collapse" class="overflow-hidden duration-700 transition-all ease-out absolute w-11/12 -bottom-100 bg-white h-0 rounded-b-2xl left-1/2 -translate-x-1/2 shadow-inner shadow-zinc-300 border-b border-b-zinc-300">
+
+                        </div>
                     </div>
                     <button
                         class="overflow-hidden max-h-full h-full rounded-full border aspect-square shadow shadow-zinc-300 hover:shadow-zinc-400 active:bg-slate-100"><img
@@ -198,7 +203,9 @@
         </div>
     </div>
 
-    <div layout:fragment="popup" class="font-montserrat z-50 fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center hidden modal-container"></div>
+    <div layout:fragment="popup"
+        class="font-montserrat z-50 fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center hidden modal-container">
+    </div>
 </body>
 
 </html>
