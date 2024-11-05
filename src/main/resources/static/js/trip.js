@@ -31,7 +31,7 @@ function confirmDeleteTrip(button) {
 
 // Hàm thực hiện fetch để xóa chuyến xe
 function deleteTrip(tripId, tripContainer) {
-    fetch('/admin/tripManagement', {
+    fetch('/admin/trips', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

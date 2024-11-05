@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -54,7 +55,7 @@
 </head>
 
 <body>
-<div class="container mt-5">
+<div layout:fragment="content" class="container mt-5">
     <div class="bg-white px-4 md:px-36 rounded-lg w-full">
         <div class="flex w-full h-20">
             <div class="flex w-1/2 h-full justify-start items-center">
@@ -80,7 +81,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="addTripForm" method="POST" action="/admin/tripManagement/create">
+                        <form id="addTripForm" method="POST" action="/admin/trips/create">
                             <input type="hidden" id="tripId" name="tripId">
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
@@ -184,7 +185,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="updateTripForm" method="POST" action="/admin/tripManagement/update">
+                        <form id="updateTripForm" method="POST" action="/admin/trips/update">
                             <input type="hidden" id="edittripId" name="tripId"> <!-- Trường ẩn cho tripId -->
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
@@ -289,7 +290,7 @@
                         <p class="text-xs md:text-sm text-gray-500 px-1">Mã tuyến: </p>
                         <p class="text-xs md:text-sm text-gray-500 route-id" th:text="${trip.route.routeId}"></p>
                         <p class="text-xs md:text-sm text-gray-500 bus-id hidden" th:text="${trip.bus.id}"></p>
-                        <p class="text-xs md:text-sm text-gray-500 driver-id hidden" th:text="${trip.driver.id}"></p>
+                        <p class="text-xs md:text-sm text-gray-500 driver-id hidden" th:text="${trip.driver.driverId}"></p>
                         <p class="text-xs md:text-sm text-gray-500 status hidden" th:text="${trip.tripStatus}"></p>
                     </div>
                 </div>
