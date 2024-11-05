@@ -14,7 +14,7 @@ public interface RouteService {
     public boolean addRoute(AddRouteDTO dto);
     public boolean updateRoute(UpdateRouteDTO dto);
     public boolean deleteRoute(RequestRouteIdDTO dto);
-    public Routes getRoute(int id);
+    public Routes getRoute(Integer id);
     public ResponseRouteDTO findAllRoutes();
     public ResponseRouteDTO findByStatus(RouteStatus status);
     public ResponseRouteDTO findByDepartureLocation(String departureLocation);
