@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/admin/tripManagement")
+@RequestMapping("/admin/trips")
 public class TripController {
     @Autowired
     private TripService tripService;
@@ -53,7 +53,7 @@ public class TripController {
             model.addAttribute("errorMessage", "Error adding trip: " + e.getMessage());
             e.printStackTrace();
         }
-        return "redirect:/admin/tripManagement";
+        return "redirect:/admin/trips";
     }
 
 
@@ -71,7 +71,7 @@ public class TripController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/tripManagement";
+        return "redirect:/admin/trips";
     }
 
 

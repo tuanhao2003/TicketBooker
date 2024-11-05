@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin/tripManagement")
+@RequestMapping("/admin/trips")
 public class TripApi {
     @Autowired
     private TripService tripService;
