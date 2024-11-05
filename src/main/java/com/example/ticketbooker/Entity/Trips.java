@@ -4,8 +4,10 @@ import com.example.ticketbooker.Util.Enum.TripStatus;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.cglib.core.Local;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -36,10 +38,10 @@ public class Trips {
     private String arrivalStation;
 
     @Column(name = "departureTime", nullable = false)
-    private Instant departureTime;
+    private LocalDateTime departureTime;
 
     @Column(name = "arrivalTime")
-    private Instant arrivalTime;
+    private LocalDateTime arrivalTime;
 
     @Column(name = "price", nullable = false)
     private Integer price;
@@ -58,14 +60,14 @@ public class Trips {
         this.driver = new Driver();
         this.departureStation = "";
         this.arrivalStation = "";
-        this.departureTime = Instant.now();
+        this.departureTime = LocalDateTime.now();
         this.arrivalTime = null;
         this.price = 0;
         this.availableSeats = 0;
         this.tripStatus = TripStatus.SCHEDULED;
     }
 
-    public Trips(Integer id, Routes route, Buses bus, Driver driver, String departureStation, String arrivalStation, Instant departureTime, Instant arrivalTime, Integer price, Integer availableSeats, TripStatus tripStatus) {
+    public Trips(Integer id, Routes route, Buses bus, Driver driver, String departureStation, String arrivalStation, LocalDateTime departureTime, LocalDateTime arrivalTime, Integer price, Integer availableSeats, TripStatus tripStatus) {
         this.id = id;
         this.route = route;
         this.bus = bus;

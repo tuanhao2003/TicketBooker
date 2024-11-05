@@ -2,6 +2,7 @@ package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
+import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
@@ -30,27 +31,27 @@ public class TripServiceImp implements TripService {
     }
 
     @Override
-    public ArrayList<Trips> findAll() {
-        ArrayList<Trips> trips = new ArrayList<>();
+    public ResponseTripDTO getAllTrips() {
+        ResponseTripDTO result = new ResponseTripDTO();
         try {
-            trips = (ArrayList<Trips>) this.tripRepo.findAll();
+            result = TripMapper.toResponseDTO(this.tripRepo.findAll());
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
-        return trips;
+        return result;
     }
 
     @Override
-    public boolean addTrip(AddTripDTO addTripDTO) {
+    public boolean addTrip(AddTripDTO dto) {
         try {
-            Trips trip = TripMapper.fromAdd(addTripDTO);
-            tripRepo.save(trip);
-            return true;
+            Trips trip = TripMapper.fromAdd(dto);
+            this.tripRepo.save(trip);
         } catch (Exception e) {
             System.out.println("Error adding trip: " + e.getMessage());
             return false;
         }
+        return true;
     }
 
     @Override
