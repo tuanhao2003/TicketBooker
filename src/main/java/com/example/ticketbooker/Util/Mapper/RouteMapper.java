@@ -14,7 +14,7 @@ public class RouteMapper {
                 .status(dto.getStatus())
                 .build();
     }
-    public static Routes fromUpdate (int id, UpdateRouteDTO dto){
+    public static Routes fromUpdate (Integer id, UpdateRouteDTO dto){
         return Routes.builder()
                 .routeId(id)
                 .departureLocation(dto.getDepartureLocation())

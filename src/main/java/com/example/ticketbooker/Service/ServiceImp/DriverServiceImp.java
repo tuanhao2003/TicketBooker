@@ -45,7 +45,7 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public boolean deleteDriver(int id) {
+    public boolean deleteDriver(Integer id) {
         try{
             this.driverRepo.deleteById(id);
         }catch (Exception e){
@@ -56,10 +56,10 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public Driver getDriver(int id) {
+    public Driver getDriver(Integer id) {
         Driver result;
         try{
-            result = driverRepo.findById(id);
+            result = driverRepo.findById(id).orElse(null);
 
         }catch (Exception e){
             System.out.println(e.getMessage());
