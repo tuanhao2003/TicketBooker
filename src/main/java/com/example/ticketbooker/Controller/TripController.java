@@ -29,7 +29,7 @@ public class TripController {
     public String tripManagement(Model model) {
         ResponseTripDTO responseTripDTO = tripService.getAllTrips();
         model.addAttribute("listTrips", responseTripDTO);
-        
+
         model.addAttribute("createTripForm", new AddTripDTO());
         model.addAttribute("updateTripForm", new UpdateTripDTO());
 
