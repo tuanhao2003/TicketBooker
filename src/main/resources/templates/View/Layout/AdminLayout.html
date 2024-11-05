@@ -61,7 +61,7 @@
                         </button>
                     </li>
                     <li class="md:h-14">
-                        <button id="sidebarRoutes" onclick="location.href='/admin/'" class="w-full h-full">
+                        <button id="sidebarRoutes" onclick="location.href='/admin/routes'" class="w-full h-full">
                             <div class="flex w-full h-full items-center justify-center px-5">
                                 <i class="fa fa-right-left md:text-xl"></i>
                             </div>
@@ -71,6 +71,13 @@
                         <button id="sidebarBuses" onclick="location.href='/admin/'" class="w-full h-full">
                             <div class="flex w-full h-full items-center justify-center px-5">
                                 <i class="fa fa-van-shuttle md:text-xl"></i>
+                            </div>
+                        </button>
+                    </li>
+                    <li class="md:h-14">
+                        <button id="sidebarDrivers" onclick="location.href='/admin/drivers'" class="w-full h-full">
+                            <div class="flex w-full h-full items-center justify-center px-5">
+                                <i class="fa fa-id-card-clip md:text-xl"></i>
                             </div>
                         </button>
                     </li>
@@ -149,7 +156,15 @@
                     <li class="md:h-14">
                         <div class="flex w-full h-full items-center text-start">
                             <label class="capitalize font-medium flex-1 h-full flex items-center pe-5 text-nowrap"
-                                for="sidebarEmployees">
+                                for="sidebarDrivers">
+                                <div>Tài xế</div>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="md:h-14">
+                        <div class="flex w-full h-full items-center text-start">
+                            <label class="capitalize font-medium flex-1 h-full flex items-center pe-5 text-nowrap"
+                                   for="sidebarEmployees">
                                 <div>nhân sự</div>
                             </label>
                         </div>
@@ -202,6 +217,10 @@
                             placeholder="Search">
                         <button class="absolute md:top-1/2 md:-translate-y-1/2 md:right-1 aspect-square h-full"><i
                                 class="fa fa-magnifying-glass"></i></button>
+                        <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
+                           aria-controls="searchCollapsed">
+                        </a>
+                        <div class="col-6 bg-white md:h-10 md:p-1 shadow-md rounded-2xl " id="searchCollapsed"></div>
                     </div>
                     <button
                         class="overflow-hidden max-h-full h-full rounded-full border aspect-square shadow shadow-zinc-300 hover:shadow-zinc-400 active:bg-slate-100"><img

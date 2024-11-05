@@ -14,13 +14,22 @@ public class RouteMapper {
                 .status(dto.getStatus())
                 .build();
     }
-    public static Routes fromUpdate (int id, UpdateRouteDTO dto){
+    public static Routes fromUpdate (Integer id, UpdateRouteDTO dto){
         return Routes.builder()
                 .routeId(id)
                 .departureLocation(dto.getDepartureLocation())
                 .arrivalLocation(dto.getArrivalLocation())
                 .estimatedTime(dto.getEstimatedTime())
                 .status(dto.getStatus())
+                .build();
+    }
+    public static UpdateRouteDTO toUpdateDTO (Routes route){
+        return UpdateRouteDTO.builder()
+                .routeId(route.getRouteId())
+                .departureLocation(route.getDepartureLocation())
+                .arrivalLocation(route.getArrivalLocation())
+                .estimatedTime(route.getEstimatedTime())
+                .status(route.getStatus())
                 .build();
     }
 }

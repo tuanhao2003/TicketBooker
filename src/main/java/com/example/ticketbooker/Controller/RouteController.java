@@ -3,13 +3,13 @@ package com.example.ticketbooker.Controller;
 import com.example.ticketbooker.DTO.Routes.AddRouteDTO;
 import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
 import com.example.ticketbooker.Service.RouteService;
+import com.example.ticketbooker.Util.Mapper.RouteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin/routes")
@@ -22,9 +22,18 @@ public class RouteController {
         model.addAttribute("response", this.routeService.findAllRoutes());
         model.addAttribute("createRouteForm", new AddRouteDTO());
         model.addAttribute("updateRouteForm", new UpdateRouteDTO());
-        return "View/Admin/RouteManagement";
+        return "View/Admin/Routes/RouteManagement";
     }
 
+    @GetMapping("/updating/{id}")
+    public String userDetails(@PathVariable int id, Model model) {
+        UpdateRouteDTO dto = new UpdateRouteDTO();
+        if(Objects.nonNull(routeService.getRoute(id))){
+            dto = RouteMapper.toUpdateDTO(routeService.getRoute(id));
+        }
+        model.addAttribute("updateRouteForm", dto);
+        return "View/Admin/Routes/UpdateForm";
+    }
 
     @PostMapping("/create")
     public String createRoute(@ModelAttribute("createRouteForm") AddRouteDTO dto, Model model) {
@@ -38,7 +47,7 @@ public class RouteController {
         }catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/routeManagement";
+        return "redirect:/admin/routes";
     }
 
     @PostMapping("/update")
