@@ -3,6 +3,7 @@ package com.example.ticketbooker.Controller;
 import com.example.ticketbooker.DTO.Trips.AddTripDTO; // DTO để thêm chuyến xe
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO; // DTO để cập nhật chuyến xe
 import com.example.ticketbooker.Entity.Trips;
+import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,6 @@ public class TripController {
                 model.addAttribute("errorMessage", "Mã tài xế không được để trống.");
                 return "redirect:/admin/tripManagement";
             }
-
             boolean result = tripService.addTrip(addTripDTO);
             if (result) {
                 model.addAttribute("successMessage", "Successfully created");

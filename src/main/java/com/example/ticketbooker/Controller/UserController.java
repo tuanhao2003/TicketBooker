@@ -2,6 +2,8 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Users.AddUserDTO;
 import com.example.ticketbooker.DTO.Users.UpdateUserDTO;
+import com.example.ticketbooker.Entity.Routes;
+import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.UserService;
 import com.example.ticketbooker.Util.Enum.UserStatus;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
@@ -35,7 +37,6 @@ public class UserController {
 
     @PostMapping("/create")
     public String createUser(@ModelAttribute("createUserForm") AddUserDTO addUserDTO, Model model) {
-        System.out.println("Creating user: " + addUserDTO);
         try {
             addUserDTO.setStatus(UserStatus.ACTIVE);
             boolean result = userService.addUser(addUserDTO);
