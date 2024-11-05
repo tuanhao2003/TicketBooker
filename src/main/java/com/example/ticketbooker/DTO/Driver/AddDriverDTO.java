@@ -11,14 +11,14 @@ public class AddDriverDTO {
     private String licenseNumber;
     private String phone;
     private String address;
-    private DriverStatus status;
+    private DriverStatus driverStatus;
 
     public AddDriverDTO() {
         this.name = "";
         this.licenseNumber = "";
         this.phone = "";
         this.address = "";
-        this.status = null;
+        this.driverStatus = null;
     }
 
     public AddDriverDTO( String name, String licenseNumber, String address, String phone, DriverStatus status) {
@@ -26,6 +26,6 @@ public class AddDriverDTO {
         this.licenseNumber = licenseNumber;
         this.phone = phone;
         this.address = address;
-        this.status = status;
+        this.driverStatus = status;
     }
 }

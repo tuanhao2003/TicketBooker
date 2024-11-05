@@ -56,7 +56,7 @@ public class RouteServiceImp implements RouteService {
 
     @Override
     public Routes getRoute(Integer id) {
-        Routes route = null;
+        Routes route;
         try {
             route = this.routeRepo.findById(id).orElse(null);
         } catch (Exception e) {

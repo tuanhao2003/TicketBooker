@@ -45,7 +45,7 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public boolean deleteDriver(int id) {
+    public boolean deleteDriver(Integer id) {
         try{
             this.driverRepo.deleteById(id);
         }catch (Exception e){
@@ -56,16 +56,16 @@ public class DriverServiceImp implements DriverService {
     }
 
     @Override
-    public ResponseDriverDTO getDriver(int id) {
-        ResponseDriverDTO response;
+    public Driver getDriver(Integer id) {
+        Driver result;
         try{
-            response = DriverMapper.toResponseDTO(driverRepo.findById(id));
+            result = driverRepo.findById(id).orElse(null);
 
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
         }
-        return response;
+        return result;
     }
 
     @Override
@@ -74,6 +74,18 @@ public class DriverServiceImp implements DriverService {
         try{
             ArrayList<Driver> drivers = this.driverRepo.findAll();
             response = DriverMapper.toResponseDTO(drivers);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseDriverDTO findAllField(String searchTerm) {
+        ResponseDriverDTO response;
+        try{
+            response = DriverMapper.toResponseDTO(this.driverRepo.searchDrivers(searchTerm));
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
