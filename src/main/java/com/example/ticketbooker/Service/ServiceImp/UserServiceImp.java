@@ -80,7 +80,7 @@ public class UserServiceImp implements UserService {
     public ResponseUserDTO getAllUserByName(String username) {
         ResponseUserDTO result = new ResponseUserDTO();
         try {
-            result = UserMapper.toResponseDTO(this.usersRepo.findByFullNameContainingIgnoreCase(username));
+            result = UserMapper.toResponseDTO(this.usersRepo.findByFullNameLike(username));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return result;

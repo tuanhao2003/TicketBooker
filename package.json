@@ -11,5 +11,9 @@
   "description": "",
   "devDependencies": {
     "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {
+    "lucide": "^0.454.0",
+    "lucide-static": "^0.454.0"
   }
 }
