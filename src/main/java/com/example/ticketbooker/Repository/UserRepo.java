@@ -12,6 +12,6 @@ public interface UserRepo extends JpaRepository<Users, Integer> {
     ArrayList<Users> findAll();
     ArrayList<Users> findAllByGender(Gender gender);
     ArrayList<Users> findAllByAddress(String address);
-    ArrayList<Users> findByFullNameContainingIgnoreCase(String fullname);
+    ArrayList<Users> findByFullNameLike(String fullname);
     ArrayList<Users> findAllById(int userId);
 }
