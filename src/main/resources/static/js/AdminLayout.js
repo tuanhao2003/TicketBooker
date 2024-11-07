@@ -3,6 +3,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             sidebarController();
             navbarController();
+            searchCollapseController();
 
             function navbarController() {
                 window.addEventListener("load", pathShowControl());
@@ -43,6 +44,24 @@
                     });
                 }
             }
+
+            function searchCollapseController(){
+                const contentSection = document.querySelector(".content-section");
+                const searchContainer = document.getElementById("search-result-collapse");
+                let isMouseHoveringForm = false;
+                searchContainer.addEventListener("mouseenter", function () {
+                    isMouseHoveringForm = true;
+                });
+                searchContainer.addEventListener("mouseleave", function () {
+                    isMouseHoveringForm = false;
+                });
+                contentSection.addEventListener( "click", function checkMouseEnterFormZone() {
+                    if (isMouseHoveringForm === false){
+                        searchContainer.classList.add("collapse");
+                    }
+                })
+            }
+
         });
     }
 )();

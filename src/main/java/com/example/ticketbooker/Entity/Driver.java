@@ -12,7 +12,7 @@ import lombok.Data;
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "driverId", nullable = false)
+    @Column(name = "driverId", nullable = false, unique = true)
     private Integer driverId;
 
     @Column(name = "name", nullable = false, length = 100)

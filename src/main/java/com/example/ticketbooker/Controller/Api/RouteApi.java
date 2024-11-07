@@ -18,7 +18,7 @@ public class RouteApi {
             result = routeService.deleteRoute(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
+            return false;
         }
         return result;
     }
