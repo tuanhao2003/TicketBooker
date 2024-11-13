@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/UserLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ với chúng tôi - FUTA BUS LINES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',
+                        secondary: '#F97316'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50" >
+<div layout:fragment="content" class="container mt-5 mx-auto">
+    <div class="container mx-auto px-4 py-8"x-data="{ formSubmitted: false }" x-init="AOS.init()">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Left Column - Contact Information -->
+            <div class="space-y-6" data-aos="fade-right" data-aos-duration="1000">
+                <h2 class="text-2xl font-bold text-primary">LIÊN HỆ VỚI CHÚNG TÔI</h2>
+
+                <div class="space-y-2">
+                    <h3 class="font-bold text-primary">FUTA BUS LINES</h3>
+                    <h4 class="font-bold text-primary">CÔNG TY CỔ PHẦN XE KHÁCH PHƯƠNG TRANG - FUTA BUS LINES</h4>
+                </div>
+
+                <div class="space-y-4 text-gray-600">
+                    <p><span class="font-medium">Địa chỉ:</span> 273 Đ. An Dương Vương, Phường 3, Quận 5, Hồ Chí Minh 700000</p>
+
+                    <p><span class="font-medium">Website:</span> <a href="https://Fubabus.vn/" class="text-primary hover:underline transition-colors duration-300">https://Fubabus.vn/</a></p>
+
+                    <p><span class="font-medium">Điện thoại:</span> 0123456789</p>
+
+                    <p><span class="font-medium">Fax:</span> 0123456789</p>
+
+                    <p><span class="font-medium">Email:</span> <a href="mailto:hotro@Fuba.vn" class="text-primary hover:underline transition-colors duration-300">hotro@Fuba.vn</a></p>
+
+                    <p><span class="font-medium">Hotline:</span> 19001990</p>
+                </div>
+            </div>
+
+            <!-- Right Column - Contact Form -->
+            <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-left" data-aos-duration="1000">
+                <div class="flex items-center gap-2 mb-6">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    <h2 class="text-xl font-semibold text-primary">Gửi thông tin liên hệ đến chúng tôi</h2>
+                </div>
+
+                <form class="space-y-4" x-show="!formSubmitted" @submit.prevent="formSubmitted = true; setTimeout(() => formSubmitted = false, 3000)">
+                    <div>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300">
+                            <option selected>FUBA BUS LINES</option>
+                        </select>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <input type="email" placeholder="abc123@gmail.com" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300">
+
+                        <input type="tel" placeholder="0123456789" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300">
+                    </div>
+
+                    <input type="text" placeholder="Nhập Tiêu đề" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300">
+
+                    <textarea placeholder="Nhập ghi chú" rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"></textarea>
+
+                    <button type="submit" class="w-full bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-secondary/90 transition-all duration-300 transform hover:scale-105">
+                        Gửi
+                    </button>
+                </form>
+
+                <div x-show="formSubmitted" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" class="text-center py-8">
+                    <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Cảm ơn bạn!</h3>
+                    <p class="text-gray-600">Chúng tôi đã nhận được thông tin của bạn và sẽ liên hệ sớm nhất có thể.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Google Maps Embed -->
+    <div class="container mx-auto px-4 py-8" data-aos="fade-up" data-aos-duration="1000">
+        <h3 class="text-xl font-bold text-primary mb-4">Địa chỉ của chúng tôi trên Google Maps</h3>
+        <div class="overflow-hidden rounded-lg shadow-lg">
+            <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.676015484632!2d106.6799835146221!3d10.75992469233409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ee162b5f71b%3A0xb623015d6c13d88a!2zMjczIMSQ4bqhaSBBbiDEkMOzbmcgVsawxqFuZywgUGjGsOG7nW5nIDMsIFF14bqtbiA1LCBUUC4gSMOyY2ggQ2jDrW5oIFBoaSBNaW5o!5e0!3m2!1sen!2s!4v1631307164760!5m2!1sen!2s"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+</div>
+<script>
+    AOS.init();
+</script>
+</body>
+</html>
