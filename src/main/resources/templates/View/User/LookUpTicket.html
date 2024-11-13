@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/UserLayout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B46C1',
+                        secondary: '#9F7AEA',
+                        accent: '#D6BCFA',
+                    }
+                }
+            }
+        }
+    </script>
     <script>
         async function fetchTicketInfo() {
             const ticketId = document.getElementById("ticketId").value;
@@ -86,16 +98,17 @@
     </script>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
-        <h1 class="text-2xl font-bold mb-4 text-center">Tra cứu thông tin vé</h1>
+<body>
+<div layout:fragment="content" class="container mt-5 mx-auto">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-primary mb-6 text-center">Tra cứu thông tin vé</h1>
 
         <div id="searchSection" class="space-y-4 hidden">
             <label for="ticketId" class="block text-lg font-medium text-gray-700">Mã vé:</label>
             <input type="text" id="ticketId" name="ticketId" placeholder="Nhập mã vé"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
             <button onclick="fetchTicketInfo()"
-                class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Tra cứu
+                    class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Tra cứu
             </button>
         </div>
 
@@ -133,7 +146,7 @@
                     <div class="flex">
                         <div class="px-6 py-2 whitespace-nowrap text-2xl font-bold w-1/2">Tổng cộng</div>
                         <div class="flex items-center justify-end px-6 py-2 whitespace-nowrap w-1/2 text-2xl text-red-600 font-bold"
-                            id="">12.960.000 VND</div>
+                             id="">12.960.000 VND</div>
                     </div>
                 </div>
             </div>
@@ -165,7 +178,7 @@
                     </div>
                     <div class="text-center">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class"
-                            class="w-8 mx-auto mb-1">
+                             class="w-8 mx-auto mb-1">
                         <p class="text-sm text-gray-500">1 passenger</p>
                         <p class="text-xl text-red-600 font-bold">12,960,000 VND</p>
                     </div>
@@ -197,6 +210,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
-
 </html>
