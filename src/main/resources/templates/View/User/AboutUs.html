@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/UserLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về Chúng Tôi - FUTA Bus Lines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B46C1',
+                        secondary: '#9F7AEA',
+                        accent: '#D6BCFA',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-purple-50">
+<div layout:fragment="content" class="container mt-5 mx-auto">
+    <main class="container mx-auto px-4 py-12">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-5xl font-bold text-primary mb-9 text-center">VỀ CHÚNG TÔI</h1>
+
+            <!-- Company Overview -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-bold text-primary mb-6 text-center">CÔNG TY XE KHÁCH FUTURE BUS ASIA - FUBA BUS LINE</h2>
+                <p class="text-gray-700 mb-6 leading-relaxed">
+                    FUTA Bus Lines, thành lập năm 2001, là một trong những công ty vận tải hành khách hàng đầu tại Việt Nam.
+                    Chúng tôi tự hào cung cấp dịch vụ vận chuyển chất lượng cao, an toàn và đáng tin cậy cho hàng triệu hành khách mỗi năm.
+                </p>
+                <div class="container mx-auto px-4 py-12 max-w-6xl">
+                    <!-- Tầm Nhìn và Sứ Mệnh -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center mb-20">
+                        <div class="relative">
+                            <img th:src="@{/components/tamnhin.png}" alt="Tầm nhìn và sứ mệnh" class="w-full">
+                        </div>
+                        <div>
+                            <h2 class="text-4xl font-bold text-primary mb-6">TẦM NHÌN VÀ SỨ MỆNH</h2>
+                            <div class="space-y-4">
+                                <p class="text-xl font-bold text-primary uppercase">
+                                    BẢO ĐẢM TỔ QUỐC VÌ MỘT VIỆT NAM HÙNG CƯỜNG.
+                                </p>
+                                <p class="text-gray-700">
+                                    Trở thành Tập Đoàn uy tín và chất lượng hàng đầu Việt Nam với cam kết:
+                                </p>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                                        <span>Tạo môi trường làm việc năng động, thân thiện.</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                                        <span>Phát triển từ lòng tin của khách hàng.</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                                        <span>Trở thành tập đoàn dẫn đầu chuyên nghiệp.</span>
+                                    </li>
+                                </ul>
+                                <p class="text-gray-700">
+                                    <span class="text-primary font-medium">Future Bus Asia</span> luôn phấn đấu làm việc hiệu quả nhất, để luôn cống hiến, đóng góp hết sức mình vì một Việt Nam hùng cường.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giá Trị Cốt Lõi -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center mb-20">
+                        <div>
+                            <h2 class="text-4xl font-bold text-primary mb-6">GIÁ TRỊ CỐT LÕI</h2>
+                            <p class="text-xl mb-4">Giá trị cốt lõi – <span class="text-primary font-medium">Future Bus Asia</span></p>
+                            <div class="space-y-6">
+                                <div>
+                                    <p class="mb-2">
+                                        <span class="text-primary font-medium">Phương:</span> chữ "Phương" trong tiếng Hán nghĩa là Vươn, vật gì hình thể ngay thẳng đều gọi là phương, thể hiện sự chính trực, phẩm chất đạo đức tốt đẹp. Mọi hành động của Future Bus Asia luôn thể hiện sự minh bạch, công bằng chính trực với đồng nghiệp, khách hàng, đối tác.
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="mb-2">
+                                        <span class="text-primary font-medium">Trang:</span> mang nghĩa To lớn, Tráng lệ. Hướng tới sự thành công vượt bậc, thể hiện ý chí, khát vọng thực hiện những mục tiêu lớn, đem lại giá trị lớn cho cộng đồng, cho xã hội.
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="mb-2">
+                                        <span class="text-primary font-medium">Future Bus Asia</span> với hàm nghĩa càng phát triển, càng to lớn lại càng phải <span class="font-bold">"CHÍNH TRỰC"</span>. Luôn là biểu tượng của sự phát triển dựa trên những giá trị đạo đức tốt đẹp nhất.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <img src="/components/giatri.png" alt="Tầm nhìn và sứ mệnh" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Triết Lý -->
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="relative">
+                            <img src="/components/trietly.png" alt="Triết lý" class="w-full">
+                        </div>
+                        <div>
+                            <h2 class="text-4xl font-bold text-primary mb-6">TRIẾT LÝ</h2>
+                            <p class="text-gray-700 leading-relaxed">
+                                Hội nhập và phát triển góp phần vào sự thịnh vượng của đất nước. Nguồn nhân lực chính là nhân tố then chốt, là tài sản lớn nhất của Công ty Future Bus Asia, chú trọng tạo ra môi trường làm việc hiện đại, năng động, thân thiện và trao cơ hội phát triển nghề nghiệp cho mọi thành viên.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Company History -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-bold text-primary mb-6">LỊCH SỬ PHÁT TRIỂN</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="relative">
+                        <img src="/components/lichsu.png" alt="Lịch sử phát triển" class="w-full">
+                    </div>
+                    <div>
+                        <div class="space-y-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2001</div>
+                                <div>Thành lập Công ty TNHH Future Bus Asia</div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2005</div>
+                                <div>Mở rộng hoạt động ra khu vực miền Trung</div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2010</div>
+                                <div>Chuyển đổi thành Công ty Cổ phần Xe khách Future Bus Asia</div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2015</div>
+                                <div>Đạt mốc 500 xe vận hành trên toàn quốc</div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2020</div>
+                                <div>Ra mắt ứng dụng đặt vé trực tuyến FUTA</div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 w-24 font-bold text-primary">2023</div>
+                                <div>Mở rộng mạng lưới lên hơn 60 tuyến vận tải liên tỉnh</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Dịch Vụ Của Chúng Tôi</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-purple-100 p-6 rounded-lg">
+                        <h3 class="font-semibold text-primary mb-4 text-xl">Vận chuyển hành khách</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>Xe giường nằm cao cấp</li>
+                            <li>Xe ghế ngồi chất lượng cao</li>
+                            <li>Dịch vụ xe limousine VIP</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-100 p-6 rounded-lg">
+                        <h3 class="font-semibold text-primary mb-4 text-xl">Dịch vụ bổ sung</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>Vận chuyển hàng hóa</li>
+                            <li>Cho thuê xe du lịch</li>
+                            <li>Dịch vụ đưa đón tận nơi</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fleet -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Đội Xe Hiện Đại</h2>
+                <p class="text-gray-700 mb-6 leading-relaxed">
+                    FUTA Bus Lines tự hào sở hữu một trong những đội xe lớn và hiện đại nhất Việt Nam,
+                    với hơn 1000 xe các loại được trang bị công nghệ tiên tiến.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <img src="/components/xegiuongnam.jpg" alt="Xe giường nằm" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="font-semibold text-primary text-xl">Xe giường nằm</h3>
+                        <p class="text-gray-700">Thoải mái cho hành trình dài</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="/components/xeghengoi.jpg" alt="Xe ghế ngồi" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="font-semibold text-primary text-xl">Xe ghế ngồi</h3>
+                        <p class="text-gray-700">Tiện lợi cho chuyến đi ngắn</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="/components/xelimousine.jpg" alt="Xe Limousine" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="font-semibold text-primary text-xl">Xe Limousine</h3>
+                        <p class="text-gray-700">Đẳng cấp và sang trọng</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Network Coverage -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Mạng Lưới Hoạt Động</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-gray-700 mb-6 leading-relaxed">
+                            FUTA Bus Lines hiện đang khai thác hơn 60 tuyến vận tải hành khách cố định
+                            liên tỉnh trải dài từ Nam ra Bắc, phục vụ hàng triệu lượt khách mỗi năm.
+                        </p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>Hơn 250 phòng vé và đại lý trên toàn quốc</li>
+                            <li>Đội xe hiện đại với hơn 1000 xe các loại</li>
+                            <li>Phục vụ hơn 20 triệu lượt khách mỗi năm</li>
+                            <li>Có mặt tại hơn 30 tỉnh thành trên cả nước</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="/components/mangluoi.png" alt="Bản đồ mạng lưới" class="w-full rounded-lg shadow-md">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quality Commitment -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Cam Kết Chất Lượng</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-shield-alt text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">An toàn là ưu tiên hàng đầu</h3>
+                        <p class="text-gray-700">Tuân thủ nghiêm ngặt các quy định an toàn giao thông</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-clock text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">Đúng giờ và đáng tin cậy</h3>
+                        <p class="text-gray-700">Cam kết về thời gian và lịch trình chuyến đi</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-smile text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">Dịch vụ khách hàng xuất sắc</h3>
+                        <p class="text-gray-700">Đội ngũ nhân viên chuyên nghiệp và thân thiện</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Information -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Thông Tin Liên Hệ</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-semibold text-primary mb-4 text-xl">Trụ sở chính</h3>
+                        <p class="flex items-start mb-4">
+                            <i class="fas fa-map-marker-alt text-secondary mt-1 mr-3 text-xl"></i>
+                            <span class="text-gray-700">Số 01 Tô Hiến Thành, Phường 3, Thành phố Đà Lạt, Tỉnh Lâm Đồng, Việt Nam</span>
+                        </p>
+                        <p class="flex items-center mb-4">
+                            <i class="fas fa-phone text-secondary mr-3 text-xl"></i>
+                            <span class="text-gray-700">1900 6067</span>
+                        </p>
+                        <p class="flex items-center mb-4">
+                            <i class="fas fa-envelope text-secondary mr-3 text-xl"></i>
+                            <a href="mailto:hotro@futa.vn" class="text-primary hover:underline">hotro@futa.vn</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-primary mb-4 text-xl">Giờ làm việc</h3>
+                        <p class="mb-2 text-gray-700"><span class="font-semibold">Phòng vé:</span> 24/7</p>
+                        <p class="mb-2 text-gray-700"><span class="font-semibold">Tổng đài CSKH:</span> 6:00 - 22:00 hàng ngày</p>
+                        <p class="text-gray-700"><span class="font-semibold">Văn phòng:</span> 8:00 - 17:30 (Thứ 2 - Thứ 6)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Awards and Certifications -->
+            <section class="bg-white rounded-lg shadow-lg p-8 transform hover:scale-105 transition duration-300">
+                <h2 class="text-4xl font-semibold text-primary mb-6">Chứng Nhận & Giải Thưởng</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-award text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">Top 10 Thương hiệu mạnh Việt Nam</h3>
+                        <p class="text-gray-700">2020 - 2023</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-medal text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">Doanh nghiệp vận tải tiêu biểu</h3>
+                        <p class="text-gray-700">2019 - 2023</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center bg-secondary rounded-full">
+                            <i class="fas fa-star text-4xl text-white"></i>
+                        </div>
+                        <h3 class="font-semibold text-primary text-xl mb-2">Thương hiệu uy tín ngành vận tải</h3>
+                        <p class="text-gray-700">2018 - 2023</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
