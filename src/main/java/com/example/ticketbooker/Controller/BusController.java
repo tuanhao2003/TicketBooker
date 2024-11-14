@@ -50,4 +50,16 @@ public class BusController {
             return "redirect:/admin/buses";
         }
     }
+
+    // Xử lý sửa bus
+    @PostMapping("/update")
+    public String updateBus(@ModelAttribute("busDTO") BusDTO busDTO, RedirectAttributes redirectAttributes) {
+        boolean updatedBus = busService.updateBus(busDTO);
+        if (updatedBus) {
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật xe thành công!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Cập nhật xe thất bại!");
+        }
+        return "redirect:/admin/buses";
+    }
 }
