@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách hóa đơn</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mx-auto py-8 px-4" x-data="{ searchTerm: '', statusFilter: '' }">
+        <h1 class="text-4xl font-bold text-center text-purple-800 mb-8 fade-in">Danh sách Hóa Đơn</h1>
+
+        <!-- Thanh tìm kiếm và bộ lọc -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
+            <input x-model="searchTerm" type="text" placeholder="Tìm kiếm..."
+                   class="w-full md:w-1/2 px-4 py-2 rounded-lg border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-300 ease-in-out">
+            <select x-model="statusFilter"
+                    class="w-full md:w-auto px-4 py-2 rounded-lg border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-300 ease-in-out">
+                <option value="">Tất cả trạng thái</option>
+                <option value="PAID">Đã thanh toán</option>
+                <option value="UNPAID">Chưa thanh toán</option>
+            </select>
+        </div>
+
+        <div class="overflow-x-auto shadow-lg sm:rounded-lg bg-white">
+            <table class="min-w-full text-center">
+                <thead>
+                <tr class="bg-purple-200 text-purple-700 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6">ID</th>
+                    <th class="py-3 px-6">Tổng Tiền</th>
+                    <th class="py-3 px-6">Trạng Thái Thanh Toán</th>
+                    <th class="py-3 px-6">Thời Gian Thanh Toán</th>
+                    <th class="py-3 px-6">Phương Thức Thanh Toán</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm">
+                <tr th:each="invoice : ${responseDTO.listInvoices}"
+                    class="border-b border-gray-200 hover:bg-purple-100 transition-all duration-300 ease-in-out hover:shadow-md transition-transform hover:scale-105"
+                    x-show="(searchTerm === '' || invoice.id.toString().includes(searchTerm) || invoice.totalAmount.toString().includes(searchTerm)) &&
+                        (statusFilter === '' || invoice.paymentStatus === statusFilter)">
+                    <td class="py-3 px-6" th:text="${invoice.id}">ID</td>
+                    <td class="py-3 px-6" th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">Tổng Tiền</td>
+                    <td class="py-3 px-6">
+                    <span th:text="${invoice.paymentStatus}"
+                          th:class="${invoice.paymentStatus == 'PAID' ? 'bg-green-200 text-green-600 font-semibold' :
+                                     (invoice.paymentStatus == 'PENDING' ? 'bg-yellow-200 text-yellow-600 font-semibold' : 'bg-gray-200 text-gray-600 font-semibold rounded px-4 py-2')}">
+                        Trạng Thái
+                    </span>
+                    </td>
+                    <td class="py-3 px-6" th:text="${#temporals.format(invoice.paymentTime, 'dd/MM/yyyy HH:mm')}">Thời Gian</td>
+                    <td class="py-3 px-6" th:text="${invoice.paymentMethod}">Phương Thức</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
