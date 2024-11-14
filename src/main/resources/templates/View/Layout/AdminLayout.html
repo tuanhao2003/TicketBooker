@@ -203,8 +203,8 @@
 
                         <button class="absolute md:top-1/2 md:-translate-y-1/2 md:right-1 aspect-square h-full"><i
                                 class="fa fa-magnifying-glass"></i></button>
-                        <div id="search-result-collapse" class=" absolute collapse left-0 duration-700 transition-all ease-out w-full bg-white rounded-sm shadow-inner shadow-zinc-300 border-b border-b-zinc-300 ">
-                            <div class="search-record  rounded-sm hover:shadow hover:shadow-zinc-400 py-2 px-4"></div>
+                        <div id="search-result-collapse" class="overflow-hidden duration-700 transition-all ease-out absolute w-11/12 -bottom-100 bg-white h-0 rounded-b-2xl left-1/2 -translate-x-1/2 shadow-inner shadow-zinc-300 border-b border-b-zinc-300">
+
                         </div>
                     </div>
                     <button
@@ -215,7 +215,7 @@
             </div>
             <!-- /navbar -->
 
-            <div layout:fragment="content" class="content-section overflow-y-scroll h-full"></div>
+            <div layout:fragment="content" class="overflow-y-scroll h-full"></div>
         </div>
     </div>
 
