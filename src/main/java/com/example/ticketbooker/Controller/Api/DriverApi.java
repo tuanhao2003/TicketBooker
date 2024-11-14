@@ -7,8 +7,6 @@ import com.example.ticketbooker.Service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/admin/drivers")
 public class DriverApi {
@@ -26,13 +24,12 @@ public class DriverApi {
         return result;
     }
     @PostMapping("/search")
-    public ResponseDriverDTO searchUser(@RequestBody Map<String, String> searchParam) {
+    public ResponseDriverDTO searchUser(@RequestBody String searchTerm) {
         ResponseDriverDTO response;
-        String searchTerm = searchParam.get("searchTerm");
         try {
             response = this.driverService.findAllField(searchTerm);
         } catch (Exception e) {
-            System.out.println("Exc API "+e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
         return response;
