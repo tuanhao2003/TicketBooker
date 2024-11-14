@@ -52,47 +52,48 @@
 
         function searchController() {
             const searchBox = document.querySelector(".search-box");
-            const searchContainer = document.getElementById("search-result-collapse");
+            console.log(searchBox);
+            const searchContainer = document.getElementById("searchCollapsed");
             let timeout;
 
             searchBox.addEventListener("input", function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     console.log(searchBox.value);
-                    if(searchBox.value) {
-                        fetch("http://localhost:8080/admin/drivers/search", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                searchTerm: searchBox.value
-                            })
+                    if (searchContainer.classList.contains("hidden") && searchBox.value !== "") {
+                        searchContainer.classList.remove("hidden");
+                        searchContainer.classList.add("show");
+                    } else if (searchContainer.classList.contains("show") && searchBox.value === "") {
+                        searchContainer.classList.remove("show");
+                        searchContainer.classList.add("hidden");
+                    }
+                    fetch("http://localhost:8080/admin/drivers/search", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            searchTerm: searchBox.value
                         })
+                    })
                         .then(response => response.json())
                         .then(response => {
-                            searchContainer.classList.remove("collapse");
-                            let searchResult = "";
                             if (response.listDriver && response.driverCount > 0) {
                                 response.listDriver.forEach(driver => {
-                                    searchResult += `
-                                    <div class="search-record rounded-sm hover:shadow hover:shadow-zinc-400 py-2 px-4">
-                                        <div>Họ tên: ${driver.name}</div>
-                                        <div>Số điện thoại: ${driver.phone}</div>
-                                    </div>
-                                    `;
+                                    searchContainer.innerHTML += `
+                                <div class="user-card">
+                                    <div>Họ tên: ${driver.name}</div>
+                                    <div>Số điện thoại: ${driver.phone}</div>
+                                </div>
+                            `;
                                 });
                             } else {
-                                searchResult = '<div class = "search-record rounded-sm hover:shadow hover:shadow-zinc-400 py-2 px-4">No drivers found</div>';
+                                searchContainer.innerHTML = '<div>No drivers found</div>';
                             }
-                            searchContainer.innerHTML = searchResult;
                         })
                         .catch(error => {
                             alert("Request failed: " + error);
                         });
-                    }else{
-                        searchContainer.innerHTML = '<div class = "search-record rounded-sm hover:shadow hover:shadow-zinc-400 py-2 px-4">No drivers found</div>';;
-                    }
                 }, 800);
             });
         }
