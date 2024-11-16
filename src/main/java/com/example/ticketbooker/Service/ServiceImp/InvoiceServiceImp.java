@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Invoice.AddInvoiceDTO;
+import com.example.ticketbooker.DTO.Invoice.RequestInvoiceDTO;
 import com.example.ticketbooker.DTO.Invoice.ResponseInvoiceDTO;
 import com.example.ticketbooker.Entity.Invoices;
 import com.example.ticketbooker.Repository.InvoiceRepo;
@@ -8,6 +9,8 @@ import com.example.ticketbooker.Service.InvoiceService;
 import com.example.ticketbooker.Util.Mapper.InvoiceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class InvoiceServiceImp implements InvoiceService {
@@ -35,4 +38,19 @@ public class InvoiceServiceImp implements InvoiceService {
         }
         return result;
     }
+    public ResponseInvoiceDTO searchInvoices(RequestInvoiceDTO requestDTO) {
+        ResponseInvoiceDTO result = new ResponseInvoiceDTO();
+        try {
+            ArrayList<Invoices> filteredInvoices = invoicesRepo.searchInvoices(
+                    requestDTO.getTotalAmount(),
+                    requestDTO.getPaymentStatus(),
+                    requestDTO.getPaymentMethod()
+            );
+            result = InvoiceMapper.toResponseDTO(filteredInvoices);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
 }

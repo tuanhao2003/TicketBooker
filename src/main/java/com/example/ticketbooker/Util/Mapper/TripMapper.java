@@ -34,7 +34,7 @@ public class TripMapper {
     }
 
     public static Trips fromUpdate(UpdateTripDTO dto) {
-        return Trips.builder()
+        Trips.TripsBuilder tripBuilder = Trips.builder()
                 .id(dto.getTripId())
                 .route(dto.getRoute())
                 .bus(dto.getBus())
@@ -44,8 +44,15 @@ public class TripMapper {
                 .departureTime(LocalDateTime.from(dto.getDepartureTime()))
                 .price(dto.getPrice())
                 .availableSeats(dto.getAvailableSeats())
-                .tripStatus(dto.getTripStatus())
-                .build();
+                .tripStatus(dto.getTripStatus());
+
+        if (dto.getArrivalTime() != null) {
+            tripBuilder.arrivalTime(LocalDateTime.from(dto.getArrivalTime()));
+        } else {
+            tripBuilder.arrivalTime(null);
+        }
+
+        return tripBuilder.build();
     }
 
     public static ResponseTripDTO toResponseDTO(ArrayList<Trips> trips) {
