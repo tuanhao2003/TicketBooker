@@ -34,4 +34,16 @@ public class RouteApi {
         }
         return dto;
     }
+
+    @GetMapping("/departureLocation")
+    public ResponseRouteDTO departureLocation(@RequestBody String arrivalLocation) {
+        ResponseRouteDTO dto;
+        try {
+            dto = this.routeService.findByArrivalLocation(arrivalLocation);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return dto;
+    }
 }

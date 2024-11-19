@@ -48,11 +48,11 @@
                             class="bg-transparent border-none outline-none focus:outline-none text-lg">
                         <option th:value="${T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}"
                                 th:text="${T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}"
-                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}">
+                                th:selected="${status == T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}">
                         </option>
                         <option th:value="${T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}"
                                 th:text="${T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}"
-                                th:selected="*{status == T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}">
+                                th:selected="${status == T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}">
                         </option>
                     </select>
                 </div>
