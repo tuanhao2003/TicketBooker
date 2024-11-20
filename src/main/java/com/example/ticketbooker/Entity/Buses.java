@@ -16,7 +16,7 @@ public class Buses {
     @Column(name = "busId", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "routeId")
     private Routes route;
 

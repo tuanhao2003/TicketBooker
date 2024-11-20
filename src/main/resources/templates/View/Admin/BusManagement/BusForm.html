@@ -1,88 +1,123 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Form Xe</title>
+    <title>Form Vé</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-<div class="container mx-auto p-4">
-    <!--    <h1 class="text-2xl font-bold mb-4" th:text="${fields.hasErrors()} ? 'Sửa Vé' : 'Thêm Vé'">Form Vé</h1>-->
+<div layout:fragment="content">
+    <div class="container mx-auto p-4">
+        <!--    <h1 class="text-2xl font-bold mb-4" th:text="${fields.hasErrors()} ? 'Sửa Vé' : 'Thêm Vé'">Form Vé</h1>-->
 
-    <!-- Form để thêm mới (khi busDTO.id là null) -->
-    <form th:if="${busDTO.id} == null" th:action="@{/admin/buses/add}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <!-- Route ID -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã Tuyến</label>
-            <input type="number" name="routeId" id="routeIdNew"  th:field="*{busDTO.routeId.id}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- License Plate -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="licensePlate">Biển Số Xe</label>
-            <input type="text" name="licensePlate" id="licensePlateNew" th:field="*{busDTO.licensePlate}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Bus Type -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Loại Xe</label>
-            <input type="text" name="busType" id="busTypeNew" th:field="*{busDTO.busType}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Capacity -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="capacity">Số Chỗ Ngồi</label>
-            <input type="number" name="capacity" id="capacityNew" th:field="*{busDTO.capacity}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Bus Status -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="busStatus">Trạng Thái Xe</label>
-            <select name="busStatus" id="busStatusNew" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="ACTIVE" th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">ACTIVE</option>
-                <option value="INACTIVE" th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">INACTIVE</option>
-            </select>
-        </div>
-        <div class="flex items-center justify-between">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Thực hiện</button>
-            <a href="/admin/buses" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
-        </div>
-    </form>
+        <!-- Form để thêm mới (khi busDTO.id là null) -->
+        <form th:if="${busDTO.id} == null" th:action="@{/admin/buses/add}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Booker ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã Tuyến</label>
+                <input type="number" name="routeId" id="routeIdNew" th:field="*{busDTO.routeId.routeId}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- License Plate -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="licensePlate">Biển Số Xe</label>
+                <input type="text" name="licensePlate" id="licensePlateNew" th:field="*{busDTO.licensePlate}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Bus Type -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Loại Xe</label>
+                <input type="text" name="busType" id="busTypeNew" th:field="*{busDTO.busType}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Capacity -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="capacity">Số Chỗ Ngồi</label>
+                <input type="number" name="capacity" id="capacityNew" th:field="*{busDTO.capacity}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Bus Status -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busStatus">Trạng Thái Xe</label>
+                <select name="busStatus" id="busStatusNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="ACTIVE"
+                            th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">
+                        ACTIVE
+                    </option>
+                    <option value="INACTIVE"
+                            th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">
+                        INACTIVE
+                    </option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Thực hiện
+                </button>
+                <a href="/admin/buses"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+            </div>
+        </form>
 
-    <!-- Form để chỉnh sửa (khi busDTO.id không null) -->
-    <form th:if="${busDTO.id} != null" th:action="@{/admin/buses/update}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <!-- Ticket ID -->
-        <input type="number" name="id"  th:value="${busDTO.id}" required class="hidden shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        <!-- Route ID -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã Tuyến</label>
-            <input type="number" name="routeId" id="routeId"  th:field="*{busDTO.routeId.id}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- License Plate -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="licensePlate">Biển Số Xe</label>
-            <input type="text" name="licensePlate" id="licensePlate" th:field="*{busDTO.licensePlate}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Bus Type -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Loại Xe</label>
-            <input type="text" name="busType" id="busType" th:field="*{busDTO.busType}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Capacity -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="capacity">Số Chỗ Ngồi</label>
-            <input type="number" name="capacity" id="capacity" th:field="*{busDTO.capacity}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Bus Status -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="busStatus">Trạng Thái Xe</label>
-            <select name="busStatus" id="busStatus" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="ACTIVE" th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">ACTIVE</option>
-                <option value="INACTIVE" th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">INACTIVE</option>
-            </select>
-        </div>
+        <!-- Form để chỉnh sửa (khi busDTO.id không null) -->
+        <form th:if="${busDTO.id} != null" th:action="@{/admin/buses/update}" method="post"
+              class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Ticket ID -->
+            <input type="number" name="id" th:value="${busDTO.id}" required
+                   class="hidden shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <!-- Route ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã Tuyến</label>
+                <input type="number" name="routeId" id="routeId" th:field="*{busDTO.routeId.routeId}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- License Plate -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="licensePlate">Biển Số Xe</label>
+                <input type="text" name="licensePlate" id="licensePlate" th:field="*{busDTO.licensePlate}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Bus Type -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Loại Xe</label>
+                <input type="text" name="busType" id="busType" th:field="*{busDTO.busType}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Capacity -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="capacity">Số Chỗ Ngồi</label>
+                <input type="number" name="capacity" id="capacity" th:field="*{busDTO.capacity}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Bus Status -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busStatus">Trạng Thái Xe</label>
+                <select name="busStatus" id="busStatus" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="ACTIVE"
+                            th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">
+                        ACTIVE
+                    </option>
+                    <option value="INACTIVE"
+                            th:selected="${busDTO.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">
+                        INACTIVE
+                    </option>
+                </select>
+            </div>
 
-        <div class="flex items-center justify-between">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cập nhật</button>
-            <a href="/admin/buses" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
-        </div>
-    </form>
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Cập nhật
+                </button>
+                <a href="/admin/buses"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>
