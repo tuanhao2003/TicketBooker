@@ -2,10 +2,12 @@ package com.example.ticketbooker.Util.Mapper;
 
 import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.Entity.Account;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccountMapper {
 
-    public static AccountDTO toDto(Account account) {
+    public static AccountDTO toDTO(Account account) {
         return new AccountDTO(
                 account.getId(),
                 account.getUsername(),
