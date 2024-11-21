@@ -71,10 +71,49 @@ function deleteTrip(tripId, tripContainer) {
 
 // Hàm load route
 document.addEventListener('DOMContentLoaded', function() {
-    let routes = [];
 
     // Hàm để mở modal và tải vị trí
-    window.openAddTripModal = function() {
-        document.getElementById('addTripModal').classList.remove('hidden');
+    window.openAddTripModal = function () {
+        let departureOptions = '<option value="">Chọn điểm khởi hành</option>';
+        document.querySelector('#addTripModal').classList.toggle('hidden');
+        fetch('/admin/routes/getDepartureLocation')
+            .then(response => response.json())
+            .then (data => {
+                data.forEach(value => {
+                    departureOptions +="<option value='"+value+"'>"+value+"</option>";
+                })
+                document.querySelector('#departureLocation').innerHTML = departureOptions;
+            })
+            .catch(error => {
+                console.error('Đã xảy ra lỗi:', error);
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: 'Có lỗi.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
     }
+    // Hàm load Arrival Location
+    document.querySelector("#departureLocation").addEventListener('change',function (){
+        let arrivalLocation = '';
+        let url = '/admin/routes/getArrivalLocation?departureLocation=' + this.value;
+        fetch(url)
+            .then(response =>response.json())
+            .then(data => {
+                data.forEach(value => {
+                    arrivalLocation += "<option value='"+value+"'>"+value+"</option>";
+                })
+                document.querySelector('#arrivalLocation').innerHTML = arrivalLocation;
+            })
+            .catch(error => {
+                console.error('Đã xảy ra lỗi:', error);
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: 'Có lỗi.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+    })
 });
