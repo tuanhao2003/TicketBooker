@@ -7,8 +7,9 @@
     <title>Quản lý Vé</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script>
-        function deleteTicket(id) {
+        function deleteTicket(button) {
             if (confirm('Bạn có chắc chắn muốn xóa vé này?')) {
+                var id = button.dataset.name;
                 fetch(`/api/tickets/${id}`, {
                     method: 'DELETE'
                 })
@@ -80,7 +81,7 @@
                 <td class="py-2 px-4 border-b">
                     <a th:href="@{/admin/tickets/{id}(id=${ticket.id})}"
                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
-                    <button onclick="deleteTicket('${ticket.id}')"
+                    <button th:data-name="${ticket.id}" onclick="deleteTicket(this)"
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Xóa
                     </button>
                 </td>
