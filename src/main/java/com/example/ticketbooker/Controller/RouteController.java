@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Routes.AddRouteDTO;
+import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
 import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Util.Mapper.RouteMapper;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Controller

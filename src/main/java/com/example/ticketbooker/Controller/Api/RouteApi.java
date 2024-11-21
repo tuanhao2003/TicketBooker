@@ -6,6 +6,9 @@ import com.example.ticketbooker.Service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/routes")
 public class RouteApi {
@@ -18,7 +21,7 @@ public class RouteApi {
             result = routeService.deleteRoute(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
+            return false;
         }
         return result;
     }
@@ -35,15 +38,19 @@ public class RouteApi {
         return dto;
     }
 
-    @GetMapping("/departureLocation")
-    public ResponseRouteDTO departureLocation(@RequestBody String arrivalLocation) {
-        ResponseRouteDTO dto;
-        try {
-            dto = this.routeService.findByArrivalLocation(arrivalLocation);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        return dto;
+    @GetMapping("/getDepartureLocation")
+    public List<String> getDepartureLocation() {
+        ResponseRouteDTO responseRoute = routeService.findAllRoutes();
+        List<String> departureLocationList = new ArrayList<>();
+        responseRoute.getList().forEach(route -> departureLocationList.add(route.getDepartureLocation()));
+        return departureLocationList;
+    }
+    @GetMapping("/getArrivalLocation")
+    public List<String> getArrivalLocation(@RequestParam String departureLocation) {
+        ResponseRouteDTO responseRoute = routeService.findByDepartureLocation(departureLocation);
+        System.out.println(responseRoute);
+        List<String> arrivalLocationList = new ArrayList<>();
+        responseRoute.getList().forEach(route -> arrivalLocationList.add(route.getArrivalLocation()));
+        return arrivalLocationList;
     }
 }
