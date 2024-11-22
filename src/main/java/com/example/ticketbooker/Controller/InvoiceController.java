@@ -1,6 +1,6 @@
 package com.example.ticketbooker.Controller;
 
-import com.example.ticketbooker.DTO.Users.AddUserDTO;
+import com.example.ticketbooker.DTO.Users.AddUserRequest;
 import com.example.ticketbooker.Service.InvoiceService;
 import com.example.ticketbooker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
