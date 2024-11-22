@@ -3,12 +3,12 @@ package com.example.ticketbooker.DTO.Users;
 import lombok.Data;
 
 @Data
-public class RequestIdUserDTO {
+public class UserIdRequest {
     Integer userId;
-    public RequestIdUserDTO(Integer userId) {
+    public UserIdRequest(Integer userId) {
         this.userId = userId;
     }
-    public RequestIdUserDTO() {
+    public UserIdRequest() {
         this.userId = null;
     }
 }

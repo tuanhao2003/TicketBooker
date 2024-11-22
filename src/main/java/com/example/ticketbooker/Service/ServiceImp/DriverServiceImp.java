@@ -85,11 +85,9 @@ public class DriverServiceImp implements DriverService {
     public ResponseDriverDTO findAllField(String searchTerm) {
         ResponseDriverDTO response;
         try{
-            ArrayList<Driver> searchResult = this.driverRepo.searchDrivers(searchTerm);
-            response = DriverMapper.toResponseDTO(searchResult);
-            System.out.println("Try Impl Response Mapping " + response.toString());
+            response = DriverMapper.toResponseDTO(this.driverRepo.searchDrivers(searchTerm));
         }catch (Exception e){
-            System.out.println("Exc Impl " + e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
         return response;

@@ -10,6 +10,3 @@
 #buttonList button:hover {
     border-left: 4px solid white !important;
 }
-.search-record{
-    @apply rounded-sm hover:shadow hover:shadow-zinc-400 py-2 px-4;
-}

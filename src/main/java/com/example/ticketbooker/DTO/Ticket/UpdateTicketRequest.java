@@ -10,19 +10,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
-public class TicketDTO {
-    private Integer id;
-    private Trips tripId;
-    private Account bookerId;
-    private Invoices invoiceId;
+public class UpdateTicketRequest {
+    private int id;
+    private Trips trip;
+    private Account booker;
+    private Invoices invoice;
     private String customerName;
     private String customerPhone;
-    private Seats seatId;
+    private Seats seat;
     private String qrCode;
     private TicketStatus ticketStatus;
 }
-

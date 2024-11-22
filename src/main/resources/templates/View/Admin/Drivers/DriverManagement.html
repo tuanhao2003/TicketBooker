@@ -8,6 +8,14 @@
 
 <body>
 <div layout:fragment="content">
+  <div class="col-6">
+    <input type="text" class="form-control w-100 border border-1 border-success searchBox"
+           placeholder="Search user">
+    <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
+       aria-controls="searchCollapsed">
+    </a>
+    <div class="collapse" id="searchCollapsed"></div>
+  </div>
   <div class="flex w-full h-20 md:px-5">
     <div class="flex w-1/2 h-full justify-start items-center">
       <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách tài xế</div>

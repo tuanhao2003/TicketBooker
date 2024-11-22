@@ -2,19 +2,11 @@ package com.example.ticketbooker.Util.Mapper;
 
 
 import com.example.ticketbooker.DTO.Trips.AddTripDTO;
-import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
-import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
 import com.example.ticketbooker.Entity.Trips;
-import com.example.ticketbooker.Entity.Users;
-import com.example.ticketbooker.Repository.TripRepo;
-import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Enum.TripStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
