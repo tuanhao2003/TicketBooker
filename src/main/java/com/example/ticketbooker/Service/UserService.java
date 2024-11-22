@@ -1,19 +1,19 @@
 package com.example.ticketbooker.Service;
 
-import com.example.ticketbooker.DTO.Users.AddUserDTO;
-import com.example.ticketbooker.DTO.Users.RequestIdUserDTO;
-import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
-import com.example.ticketbooker.DTO.Users.UpdateUserDTO;
+import com.example.ticketbooker.DTO.Users.AddUserRequest;
+import com.example.ticketbooker.DTO.Users.UserIdRequest;
+import com.example.ticketbooker.DTO.Users.UserResponse;
+import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
 import com.example.ticketbooker.Util.Enum.Gender;
 
 public interface UserService {
-    public boolean addUser(AddUserDTO dto);
-    public boolean updateUser(UpdateUserDTO dto);
-    public boolean deleteUser(RequestIdUserDTO dto);
-    public ResponseUserDTO getAllUsers();
-    public ResponseUserDTO getUserById(int userId);
-    public ResponseUserDTO getAllUserByName(String username);
-    public ResponseUserDTO getAllUsersByGender(Gender gender);
-    public ResponseUserDTO getAllUserByAddress(String address);
-    public ResponseUserDTO sortUserByName(ResponseUserDTO users);
+    boolean addUser(AddUserRequest dto);
+    boolean updateUser(UpdateUserRequest dto);
+    boolean deleteUser(UserIdRequest dto);
+    UserResponse getAllUsers();
+    UserResponse getUserById(int userId);
+    UserResponse getAllUserByName(String username);
+    UserResponse getAllUsersByGender(Gender gender);
+    UserResponse getAllUserByAddress(String address);
+    UserResponse sortUserByName(UserResponse users);
 }
