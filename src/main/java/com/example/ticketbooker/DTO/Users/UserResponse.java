@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 @Data
 @Builder
-public class ResponseUserDTO {
+public class UserResponse {
     private int usersCount;
     private ArrayList<Users> listUsers;
 
-    public ResponseUserDTO(Integer usersCount, ArrayList<Users> listUsers) {
+    public UserResponse(Integer usersCount, ArrayList<Users> listUsers) {
         this.usersCount = usersCount;
         this.listUsers = listUsers;
     }
-    public ResponseUserDTO() {
+    public UserResponse() {
         this.usersCount = 0;
         this.listUsers = new ArrayList<>();
     }

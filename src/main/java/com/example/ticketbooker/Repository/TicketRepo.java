@@ -4,10 +4,11 @@ import com.example.ticketbooker.Entity.Tickets;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 @Repository
 public interface TicketRepo extends JpaRepository<Tickets, Integer> {
-    List<Tickets> findAll();
-    Tickets findById(int id);
+    ArrayList<Tickets> findAll();
+    ArrayList<Tickets> findAllById(int id);
 }

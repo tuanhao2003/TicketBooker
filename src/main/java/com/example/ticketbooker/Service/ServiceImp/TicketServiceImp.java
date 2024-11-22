@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
-import com.example.ticketbooker.DTO.Ticket.TicketDTO;
+import com.example.ticketbooker.DTO.Ticket.*;
+import com.example.ticketbooker.DTO.Users.UserResponse;
 import com.example.ticketbooker.Entity.Tickets;
 import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Repository.TicketRepo;
@@ -15,42 +16,14 @@ import java.util.List;
 
 @Service
 public class TicketServiceImp implements TicketService {
-
     @Autowired
     private TicketRepo ticketRepository;
 
     @Override
-    public List<TicketDTO> getAllTickets() {
-        List<Tickets> tickets = ticketRepository.findAll();
-        List<TicketDTO> dtos = new ArrayList<>();
-        tickets.forEach(ticket -> dtos.add(TicketMapper.toDTO(ticket)));
-        return dtos;
-    }
-
-    @Override
-    public TicketDTO getTicketById(int id) {
-        TicketDTO result = new TicketDTO();
+    public boolean addTicket(AddTicketRequest dto) {
         try {
-            result = TicketMapper.toDTO(this.ticketRepository.findById(id));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return result;
-        }
-        return result;
-    }
-
-    @Override
-    public TicketDTO createTicket(TicketDTO ticketDTO) {
-        Tickets ticket = TicketMapper.toEntity(ticketDTO);
-        Tickets savedTicket = ticketRepository.save(ticket);
-        return TicketMapper.toDTO(ticketRepository.save(ticket));
-    }
-
-    @Override
-    public boolean updateTicket(TicketDTO ticketDTO) {
-        try {
-            Tickets ticket = TicketMapper.toEntity(ticketDTO);
-            this.ticketRepository.save(ticket);
+            Tickets ticket = TicketMapper.fromAdd(dto);
+            ticketRepository.save(ticket);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -59,7 +32,60 @@ public class TicketServiceImp implements TicketService {
     }
 
     @Override
-    public void deleteTicket(Integer id) {
-        ticketRepository.deleteById(id);
+    public boolean updateTicket(UpdateTicketRequest dto) {
+        try {
+            Tickets ticket = TicketMapper.fromUpdate(dto);
+            ticketRepository.save(ticket);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteTicket(TicketIdRequest dto) {
+        try {
+            ticketRepository.deleteById(dto.getId());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public TicketResponse getAllTickets() {
+        TicketResponse result = new TicketResponse();
+        try {
+            result = TicketMapper.toResponseDTO(this.ticketRepository.findAll());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
+    }
+
+    @Override
+    public TicketResponse getTicketById(TicketIdRequest dto) {
+        TicketResponse result = new TicketResponse();
+        try {
+            result = TicketMapper.toResponseDTO(this.ticketRepository.findAllById(dto.getId()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
+    }
+
+    @Override
+    public PaymentInforResponse getPaymentInfo(PaymentInforRequest request) {
+        PaymentInforResponse result = new PaymentInforResponse();
+        try {
+            result = this.ticketRepository.findAllById(request.getTicketId()).size()==1 ? TicketMapper.toPaymentInfor( this.ticketRepository.findAllById(request.getTicketId()).get(0)) : new PaymentInforResponse();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 }
