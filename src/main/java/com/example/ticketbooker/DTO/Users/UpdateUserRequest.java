@@ -9,7 +9,7 @@ import java.sql.Date;
 
 @Data
 @Builder
-public class UpdateUserDTO {
+public class UpdateUserRequest {
     private Integer userId;
     private Integer accountId;
     private String fullName;
@@ -20,7 +20,7 @@ public class UpdateUserDTO {
     private byte[] profilePhoto;
     private UserStatus status;
 
-    public UpdateUserDTO() {
+    public UpdateUserRequest() {
         this.userId = null;
         this.accountId = null;
         this.fullName = "";
@@ -32,7 +32,7 @@ public class UpdateUserDTO {
         this.status = UserStatus.ACTIVE;
     }
 
-    public UpdateUserDTO(Integer userId, Integer accountId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus status) {
+    public UpdateUserRequest(Integer userId, Integer accountId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus status) {
         this.userId = userId;
         this.accountId = accountId;
         this.fullName = fullName;

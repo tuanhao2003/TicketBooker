@@ -1,7 +1,7 @@
 package com.example.ticketbooker.Controller.Api;
 
-import com.example.ticketbooker.DTO.Users.RequestIdUserDTO;
-import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
+import com.example.ticketbooker.DTO.Users.UserIdRequest;
+import com.example.ticketbooker.DTO.Users.UserResponse;
 import com.example.ticketbooker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ public class UserApi {
     private UserService userService;
 
     @DeleteMapping("/delete")
-    public boolean deleteUser(@RequestBody RequestIdUserDTO user) {
+    public boolean deleteUser(@RequestBody UserIdRequest user) {
         boolean result = false;
         try {
             result = userService.deleteUser(user);
@@ -25,14 +25,14 @@ public class UserApi {
     }
 
     @PostMapping("/search")
-    public ResponseUserDTO searchUser(@RequestBody String name) {
-        ResponseUserDTO responseUserDTO = new ResponseUserDTO();
+    public UserResponse searchUser(@RequestBody String name) {
+        UserResponse userResponse = new UserResponse();
         try {
-            responseUserDTO = this.userService.getAllUserByName(name);
+            userResponse = this.userService.getAllUserByName(name);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        return responseUserDTO;
+        return userResponse;
     }
 }
