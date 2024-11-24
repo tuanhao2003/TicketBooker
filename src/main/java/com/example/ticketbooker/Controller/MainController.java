@@ -30,4 +30,9 @@ public class MainController {
     public String showHistoryBooking() {
         return "View/User/TicketHistory";
     }
+
+    @GetMapping("/find-trip")
+    public String showBooking() {
+        return "View/User/FindTrip";
+    }
 }
