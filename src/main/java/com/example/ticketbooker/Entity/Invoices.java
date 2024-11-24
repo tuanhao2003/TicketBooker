@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,7 +27,7 @@ public class Invoices {
     private PaymentStatus paymentStatus;
 
     @Column(name = "paymentTime")
-    private Instant paymentTime;
+    private LocalDateTime paymentTime;
 
     @Column(name = "paymentMethod", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,7 +41,7 @@ public class Invoices {
         this.paymentMethod = PaymentMethod.CREDITCARD;
     }
 
-    public Invoices(Integer id, Integer totalAmount, PaymentStatus paymentStatus, Instant paymentTime, PaymentMethod paymentMethod) {
+    public Invoices(Integer id, Integer totalAmount, PaymentStatus paymentStatus, LocalDateTime paymentTime, PaymentMethod paymentMethod) {
         this.id = id;
         this.totalAmount = totalAmount;
         this.paymentStatus = paymentStatus;
