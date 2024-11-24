@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     tripTypeRadios.forEach(radio => {
         radio.addEventListener('change', updateDateContainerLayout);
     });
-
-    // Initial update
+    
     updateDateContainerLayout();
 });
