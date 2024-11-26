@@ -32,14 +32,14 @@ public class BusController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", busPage.getTotalPages());
 
-        return "View/Admin/BusManagement/Bus";
+        return "View/Admin/Bus/Bus";
     }
 
     //Hiển thị form thêm bus
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("busDTO", new BusDTO());
-        return "View/Admin/BusManagement/BusForm";
+        return "View/Admin/Bus/BusForm";
     }
 
     // Xử lý thêm bus
@@ -56,7 +56,7 @@ public class BusController {
         BusDTO busDTO = busService.getBusById(id);
         if (busDTO != null) {
             model.addAttribute("busDTO", busDTO);
-            return "View/Admin/BusManagement/BusForm";
+            return "View/Admin/Bus/BusForm";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy xe với ID: " + id);
             return "redirect:/admin/buses";

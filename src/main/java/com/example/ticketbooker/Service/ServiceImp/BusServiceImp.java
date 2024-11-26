@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BusServiceImp implements BusService {
@@ -70,4 +71,8 @@ public class BusServiceImp implements BusService {
         busRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<Integer> getBusIdByLicensePlate(String licensePlate) {
+        return busRepository.findByLicensePlate(licensePlate).map(Buses::getId); // Use map to extract the ID directly
+    }
 }
