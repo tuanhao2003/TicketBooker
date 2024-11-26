@@ -28,7 +28,6 @@
                     });
             }
         }
-
         function updateAccountStatus(select) {
             const accountId = select.dataset.accountid;
             const newStatus = select.value;
@@ -122,6 +121,7 @@
                 <td class="py-2 px-4 border-b" th:text="${account.username}">Nguyen Van A</td>
                 <td class="py-2 px-4 border-b" th:text="${account.email}">abc123@gmail.com</td>
                 <td class="py-2 px-4 border-b" th:text="${account.password}">*************</td>
+<<<<<<< HEAD
                 <td class="py-2 px-4 border-b">
                     <select th:data-accountid="${account.id}" onchange="updateAccountRole(this)"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -137,6 +137,10 @@
                         <option value="INACTIVE" th:selected="${account.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).INACTIVE}">INACTIVE</option>
                     </select>
                 </td>
+=======
+                <td class="py-2 px-4 border-b" th:text="${account.role}">CUSTOMER</td>
+                <td class="py-2 px-4 border-b" th:text="${account.accountStatus}">ACTIVE</td>
+>>>>>>> origin/khai
                 <td class="py-2 px-4 border-b">
                     <a th:href="@{/admin/accounts/{id}(id=${account.id})}"
                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
