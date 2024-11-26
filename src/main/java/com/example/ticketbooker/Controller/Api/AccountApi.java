@@ -1,22 +1,22 @@
 package com.example.ticketbooker.Controller.Api;
 
-import com.example.ticketbooker.Service.BusService;
+import com.example.ticketbooker.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/buses")
-public class BusApi {
+@RequestMapping("/api/accounts")
+public class AccountApi {
 
     @Autowired
-    private BusService busService;
+    private AccountService accountService;
 
-    //Xóa bus
+    //Xóa account
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBus(@PathVariable("id") Integer id) {
-        if (busService.getBusById(id) != null) {
-            busService.deleteBus(id);
+    public ResponseEntity<?> deleteAccount(@PathVariable("id") Integer id) {
+        if (accountService.getAccountById(id) != null) {
+            accountService.deleteAccount(id);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
