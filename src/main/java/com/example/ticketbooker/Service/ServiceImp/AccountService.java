@@ -19,19 +19,19 @@ public class AccountService {
 
     public List<AccountDTO> findAll() {
         return accountRepo.findAll().stream()
-                .map(AccountMapper::toDto)
+                .map(AccountMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public Optional<AccountDTO> findById(Integer id) {
         return accountRepo.findById(id)
-                .map(AccountMapper::toDto);
+                .map(AccountMapper::toDTO);
     }
 
     public AccountDTO save(AccountDTO accountDTO) {
         Account account = AccountMapper.toEntity(accountDTO);
         Account savedAccount = accountRepo.save(account);
-        return AccountMapper.toDto(savedAccount);
+        return AccountMapper.toDTO(savedAccount);
     }
 
     public void delete(Integer id) {
