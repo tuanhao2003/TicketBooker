@@ -9,6 +9,8 @@ import com.example.ticketbooker.Util.Mapper.TicketMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,12 @@ public class TicketServiceImp implements TicketService {
         List<TicketDTO> dtos = new ArrayList<>();
         tickets.forEach(ticket -> dtos.add(TicketMapper.toDTO(ticket)));
         return dtos;
+    }
+
+    @Override
+    public Page<TicketDTO> getAllTickets(Pageable pageable) {
+        Page<Tickets> tickets = ticketRepository.findAll(pageable);
+        return tickets.map(TicketMapper::toDTO);
     }
 
     @Override

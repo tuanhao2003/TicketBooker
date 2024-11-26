@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("/admin/accounts")
@@ -17,8 +20,18 @@ public class AccountController {
 
     //Hiển thị danh sách accounts
     @GetMapping()
-    public String listAccounts(Model model) {
-        model.addAttribute("accounts", accountService.getAllAccounts());
+    public String listAccounts(
+            Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AccountDTO> accountPage = accountService.getAllAccounts(pageable);
+
+        model.addAttribute("accounts", accountPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", accountPage.getTotalPages());
+
         return "View/Admin/AccountManagement/Account";
     }
 

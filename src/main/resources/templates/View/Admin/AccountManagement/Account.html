@@ -33,7 +33,7 @@
 <body class="bg-gray-100">
 <div layout:fragment="content">
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Quản lý xe</h1>
+        <h1 class="text-2xl font-bold mb-4">Quản Lý Tài Khoản</h1>
 
         <!-- Thông báo thành công hoặc lỗi -->
         <div>
@@ -49,7 +49,7 @@
 
         <div class="flex justify-end mb-4">
             <a href="/admin/accounts/add" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Thêm Xe
+                Thêm Tài Khoản
             </a>
         </div>
 
@@ -59,6 +59,7 @@
                 <th class="py-2 px-4 border-b">ID Tài Khoản</th>
                 <th class="py-2 px-4 border-b">Tên</th>
                 <th class="py-2 px-4 border-b">Email</th>
+                <th class="py-2 px-4 border-b">Mật Khẩu</th>
                 <th class="py-2 px-4 border-b">Vai trò</th>
                 <th class="py-2 px-4 border-b">Trạng Thái</th>
             </tr>
@@ -68,6 +69,7 @@
                 <td class="py-2 px-4 border-b" th:text="${account.id}">1</td>
                 <td class="py-2 px-4 border-b" th:text="${account.username}">Nguyen Van A</td>
                 <td class="py-2 px-4 border-b" th:text="${account.email}">abc123@gmail.com</td>
+                <td class="py-2 px-4 border-b" th:text="${account.password}">*************</td>
                 <td class="py-2 px-4 border-b" th:text="${account.role}">CUSTOMER</td>
                 <td class="py-2 px-4 border-b" th:text="${account.accountStatus}">ACTIVE</td>
                 <td class="py-2 px-4 border-b">
@@ -80,6 +82,14 @@
             </tr>
             </tbody>
         </table>
+        <div class="mt-4 flex justify-center">
+            <ul class="flex">
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="mx-1 px-3 py-2 rounded-lg"
+                    th:classappend="${currentPage == i} ? 'bg-blue-500 text-white' : 'bg-gray-200'">
+                    <a th:href="@{/admin/accounts(page=${i}, size=10)}" th:text="${i + 1}"></a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>

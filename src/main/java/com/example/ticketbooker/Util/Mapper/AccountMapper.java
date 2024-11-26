@@ -11,6 +11,7 @@ public class AccountMapper {
         return new AccountDTO(
                 account.getId(),
                 account.getUsername(),
+                account.getPassword(),
                 account.getEmail(),
                 account.getRole(),
                 account.getAccountStatus()
@@ -21,6 +22,7 @@ public class AccountMapper {
         return Account.builder()
                 .id(accountDTO.getId())
                 .username(accountDTO.getUsername())
+                .password(accountDTO.getPassword())
                 .email(accountDTO.getEmail())
                 .role(accountDTO.getRole())
                 .accountStatus(accountDTO.getAccountStatus())

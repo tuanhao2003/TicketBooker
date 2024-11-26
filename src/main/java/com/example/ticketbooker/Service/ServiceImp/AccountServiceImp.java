@@ -7,6 +7,8 @@ import com.example.ticketbooker.Service.AccountService;
 import com.example.ticketbooker.Util.Mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,12 @@ public class AccountServiceImp implements AccountService {
         List<AccountDTO> dtos = new ArrayList<>();
         accounts.forEach(account -> dtos.add(AccountMapper.toDTO(account)));
         return dtos;
+    }
+
+    @Override
+    public Page<AccountDTO> getAllAccounts(Pageable pageable) {
+        Page<Account> accounts = accountRepo.findAll(pageable);
+        return accounts.map(AccountMapper::toDTO);
     }
 
     @Override
