@@ -33,7 +33,7 @@ public class TripController {
         model.addAttribute("createTripForm", new AddTripDTO());
         model.addAttribute("updateTripForm", new UpdateTripDTO());
 
-        return "View/Admin/TripManagement/AllTrips";
+        return "View/Admin/Trips/AllTrips";
     }
 
 

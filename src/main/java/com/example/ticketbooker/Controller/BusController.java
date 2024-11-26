@@ -1,9 +1,11 @@
 package com.example.ticketbooker.Controller;
 
-
 import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.Service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +20,26 @@ public class BusController {
 
     //Hiển thị danh sách buses
     @GetMapping()
-    public String listBuses(Model model) {
-        model.addAttribute("buses", busService.getAllBuses());
-        return "View/Admin/BusManagement/Bus";
+    public String listBuses(
+            Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BusDTO> busPage = busService.getAllBuses(pageable);
+
+        model.addAttribute("buses", busPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", busPage.getTotalPages());
+
+        return "View/Admin/Bus/Bus";
     }
 
     //Hiển thị form thêm bus
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("busDTO", new BusDTO());
-        return "View/Admin/BusManagement/BusForm";
+        return "View/Admin/Bus/BusForm";
     }
 
     // Xử lý thêm bus
@@ -44,7 +56,7 @@ public class BusController {
         BusDTO busDTO = busService.getBusById(id);
         if (busDTO != null) {
             model.addAttribute("busDTO", busDTO);
-            return "View/Admin/BusManagement/BusForm";
+            return "View/Admin/Bus/BusForm";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy xe với ID: " + id);
             return "redirect:/admin/buses";

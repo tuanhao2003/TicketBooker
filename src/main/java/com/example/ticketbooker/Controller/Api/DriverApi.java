@@ -2,7 +2,6 @@ package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Driver.RequestDriverIdDTO;
 import com.example.ticketbooker.DTO.Driver.ResponseDriverDTO;
-import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
 import com.example.ticketbooker.Service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

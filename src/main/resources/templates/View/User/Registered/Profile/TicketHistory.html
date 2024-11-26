@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/ProfileLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div layout:fragment="profileContent">
+        <main class="flex-1 p-8 flex flex-col">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2 text-purple-500">LỊCH SỬ MUA VÉ</h1>
+                    <p class="text-gray-600">Theo dõi và quản lý quá trình lịch sử mua vé của bạn</p>
+                </div>
+                <button class="bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-coral-600">
+                    Đặt vé
+                </button>
+            </div>
+
+            <!-- Search Filters -->
+            <div class="grid grid-cols-5 gap-4 mb-8">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mã vé</label>
+                    <input type="text" placeholder="Nhập Mã vé" class="w-full p-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
+                    <input type="date" class="w-full p-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tuyến đường</label>
+                    <input type="text" class="w-full p-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+                    <select class="w-full p-2 border rounded-lg">
+                        <option>Tất cả</option>
+                        <option>Đã thanh toán</option>
+                        <option>Chờ thanh toán</option>
+                        <option>Hủy</option>
+                    </select>
+                </div>
+                <div class="flex items-end justify-center my-1">
+                    <button class="bg-purple-500 text-white px-8 py-2 rounded-lg hover:bg-coral-600">
+                        Tìm
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="overflow-x-auto max-h-[300px] overflow-y-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50 sticky top-0 z-10">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Mã vé</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Số vé</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Tuyến đường</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Ngày đi</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Số tiền</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Thanh toán</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-200">Trạng thái</th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">R4EPP8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">1</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200">BX Mien Tay - Quan 1 - Vung Tau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">05:05 14-09-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200">135.000đ</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200">Momo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center border border-gray-200">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Đã thanh toán
+                        </span>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
