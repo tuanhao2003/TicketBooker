@@ -50,77 +50,104 @@
     </div>
 
     <!-- Booking Form -->
-    <div class="container mx-auto px-4 -mt-4 relative">
-        <div class="bg-white rounded-lg shadow-xl p-6 max-w-4xl mx-auto">
-            <!-- Login Prompt -->
-            <div class="bg-purple-100 rounded-lg p-4 mb-6 flex items-center justify-between">
-                <p class="text-purple-700">Đăng nhập vào futabus.vn để nhận nhiều quyền lợi dành cho thành viên.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-200">
-                    Đăng nhập ngay
-                </button>
-            </div>
+    <div class="max-w-5xl mx-auto">
+        <div class="container mx-auto -mt-4 relative">
+            <div class="relative bg-white rounded-2xl shadow-sm border border-purple-100">
+                <div class="p-6">
+                    <!-- Trip Type Selection -->
+                    <div class="flex justify-between items-center mb-8">
+                        <div class="flex gap-6">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="tripType" value="oneWay" class="w-5 h-5 text-purple-600 border-purple-600" checked>
+                                <span class="ml-2 text-gray-600">Một chiều</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="tripType" value="roundTrip" class="w-5 h-5 text-purple-600 border-purple-600">
+                                <span class="ml-2 text-purple-600 font-medium">Khứ hồi</span>
+                            </label>
+                        </div>
+                        <a href="#" class="text-purple-600 hover:text-purple-700">Hướng dẫn mua vé</a>
+                    </div>
 
-            <!-- Booking Options -->
-            <div class="flex space-x-4 mb-6">
-                <label class="flex items-center">
-                    <input type="radio" name="tripType" checked class="form-radio text-purple-600">
-                    <span class="ml-2">Một chiều</span>
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="tripType" class="form-radio text-purple-600">
-                    <span class="ml-2">Khứ hồi</span>
-                </label>
-                <a href="#" class="text-purple-600 ml-auto hover:underline">Hướng dẫn mua vé</a>
-            </div>
+                    <!-- Booking Form -->
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1.5">Điểm đi</label>
+                            <div class="relative">
+                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option>TP. Hồ Chí Minh</option>
+                                </select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Booking Form Fields -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Điểm đi</label>
-                    <div class="relative">
-                        <input type="text" placeholder="Chọn điểm đi"
-                               class="w-full border border-gray-300 rounded-md p-2 pl-8">
-                        <i class="fas fa-map-marker-alt absolute left-2 top-3 text-gray-400"></i>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Điểm đến</label>
-                    <div class="relative">
-                        <input type="text" placeholder="Chọn điểm đến"
-                               class="w-full border border-gray-300 rounded-md p-2 pl-8">
-                        <i class="fas fa-map-marker-alt absolute left-2 top-3 text-gray-400"></i>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Ngày đi</label>
-                    <div class="relative">
-                        <input type="date" class="w-full border border-gray-300 rounded-md p-2 pl-8">
-                        <i class="fas fa-calendar absolute left-2 top-3 text-gray-400"></i>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Số vé</label>
-                    <div class="relative">
-                        <select class="w-full border border-gray-300 rounded-md p-2 pl-8 appearance-none">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
-                        <i class="fas fa-ticket-alt absolute left-2 top-3 text-gray-400"></i>
-                        <i class="fas fa-chevron-down absolute right-2 top-3 text-gray-400"></i>
-                    </div>
-                </div>
-            </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1.5">Điểm đến</label>
+                            <div class="relative">
+                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option>Đà Nẵng</option>
+                                </select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Search Button -->
-            <div class="mt-6 text-center">
-                <button class="bg-purple-600 text-white px-12 py-3 rounded-md font-medium hover:bg-purple-700 transition-colors duration-200">
-                    Tìm chuyến xe
-                </button>
+                        <div id="dateContainer" class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1.5">Ngày đi</label>
+                            <div class="relative">
+                                <input type="date" placeholder="Thêm ngày đi" class="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                            </div>
+                        </div>
+
+                        <div id="returnDateContainer" class="hidden">
+                            <label class="block text-sm text-gray-600 mb-1.5">Ngày về</label>
+                            <div class="relative">
+                                <input type="date" placeholder="Thêm ngày về" class="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1.5">Số vé</label>
+                            <div class="relative">
+                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option>1</option>
+                                </select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Searches -->
+                    <div class="mt-6">
+                        <div class="text-sm text-gray-600 mb-2">Tìm kiếm gần đây</div>
+                        <div class="inline-block bg-gray-50 rounded-lg px-4 py-2">
+                            <div class="font-medium">TP. Hồ Chí Minh - Đà Nẵng</div>
+                            <div class="text-sm text-gray-500">24/11/2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Button -->
+                <div class="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2">
+                    <button class="h-12 px-12 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                        Tìm chuyến xe
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
 
     <!-- Promotions Section -->
     <div class="container mx-auto px-4 mt-12">
