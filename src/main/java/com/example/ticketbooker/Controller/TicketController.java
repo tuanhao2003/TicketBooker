@@ -3,10 +3,14 @@ package com.example.ticketbooker.Controller;
 import com.example.ticketbooker.DTO.Ticket.TicketDTO;
 import com.example.ticketbooker.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("/admin/tickets")
@@ -17,8 +21,18 @@ public class TicketController {
 
     //Hiển thị danh sách tickets
     @GetMapping()
-    public String listTickets(Model model) {
-        model.addAttribute("tickets", ticketService.getAllTickets());
+    public String listTickets(
+            Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TicketDTO> ticketPage = ticketService.getAllTickets(pageable);
+
+        model.addAttribute("tickets", ticketPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", ticketPage.getTotalPages());
+
         return "View/Admin/TicketManagement/Ticket";
     }
 

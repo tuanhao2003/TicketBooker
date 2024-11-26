@@ -1,10 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Form Vé</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
+<div layout:fragment="content">
+    <div class="container mx-auto p-4">
+        <h1 th:if="${accountDTO.id} == null" class="text-2xl font-bold mb-4">Form Thêm Tài Khoản</h1>
+        <h1 th:if="${accountDTO.id} != null" class="text-2xl font-bold mb-4">Form Sửa Tài Khoản</h1>
 
+        <!-- Form để thêm mới (khi accountDTO.id là null) -->
+        <form th:if="${accountDTO.id} == null" th:action="@{/admin/accounts/add}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Tên -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="usernameNew">Tên</label>
+                <input type="text" name="username" id="usernameNew" th:field="*{accountDTO.username}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="emailNew">Email</label>
+                <input type="text" name="email" id="emailNew" th:field="*{accountDTO.email}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Password -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="passwordNew">Password</label>
+                <input type="text" name="password" id="passwordNew" th:field="*{accountDTO.password}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Vai Trò -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="roleNew">Vai Trò</label>
+                <select name="role" id="roleNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="CUSTOMER"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).CUSTOMER}">
+                        CUSTOMER
+                    </option>
+                    <option value="STAFF"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).STAFF}">
+                        STAFF
+                    </option>
+                    <option value="MANAGER"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).MANAGER}">
+                        MANAGER
+                    </option>
+                </select>
+            </div>
+            <!-- Account Status -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="accountStatusNew">Trạng Thái</label>
+                <select name="accountStatus" id="accountStatusNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="ACTIVE"
+                            th:selected="${accountDTO.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).ACTIVE}">
+                        ACTIVE
+                    </option>
+                    <option value="INACTIVE"
+                            th:selected="${accountDTO.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).INACTIVE}">
+                        INACTIVE
+                    </option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Thực hiện
+                </button>
+                <a href="/admin/accounts"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+            </div>
+        </form>
+
+        <!-- Form để chỉnh sửa (khi accountDTO.id không null) -->
+        <form th:if="${accountDTO.id} != null" th:action="@{/admin/accounts/update}" method="post"
+              class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Account ID -->
+            <input type="number" name="id" th:value="${accountDTO.id}" required
+                   class="hidden shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <!-- Tên -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Tên</label>
+                <input type="text" name="username" id="username" th:field="*{accountDTO.username}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                <input type="text" name="email" id="email" th:field="*{accountDTO.email}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Password -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                <input type="text" name="password" id="password" th:field="*{accountDTO.password}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <!-- Vai Trò -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Vai Trò</label>
+                <select name="role" id="role" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="CUSTOMER"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).CUSTOMER}">
+                        CUSTOMER
+                    </option>
+                    <option value="STAFF"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).STAFF}">
+                        STAFF
+                    </option>
+                    <option value="MANAGER"
+                            th:selected="${accountDTO.role == T(com.example.ticketbooker.Util.Enum.Role).MANAGER}">
+                        MANAGER
+                    </option>
+                </select>
+            </div>
+            <!-- Account Status -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="accountStatus">Trạng Thái</label>
+                <select name="accountStatus" id="accountStatus" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="ACTIVE"
+                            th:selected="${accountDTO.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).ACTIVE}">
+                        ACTIVE
+                    </option>
+                    <option value="INACTIVE"
+                            th:selected="${accountDTO.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).INACTIVE}">
+                        INACTIVE
+                    </option>
+                </select>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Cập nhật
+                </button>
+                <a href="/admin/accounts"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

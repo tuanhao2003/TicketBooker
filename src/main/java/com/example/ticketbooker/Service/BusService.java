@@ -2,6 +2,8 @@ package com.example.ticketbooker.Service;
 
 import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.DTO.Ticket.TicketDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,4 +13,5 @@ public interface BusService {
     BusDTO createBus(BusDTO busDTO);
     boolean updateBus(BusDTO busDTO);
     void deleteBus(Integer id);
+    Page<BusDTO> getAllBuses(Pageable pageable);
 }
