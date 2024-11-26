@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response =>response.json())
             .then(data => {
                 data.forEach(value => {
-                    arrivalLocation += "<option value='"+value+"'>"+value+"</option>";
+                    arrivalLocation += "<option value='"+value.routeId+"'>"+value.arrivalLocation+"</option>";
                 })
                 document.querySelector('#arrivalLocation').innerHTML = arrivalLocation;
             })
