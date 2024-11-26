@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BusService {
     List<BusDTO> getAllBuses();
@@ -13,4 +14,5 @@ public interface BusService {
     boolean updateBus(BusDTO busDTO);
     void deleteBus(Integer id);
     Page<BusDTO> getAllBuses(Pageable pageable);
+    Optional<Integer> getBusIdByLicensePlate(String licensePlate);
 }
