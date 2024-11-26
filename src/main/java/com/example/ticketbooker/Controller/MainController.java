@@ -41,6 +41,11 @@ public class MainController {
         return "View/User/Basic/LookUpTicket";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "View/Util/Login";
+    }
+
     @GetMapping("/history-booking")
     public String showHistoryBooking() {
         return "View/User/Registered/TicketHistory";
