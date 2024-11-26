@@ -1,9 +1,11 @@
 package com.example.ticketbooker.Controller;
 
+import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
 import com.example.ticketbooker.Entity.Trips;
+import com.example.ticketbooker.Service.BusService;
 import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -24,11 +28,17 @@ public class TripController {
     @Autowired
     private DriverService driverService;
 
+    @Autowired
+    private BusService busService;
 
     @GetMapping
     public String tripManagement(Model model) {
         ResponseTripDTO responseTripDTO = tripService.getAllTrips();
         model.addAttribute("listTrips", responseTripDTO);
+
+        List<BusDTO> buses = busService.getAllBuses();
+        model.addAttribute("buses", buses);
+
 
         model.addAttribute("createTripForm", new AddTripDTO());
         model.addAttribute("updateTripForm", new UpdateTripDTO());
@@ -75,15 +85,4 @@ public class TripController {
     }
 
 
-    @GetMapping("/trip")
-    public String Trip(Model model, @RequestParam int id){
-        Trips trip = tripService.getTrip(id);
-
-        if (trip == null) {
-            System.out.println("No trip found for ID: " + id);
-            return "error";
-        }
-        model.addAttribute("trip", trip);
-        return "View/Admin/Trip";
-    }
 }
