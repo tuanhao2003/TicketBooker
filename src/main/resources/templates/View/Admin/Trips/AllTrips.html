@@ -58,8 +58,13 @@
                                 </div>
                             </div>
 
-                            <!-- Input ẩn để gửi routeId -->
-                            <input type="hidden" id="routeId" name="route.RouteId" value="">
+                            <div class="grid gap-4 mb-3 px-3">
+                                <div id="routeIdContainer"
+                                    class="bg-red-100 border border-red-400 rounded text-red-700">
+                                    <p id="routeIdMessage" class="m-0"></p>
+                                    <input type="text" class="form-control" id="routeId" name="route.RouteId" required>
+                                </div>
+                            </div>
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
@@ -74,7 +79,8 @@
                                         <option value=""></option>
                                         <!-- Các option sẽ được thêm qua JavaScript -->
                                     </select>
-                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                    <label for="driverId" class="block font-medium">Mã tài xế</label>
+                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
                                         id="driverId" name="driver.driverId" required>
                                 </div>
                             </div>
@@ -335,3 +341,57 @@
 
 </html>
 <script type="text/javascript" th:src="@{/js/trip.js}"></script>
+<<<<<<< HEAD
+=======
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Gọi API khi trang được tải để lấy departureLocation
+    fetch('/admin/routes/getDepartureLocation')
+        .then(response => response.json()) // Chuyển đổi dữ liệu thành JSON
+        .then(data => {
+            const departureSelect = document.getElementById("departureLocation");
+            const arrivalSelect = document.getElementById("arrivalLocation");
+
+            // Xóa các option hiện tại (nếu có)
+            // departureSelect.innerHTML = "";
+            arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>"; // Reset arrivalLocation
+
+            // Thêm các option mới từ dữ liệu API cho departureLocation
+            data.forEach(location => {
+                const option = document.createElement("option");
+                option.value = location; // Giá trị của option
+                option.textContent = location; // Hiển thị văn bản trong dropdown
+                departureSelect.appendChild(option);
+            });
+
+            // Lắng nghe sự kiện thay đổi trên departureLocation
+            departureSelect.addEventListener("change", function () {
+                const selectedDeparture = departureSelect.value;
+
+                if (selectedDeparture) {
+                    // Gọi API để lấy arrivalLocation
+                    fetch(`/admin/routes/getArrivalLocation?departureLocation=${encodeURIComponent(selectedDeparture)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Xóa các option hiện tại trong arrivalLocation
+                            arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>";
+
+                            // Thêm các option mới từ dữ liệu API cho arrivalLocation
+                            data.forEach(location => {
+                                const option = document.createElement("option");
+                                option.value = location;
+                                option.textContent = location;
+                                arrivalSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching arrival locations:", error));
+                } else {
+                    // Nếu không chọn departureLocation, reset arrivalLocation
+                    arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>";
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching departure locations:", error));
+    });
+</script>
+>>>>>>> origin/khai

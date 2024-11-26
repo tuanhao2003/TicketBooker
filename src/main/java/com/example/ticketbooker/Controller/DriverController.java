@@ -62,18 +62,4 @@ public class DriverController {
         model.addAttribute("updateDriverForm", updateDriverDTO);
         return "View/Admin/Drivers/DriverDetails";
     }
-
-//    @GetMapping(params = "name")
-//    public String DriversFilterByName(Model model,@RequestParam String name) {
-//        ResponseDriverDTO response = driverService.findDriverByName(name);
-//        model.addAttribute("response", response);
-//        return "View/User/AllDrivers";
-//    }
-//    @GetMapping(value = "/driver/all", params = "status")
-//    public String DriversFilterByStatus(Model model,@RequestParam String status) {
-//        DriverStatus statusEnum = DriverStatus.valueOf(status);
-//        ArrayList<Driver> drivers = driverService.findDriverByStatus(statusEnum);
-//        model.addAttribute("drivers", drivers);
-//        return "View/User/AllDrivers";
-//    }
 }
