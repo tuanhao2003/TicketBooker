@@ -33,4 +33,16 @@ public class DriverApi {
         }
         return response;
     }
+
+    @GetMapping("/getAll")
+    public ResponseDriverDTO getAllDrivers() {
+        ResponseDriverDTO drivers;
+        try{
+            drivers = this.driverService.findAll();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return drivers;
+    }
 }
