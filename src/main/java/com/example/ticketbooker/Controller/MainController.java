@@ -8,31 +8,41 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
     @GetMapping()
     public String showMainPage() {
-        return "View/User/TrangChu";
+        return "View/User/Basic/TrangChu";
     }
 
     @GetMapping("/about-us")
     public String showAboutUs() {
-        return "View/User/AboutUs";
+        return "View/User/Basic/AboutUs";
     }
 
     @GetMapping("/contact-us")
     public String showContactUs() {
-        return "View/User/ContactUs";
+        return "View/User/Basic/ContactUs";
+    }
+
+    @GetMapping("/find-trip")
+    public String showtrip() {
+        return "View/User/Basic/FindTrip";
+    }
+
+    @GetMapping("/booking")
+    public String showBooking() {
+        return "View/User/Basic/Booking";
+    }
+
+    @GetMapping("/paying")
+    public String showPaying() {
+        return "View/User/Basic/Paying";
     }
 
     @GetMapping("/ticket-lookup")
     public String showTicketLookup() {
-        return "View/User/LookUpTicket";
+        return "View/User/Basic/LookUpTicket";
     }
 
     @GetMapping("/history-booking")
     public String showHistoryBooking() {
-        return "View/User/TicketHistory";
-    }
-
-    @GetMapping("/find-trip")
-    public String showBooking() {
-        return "View/User/FindTrip";
+        return "View/User/Registered/TicketHistory";
     }
 }
