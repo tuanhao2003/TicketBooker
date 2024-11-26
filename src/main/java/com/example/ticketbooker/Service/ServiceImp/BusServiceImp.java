@@ -8,11 +8,11 @@ import com.example.ticketbooker.Repository.BusRepo;
 import org.hibernate.bytecode.enhance.spi.interceptor.BytecodeInterceptorLogging_$logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BusServiceImp implements BusService {
@@ -26,6 +26,12 @@ public class BusServiceImp implements BusService {
         List<BusDTO> dtos = new ArrayList<>();
         buses.forEach(bus -> dtos.add(BusMapper.toDTO(bus)));
         return dtos;
+    }
+
+    @Override
+    public Page<BusDTO> getAllBuses(Pageable pageable) {
+        Page<Buses> buses = busRepository.findAll(pageable);
+        return buses.map(BusMapper::toDTO);
     }
 
     @Override
