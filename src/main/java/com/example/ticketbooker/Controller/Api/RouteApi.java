@@ -2,6 +2,7 @@ package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Routes.RequestRouteIdDTO;
 import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
+import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,11 +47,8 @@ public class RouteApi {
         return departureLocationList;
     }
     @GetMapping("/getArrivalLocation")
-    public List<String> getArrivalLocation(@RequestParam String departureLocation) {
+    public List<Routes> getArrivalLocation(@RequestParam String departureLocation) {
         ResponseRouteDTO responseRoute = routeService.findByDepartureLocation(departureLocation);
-        System.out.println(responseRoute);
-        List<String> arrivalLocationList = new ArrayList<>();
-        responseRoute.getList().forEach(route -> arrivalLocationList.add(route.getArrivalLocation()));
-        return arrivalLocationList;
+        return new ArrayList<>(responseRoute.getList());
     }
 }
