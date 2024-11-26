@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Xe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        function deleteBus(button) {
+            if (confirm('Bạn có chắc chắn muốn xóa xe này?')) {
+                var id = button.dataset.name;
+                console.log(`/api/tickets/${id}`);
+                fetch(`/api/buses/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Xóa xe thành công!');
+                            window.location.reload();
+                        } else {
+                            alert('Xóa xe thất bại!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Xóa xe thất bại!');
+                    });
+            }
+        }
+
+        function updateBusStatus(select) {
+            const busId = select.dataset.busid;
+            const newStatus = select.value;
+
+            fetch(`/api/buses/${busId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ busStatus: newStatus })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cập nhật trạng thái thành công!');
+                        // You might want to reload the page or update the table row directly here
+                        window.location.reload();
+                    } else {
+                        alert('Cập nhật trạng thái thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Cập nhật trạng thái thất bại!');
+                });
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+<div layout:fragment="content">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Quản lý xe</h1>
+
+        <!-- Thông báo thành công hoặc lỗi -->
+        <div>
+            <div th:if="${successMessage}"
+                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+                 role="alert">
+                <span th:text="${errorMessage}"></span>
+            </div>
+        </div>
+
+        <div class="flex justify-end mb-4">
+            <a href="/admin/buses/add" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Thêm Xe
+            </a>
+        </div>
+
+        <table class="min-w-full bg-white">
+            <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID Xe</th>
+                <th class="py-2 px-4 border-b">ID Tuyến</th>
+                <th class="py-2 px-4 border-b">Biển Số Xe</th>
+                <th class="py-2 px-4 border-b">Loại Xe</th>
+                <th class="py-2 px-4 border-b">Số Chỗ Ngồi</th>
+                <th class="py-2 px-4 border-b">Tình Trạng Xe</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bus : ${buses}" class="text-center">
+                <td class="py-2 px-4 border-b" th:text="${bus.id}">1</td>
+                <td class="py-2 px-4 border-b" th:text="${bus.routeId.routeId}">101</td>
+                <td class="py-2 px-4 border-b" th:text="${bus.licensePlate}">12345H15</td>
+                <td class="py-2 px-4 border-b" th:text="${bus.busType}">16 cho</td>
+                <td class="py-2 px-4 border-b" th:text="${bus.capacity}">50</td>
+                <td class="py-2 px-4 border-b">
+                    <select th:data-busid="${bus.id}" onchange="updateBusStatus(this)"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="ACTIVE" th:selected="${bus.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">ACTIVE</option>
+                        <option value="INACTIVE" th:selected="${bus.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">INACTIVE</option>
+                    </select>
+                </td>
+                <td class="py-2 px-4 border-b">
+                    <a th:href="@{/admin/buses/{id}(id=${bus.id})}"
+                       class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
+                    <button th:data-name="${bus.id}" onclick="deleteBus(this)"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Xóa
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="mt-4 flex justify-center">
+            <ul class="flex">
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="mx-1 px-3 py-2 rounded-lg"
+                    th:classappend="${currentPage == i} ? 'bg-blue-500 text-white' : 'bg-gray-200'">
+                    <a th:href="@{/admin/buses(page=${i}, size=10)}" th:text="${i + 1}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

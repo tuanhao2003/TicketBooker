@@ -4,19 +4,23 @@ import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.Entity.Account;
 import com.example.ticketbooker.Entity.CustomUserDetails;
 import com.example.ticketbooker.Repository.AccountRepo;
+import com.example.ticketbooker.Service.AccountService;
 import com.example.ticketbooker.Util.Mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AccountServiceImp implements UserDetailsService {
+public class AccountServiceImp implements UserDetailsService,AccountService {
 
     @Autowired
     private AccountRepo accountRepo;
@@ -34,46 +38,51 @@ public class AccountServiceImp implements UserDetailsService {
         System.out.println("new account is :" + newAccount);
         return new CustomUserDetails(newAccount);
     }
-
-    public List<AccountDTO> findAll() {
-        return accountRepo.findAll().stream()
-                .map(AccountMapper::toDto)
-                .collect(Collectors.toList());
+    public List<AccountDTO> getAllAccounts() {
+        List<Account> accounts = accountRepo.findAll();
+        List<AccountDTO> dtos = new ArrayList<>();
+        accounts.forEach(account -> dtos.add(AccountMapper.toDTO(account)));
+        return dtos;
     }
 
-    public Optional<AccountDTO> findById(Integer id) {
-        return accountRepo.findById(id)
-                .map(AccountMapper::toDto);
+    @Override
+    public Page<AccountDTO> getAllAccounts(Pageable pageable) {
+        Page<Account> accounts = accountRepo.findAll(pageable);
+        return accounts.map(AccountMapper::toDTO);
     }
 
-    public Optional<AccountDTO> findByEmail(String email) {
-        return  accountRepo.findByEmail(email)
-                .map(AccountMapper::toDto);
+    @Override
+    public AccountDTO getAccountById(int id) {
+        AccountDTO result = new AccountDTO();
+        try {
+//            result = AccountMapper.toDTO(this.accountRepo.findById(id));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
     }
-    public Optional<AccountDTO> load(String email) {
 
-        return  accountRepo.findByEmail(email)
-                .map(AccountMapper::toDto);
-    }
-    public AccountDTO save(AccountDTO accountDTO) {
+    @Override
+    public AccountDTO createAccount(AccountDTO accountDTO) {
         Account account = AccountMapper.toEntity(accountDTO);
         Account savedAccount = accountRepo.save(account);
-        return AccountMapper.toDto(savedAccount);
+        return AccountMapper.toDTO(accountRepo.save(account));
     }
-    public void delete(Integer id) {
-        accountRepo.deleteById(id);
+    @Override
+    public boolean updateAccount(AccountDTO accountDTO) {
+        try {
+            Account account = AccountMapper.toEntity(accountDTO);
+            this.accountRepo.save(account);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
-    //Khải
-    public boolean authenticate(String username, String password) {
-        Optional<Account> optionalAccount = accountRepo.findByUsername(username);
-        if (optionalAccount.isEmpty()) {
-            optionalAccount = accountRepo.findByEmail(username);
-            if (optionalAccount.isEmpty()) {
-                return false;
-            }
-        }
-        Account account = optionalAccount.get();
-        return account.getPassword().equals(password);
+    @Override
+    public void deleteAccount(Integer id) {
+        accountRepo.deleteById(id);
     }
 }

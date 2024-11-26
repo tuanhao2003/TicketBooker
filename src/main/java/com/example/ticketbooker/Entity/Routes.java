@@ -16,6 +16,7 @@ import java.time.LocalTime;
 public class Routes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "routeId", nullable = false)
     private Integer routeId;
 
     @Column(name = "departureLocation", nullable = false)
@@ -46,10 +47,6 @@ public class Routes {
         this.arrivalLocation = arrivalLocation;
         this.estimatedTime = estimatedTime;
         this.status = status;
-    }
-
-    public Integer getId() {
-        return routeId;
     }
 }
 

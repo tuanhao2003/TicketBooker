@@ -2,7 +2,9 @@ package com.example.ticketbooker.Util.Mapper;
 
 import com.example.ticketbooker.Entity.Buses;
 import com.example.ticketbooker.DTO.Bus.BusDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BusMapper {
     public static BusDTO toDTO(Buses bus) {
         if (bus == null) return null;

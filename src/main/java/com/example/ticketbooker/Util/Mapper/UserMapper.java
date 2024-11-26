@@ -1,14 +1,14 @@
 package com.example.ticketbooker.Util.Mapper;
 
-import com.example.ticketbooker.DTO.Users.AddUserDTO;
-import com.example.ticketbooker.DTO.Users.ResponseUserDTO;
-import com.example.ticketbooker.DTO.Users.UpdateUserDTO;
+import com.example.ticketbooker.DTO.Users.AddUserRequest;
+import com.example.ticketbooker.DTO.Users.UserResponse;
+import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
 import com.example.ticketbooker.Entity.Users;
 
 import java.util.ArrayList;
 
 public class UserMapper {
-    public static Users fromAdd(AddUserDTO dto) {
+    public static Users fromAdd(AddUserRequest dto) {
         return Users.builder()
                 .fullName(dto.getFullName())
                 .phone(dto.getPhone())
@@ -16,7 +16,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static Users fromUpdate(UpdateUserDTO dto) {
+    public static Users fromUpdate(UpdateUserRequest dto) {
         return Users.builder()
                 .id(dto.getUserId())
                 .fullName(dto.getFullName())
@@ -29,32 +29,24 @@ public class UserMapper {
                 .build();
     }
 
-    public static AddUserDTO toAddDTO(Users users) {
-        return AddUserDTO.builder()
-                .fullName(users.getFullName())
-                .phone(users.getPhone())
-                .status(users.getUserStatus())
+    public static UpdateUserRequest toUpdateDTO(Users entity) {
+        return UpdateUserRequest.builder()
+                .userId(entity.getId())
+                .accountId(entity.getAccount() != null ? entity.getAccount().getId() : null)
+                .fullName(entity.getFullName())
+                .phone(entity.getPhone())
+                .address(entity.getAddress())
+                .dateOfBirth(entity.getDateOfBirth())
+                .gender(entity.getGender())
+                .profilePhoto(entity.getProfilePhoto())
+                .status(entity.getUserStatus())
                 .build();
     }
 
-    public static UpdateUserDTO toUpdateDTO(Users users) {
-        return UpdateUserDTO.builder()
-                .userId(users.getId())
-                .accountId(users.getAccount() != null ? users.getAccount().getId() : null)
-                .fullName(users.getFullName())
-                .phone(users.getPhone())
-                .address(users.getAddress())
-                .dateOfBirth(users.getDateOfBirth())
-                .gender(users.getGender())
-                .profilePhoto(users.getProfilePhoto())
-                .status(users.getUserStatus())
-                .build();
-    }
-
-    public static ResponseUserDTO toResponseDTO(ArrayList<Users> users) {
-        return ResponseUserDTO.builder()
-                .usersCount(users.size())
-                .listUsers(users)
+    public static UserResponse toResponseDTO(ArrayList<Users> listEntities) {
+        return UserResponse.builder()
+                .usersCount(listEntities.size())
+                .listUsers(listEntities)
                 .build();
     }
 }

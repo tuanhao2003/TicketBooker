@@ -1,54 +1,85 @@
 package com.example.ticketbooker.Util.Mapper;
 
+import com.example.ticketbooker.DTO.Ticket.AddTicketRequest;
+import com.example.ticketbooker.DTO.Ticket.PaymentInforResponse;
+import com.example.ticketbooker.DTO.Ticket.TicketResponse;
+import com.example.ticketbooker.DTO.Ticket.UpdateTicketRequest;
 import com.example.ticketbooker.Entity.Tickets;
-import com.example.ticketbooker.DTO.Ticket.TicketDTO;
-import com.example.ticketbooker.Repository.AccountRepo;
-import com.example.ticketbooker.Repository.InvoiceRepo;
-import com.example.ticketbooker.Repository.SeatsRepo;
-import com.example.ticketbooker.Repository.TripRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Component
 public class TicketMapper {
-
-    static public TicketDTO toDTO(Tickets ticket) {
-        if (ticket == null) return null;
-
-        TicketDTO dto = new TicketDTO();
-        dto.setId(ticket.getId());
-        dto.setTripId(ticket.getTrip());
-        dto.setBookerId(ticket.getBooker());
-        if (ticket.getInvoice() != null) {
-            dto.setInvoiceId(ticket.getInvoice());
-        }
-        dto.setCustomerName(ticket.getCustomerName());
-        dto.setCustomerPhone(ticket.getCustomerPhone());
-        dto.setSeatId(ticket.getSeat());
-        dto.setQrCode(ticket.getQrCode());
-        dto.setTicketStatus(ticket.getTicketStatus());
-        return dto;
+    public static Tickets fromAdd(AddTicketRequest dto) {
+        return Tickets.builder()
+                .trip(dto.getTrip())
+                .booker(dto.getBooker())
+                .customerName(dto.getCustomerName())
+                .customerPhone(dto.getCustomerPhone())
+                .seat(dto.getSeat())
+                .ticketStatus(dto.getTicketStatus())
+                .build();
     }
 
-    static public Tickets toEntity(TicketDTO dto) {
-        if (dto == null) return null;
+    public static Tickets fromUpdate(UpdateTicketRequest dto) {
+        return Tickets.builder()
+                .id(dto.getId())
+                .trip(dto.getTrip())
+                .booker(dto.getBooker())
+                .customerName(dto.getCustomerName())
+                .customerPhone(dto.getCustomerPhone())
+                .seat(dto.getSeat())
+                .qrCode(dto.getQrCode())
+                .ticketStatus(dto.getTicketStatus())
+                .build();
+    }
 
-        Tickets ticket = new Tickets();
-        ticket.setId(dto.getId());
+    public static ArrayList<Tickets> fromResponse(TicketResponse dto) {
+        ArrayList<Tickets> response = new ArrayList<>();
+        dto.getListTickets().forEach(tk -> {
+            response.add(Tickets.builder()
+                            .id(tk.getId())
+                            .trip(tk.getTrip())
+                            .booker(tk.getBooker())
+                            .customerName(tk.getCustomerName())
+                            .customerPhone(tk.getCustomerPhone())
+                            .seat(tk.getSeat())
+                            .qrCode(tk.getQrCode())
+                            .ticketStatus(tk.getTicketStatus())
+                            .build());
+        });
 
-        ticket.setTrip(dto.getTripId());
-        ticket.setBooker(dto.getBookerId());
-        ticket.setInvoice(dto.getInvoiceId());
-        ticket.setSeat(dto.getSeatId());
+        return response;
+    }
 
-        ticket.setCustomerName(dto.getCustomerName());
-        ticket.setCustomerPhone(dto.getCustomerPhone());
-        ticket.setQrCode(dto.getQrCode());
-        ticket.setTicketStatus(dto.getTicketStatus());
+    public static UpdateTicketRequest toUpdateDTO(Tickets entity) {
+        return UpdateTicketRequest.builder()
+                .id(entity.getId())
+                .trip(entity.getTrip())
+                .booker(entity.getBooker())
+                .customerName(entity.getCustomerName())
+                .customerPhone(entity.getCustomerPhone())
+                .seat(entity.getSeat())
+                .qrCode(entity.getQrCode())
+                .ticketStatus(entity.getTicketStatus())
+                .build();
+    }
+    public static TicketResponse toResponseDTO(ArrayList<Tickets> listEntities) {
+        return TicketResponse.builder()
+                .ticketsCount(listEntities.size())
+                .listTickets(listEntities)
+                .build();
+    }
 
-        return ticket;
+    public static PaymentInforResponse toPaymentInfor(Tickets entity) {
+        return PaymentInforResponse.builder()
+                .customerName(entity.getCustomerName())
+                .customerPhone(entity.getCustomerPhone())
+                .paymentTime(LocalDate.from(entity.getInvoice().getPaymentTime()))
+                .totalAmount(entity.getInvoice().getTotalAmount())
+                .build();
     }
 }
 
