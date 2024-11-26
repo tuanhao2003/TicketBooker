@@ -19,18 +19,6 @@ public class TripServiceImp implements TripService {
     private TripRepo tripRepo;
 
     @Override
-    public Trips getTrip(int id) {
-        Trips trips = null;
-        try {
-            trips = this.tripRepo.findById(id);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-        return trips;
-    }
-
-    @Override
     public ResponseTripDTO getAllTrips() {
         ResponseTripDTO result = new ResponseTripDTO();
         try {

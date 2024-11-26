@@ -7,7 +7,6 @@ import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
 import com.example.ticketbooker.Entity.Trips;
 
 public interface TripService {
-    public Trips getTrip(int id);
 //    public ArrayList<Trips> findAll();
     public ResponseTripDTO getAllTrips();
     public boolean addTrip(AddTripDTO dto);

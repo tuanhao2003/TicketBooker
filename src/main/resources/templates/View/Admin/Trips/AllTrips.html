@@ -57,18 +57,25 @@
                                     </select>
                                 </div>
                             </div>
-
                             <!-- Input ẩn để gửi routeId -->
                             <input type="hidden" id="routeId" name="route.RouteId" value="">
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
-                                    <label for="busId" class="block font-medium">Mã số xe</label>
-                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="busId" name="bus.Id" required>
+                                    <label for="license" class="block font-medium">Biển số xe</label>
+                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
+                                            id="license" name="license" required>
+                                        <option value="">Chọn biển số xe</option>
+                                        <option th:each="bus : ${buses}"
+                                                th:value="${bus.id}"
+                                                th:text="${bus.licensePlate}">
+                                        </option>
+                                    </select>
+                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                           id="busId" name="bus.Id" required>
                                 </div>
                                 <div class="px-3">
-                                    <label for="busId" class="block font-medium">Mã số xe</label>
+                                    <label for="driverName" class="block font-medium">Mã số xe</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
                                             id="driverName" name="driverName" required>
                                         <option value=""></option>
@@ -148,42 +155,48 @@
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
-                                    <label for="editdepartureLocation" class="block font-medium">Thành phố khởi
-                                        hành</label>
+                                    <label for="editDepartureLocation" class="block font-medium">Thành phố khởi hành</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editdepartureLocation" name="departureLocation">
-                                        <option value="">Chọn điểm khởi hành</option>
+                                            id="editDepartureLocation" name="editDepartureLocation" required>
+                                        <option value="">Chọn thành phố khởi hành</option>
+                                        <!-- Các option sẽ được thêm qua JavaScript -->
                                     </select>
                                 </div>
                                 <div class="px-3">
-                                    <label for="editarrivalLocation" class="block font-medium">Thành phố đến</label>
+                                    <label for="editArrivalLocation" class="block font-medium">Thành phố đến</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editarrivalLocation" name="arrivalLocation">
-                                        <option value="">Chọn điểm đến</option>
+                                            id="editArrivalLocation" name="editArrivalLocation" required>
+                                        <option value="">Chọn thành phố đến</option>
+                                        <!-- Các option sẽ được thêm qua JavaScript -->
                                     </select>
                                 </div>
+                                <input type="hidden" id="editrouteId" name="route.RouteId">
                             </div>
 
-                            <div class="grid gap-4 mb-3 px-3">
-                                <div id="editrouteIdContainer"
-                                    class="bg-red-100 border border-red-400 rounded px-3 text-red-700">
-                                    <p id="editrouteIdMessage" class="m-0"></p>
-                                    <p class="block w-full border border-gray-300 rounded px-2 py-1" id="peditrouteId">
-                                    </p>
-                                    <input type="hidden" id="editrouteId" name="route.RouteId">
-                                </div>
-                            </div>
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
-                                    <label for="editbusId" class="block font-medium">Mã số xe</label>
-                                    <input type="text" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editbusId" name="bus.Id" required>
+                                    <label for="editlicense" class="block font-medium">Biển số xe</label>
+                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
+                                            id="editlicense" name="editlicense" required>
+                                        <option value="">Chọn biển số xe</option>
+                                        <option th:each="bus : ${buses}"
+                                                th:value="${bus.id}"
+                                                th:text="${bus.licensePlate}">
+                                        </option>
+                                    </select>
+                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                           id="editbusId" name="bus.Id" required>
                                 </div>
                                 <div class="px-3">
-                                    <label for="editdriverId" class="block font-medium">Mã tài xế</label>
-                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editdriverId" name="driver.driverId" required>
+                                    <label for="editdriverName" class="block font-medium">Mã số xe</label>
+                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
+                                            id="editdriverName" name="driverName" required>
+                                        <option value=""></option>
+                                        <!-- Các option sẽ được thêm qua JavaScript -->
+                                    </select>
+                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                           id="editdriverId" name="driver.driverId" required>
                                 </div>
                             </div>
 
@@ -264,11 +277,10 @@
                     </div>
                     <div class="flex items-center">
                         <p class="text-xs sm:text-sm text-purple-200 mr-1">Mã tuyến:</p>
-                        <p class="text-xs sm:text-sm text-white font-semibold route-id" th:text="${trip.route.routeId}">
-                        </p>
+                        <p class="text-xs sm:text-sm text-white font-semibold route-id" th:text="${trip.route.routeId}"></p>
                         <p class="text-xs sm:text-sm text-gray-500 bus-id hidden" th:text="${trip.bus.id}"></p>
-                        <p class="text-xs sm:text-sm text-gray-500 driver-id hidden" th:text="${trip.driver.driverId}">
-                        </p>
+                        <p class="text-xs sm:text-sm text-gray-500 bus-id hidden" th:text="${trip.bus.id}"></p>
+                        <p class="text-xs sm:text-sm text-gray-500 driver-id hidden" th:text="${trip.driver.driverId}"></p>
                         <p class="text-xs sm:text-sm text-gray-500 status hidden" th:text="${trip.tripStatus}"></p>
                     </div>
                 </div>
@@ -289,7 +301,7 @@
                     <div class="text-center w-full sm:w-1/4 mb-4 sm:mb-0">
                         <p class="text-3xl sm:text-4xl font-bold text-purple-700 departure-location"
                             th:text="${trip.route.departureLocation}"></p>
-                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 departure-location">
+                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 departure-station">
                             <span th:text="${trip.departureStation}"></span>
                         </p>
                     </div>
@@ -316,14 +328,14 @@
                     <div class="text-center w-full sm:w-1/4 mb-4 sm:mb-0">
                         <p class="text-3xl sm:text-4xl font-bold text-purple-700 arrival-location"
                             th:text="${trip.route.arrivalLocation}"></p>
-                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 arrival-location">
+                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 arrival-station">
                             <span th:text="${trip.arrivalStation}"></span>
                         </p>
                     </div>
                     <div class="flex flex-col items-center w-full sm:w-1/4">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class"
                             class="w-12 mb-2">
-                        <p class="text-sm text-gray-600 mb-1" th:text="${trip.bus.licensePlate}">51B-051.78</p>
+                        <p class="text-sm text-gray-600 mb-1 license" th:text="${trip.bus.licensePlate}">51B-051.78</p>
                         <p class="text-xl sm:text-2xl text-red-600 font-bold" th:text="${trip.driver.name}">Phan Văn Tài
                         </p>
                     </div>
