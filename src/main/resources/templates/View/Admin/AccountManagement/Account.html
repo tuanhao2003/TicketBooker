@@ -28,6 +28,58 @@
                     });
             }
         }
+
+        function updateAccountStatus(select) {
+            const accountId = select.dataset.accountid;
+            const newStatus = select.value;
+
+            fetch(`/api/accounts/${accountId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ accountStatus: newStatus })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cập nhật trạng thái thành công!');
+                        // You might want to reload the page or update the table row directly here
+                        window.location.reload();
+                    } else {
+                        alert('Cập nhật trạng thái thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Cập nhật trạng thái thất bại!');
+                });
+        }
+
+        function updateAccountRole(select) {
+            const accountId = select.dataset.accountid;
+            const newRole = select.value;
+
+            fetch(`/api/accounts/${accountId}/role`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ role: newRole })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cập nhật vai trò thành công!');
+                        // You might want to reload the page or update the table row directly here
+                        window.location.reload();
+                    } else {
+                        alert('Cập nhật vai trò thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Cập nhật vai trò thất bại!');
+                });
+        }
     </script>
 </head>
 <body class="bg-gray-100">
@@ -70,8 +122,21 @@
                 <td class="py-2 px-4 border-b" th:text="${account.username}">Nguyen Van A</td>
                 <td class="py-2 px-4 border-b" th:text="${account.email}">abc123@gmail.com</td>
                 <td class="py-2 px-4 border-b" th:text="${account.password}">*************</td>
-                <td class="py-2 px-4 border-b" th:text="${account.role}">CUSTOMER</td>
-                <td class="py-2 px-4 border-b" th:text="${account.accountStatus}">ACTIVE</td>
+                <td class="py-2 px-4 border-b">
+                    <select th:data-accountid="${account.id}" onchange="updateAccountRole(this)"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="CUSTOMER" th:selected="${account.role == T(com.example.ticketbooker.Util.Enum.Role).CUSTOMER}">CUSTOMER</option>
+                        <option value="STAFF" th:selected="${account.role == T(com.example.ticketbooker.Util.Enum.Role).STAFF}">STAFF</option>
+                        <option value="MANAGER" th:selected="${account.role == T(com.example.ticketbooker.Util.Enum.Role).MANAGER}">MANAGER</option>
+                    </select>
+                </td>
+                <td class="py-2 px-4 border-b">
+                    <select th:data-accountid="${account.id}" onchange="updateAccountStatus(this)"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="ACTIVE" th:selected="${account.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).ACTIVE}">ACTIVE</option>
+                        <option value="INACTIVE" th:selected="${account.accountStatus == T(com.example.ticketbooker.Util.Enum.AccountStatus).INACTIVE}">INACTIVE</option>
+                    </select>
+                </td>
                 <td class="py-2 px-4 border-b">
                     <a th:href="@{/admin/accounts/{id}(id=${account.id})}"
                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
