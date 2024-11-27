@@ -99,7 +99,8 @@
                 <td class="py-2 px-4 border-b" th:text="${bus.capacity}">50</td>
                 <td class="py-2 px-4 border-b">
                     <select th:data-busid="${bus.id}" onchange="updateBusStatus(this)"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            th:classappend="${bus.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE} ? 'bg-green-200 text-green-700 border-green-400' : 'bg-red-200 text-red-700 border-red-400'"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-center">
                         <option value="ACTIVE" th:selected="${bus.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).ACTIVE}">ACTIVE</option>
                         <option value="INACTIVE" th:selected="${bus.busStatus == T(com.example.ticketbooker.Util.Enum.BusStatus).INACTIVE}">INACTIVE</option>
                     </select>
