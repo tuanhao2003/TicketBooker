@@ -54,12 +54,31 @@
                     alert('Cập nhật trạng thái thất bại!');
                 });
         }
+
+        function searchBuses() {
+            let licensePlate = document.getElementById("searchInput").value;
+            window.location.href = `/admin/buses/search?licensePlate=${licensePlate}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() { // Add this listener
+            document.getElementById("searchInput").addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    searchBuses();
+                }
+            });
+        });
     </script>
 </head>
 <body class="bg-gray-100">
 <div layout:fragment="content">
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Quản lý xe</h1>
+
+        <!-- Search Bar -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" name="licensePlate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập biển số xe" th:value="${param.licensePlate}">
+            <button onclick="searchBuses()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Tìm kiếm</button>
+        </div>
 
         <!-- Thông báo thành công hoặc lỗi -->
         <div>
