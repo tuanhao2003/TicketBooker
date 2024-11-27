@@ -13,4 +13,5 @@ public interface AccountService {
     boolean updateAccount(AccountDTO accountDTO);
     void deleteAccount(Integer id);
     Page<AccountDTO> getAllAccounts(Pageable pageable);
+    public List<AccountDTO> searchAccounts(String keyword);
 }

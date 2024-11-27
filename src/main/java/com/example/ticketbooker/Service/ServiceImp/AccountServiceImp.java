@@ -85,4 +85,12 @@ public class AccountServiceImp implements UserDetailsService,AccountService {
     public void deleteAccount(Integer id) {
         accountRepo.deleteById(id);
     }
+
+    @Override
+    public List<AccountDTO> searchAccounts(String keyword) {
+        List<Account> accounts = accountRepo.searchAccounts(keyword);
+        return accounts.stream()
+                .map(AccountMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }
