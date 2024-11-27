@@ -55,7 +55,7 @@ public class AccountServiceImp implements UserDetailsService,AccountService {
     public AccountDTO getAccountById(int id) {
         AccountDTO result = new AccountDTO();
         try {
-//            result = AccountMapper.toDTO(this.accountRepo.findById(id));
+            result = AccountMapper.toDTO(this.accountRepo.findById(id));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return result;
