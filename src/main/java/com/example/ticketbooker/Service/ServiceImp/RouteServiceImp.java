@@ -108,6 +108,7 @@ public class RouteServiceImp implements RouteService {
             System.out.println(e.getMessage());
             return null;
         }
+        System.out.println(result.getRouteCount());
         return result;
     }
 

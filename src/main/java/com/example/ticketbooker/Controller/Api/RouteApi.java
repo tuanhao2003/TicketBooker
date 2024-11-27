@@ -51,4 +51,9 @@ public class RouteApi {
         ResponseRouteDTO responseRoute = routeService.findByDepartureLocation(departureLocation);
         return new ArrayList<>(responseRoute.getList());
     }
+
+    @PostMapping("/get-routes")
+    public ResponseRouteDTO getRoutes() {
+        return routeService.findAllRoutes();
+    }
 }

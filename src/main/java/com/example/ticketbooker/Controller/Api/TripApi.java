@@ -1,12 +1,11 @@
 package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
+import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
+import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
 import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/trips")
@@ -22,6 +21,17 @@ public class TripApi {
         } catch (Exception e) {
             e.printStackTrace();
             result = false;
+        }
+        return result;
+    }
+
+    @PostMapping
+    public ResponseTripDTO searchTrip(@RequestBody SearchTripRequest request) {
+        ResponseTripDTO result = new ResponseTripDTO();
+        try {
+            result = tripService.searchTrip(request);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }

@@ -1,9 +1,6 @@
 package com.example.ticketbooker.Service;
 
-import com.example.ticketbooker.DTO.Trips.AddTripDTO;
-import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
-import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
-import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Trips.*;
 import com.example.ticketbooker.Entity.Trips;
 
 public interface TripService {
@@ -13,4 +10,5 @@ public interface TripService {
     public boolean addTrip(AddTripDTO dto);
     public boolean updateTrip(UpdateTripDTO updateTripDTO);
     public boolean deleteTrip(RequestIdTripDTO dto); // Thêm phương thức xóa chuyến xe
+    public ResponseTripDTO searchTrip(SearchTripRequest dto);
 }
