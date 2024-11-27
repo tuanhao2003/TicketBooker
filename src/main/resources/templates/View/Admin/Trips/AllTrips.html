@@ -56,34 +56,34 @@
                                         <!-- Các option sẽ được thêm qua JavaScript -->
                                     </select>
                                 </div>
+                                <!-- Input ẩn để gửi routeId -->
+                                <input type="hidden" id="routeId" name="route.RouteId" value="">
                             </div>
-                            <!-- Input ẩn để gửi routeId -->
-                            <input type="hidden" id="routeId" name="route.RouteId" value="">
+
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
                                     <label for="license" class="block font-medium">Biển số xe</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="license" name="license" required>
+                                            id="license" name="bus.Id" required>
                                         <option value="">Chọn biển số xe</option>
                                         <option th:each="bus : ${buses}"
                                                 th:value="${bus.id}"
                                                 th:text="${bus.licensePlate}">
                                         </option>
                                     </select>
-                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                           id="busId" name="bus.Id" required>
+<!--                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"-->
+<!--                                           id="busId" name="bus.Id" required>-->
                                 </div>
                                 <div class="px-3">
                                     <label for="driverName" class="block font-medium">Mã số xe</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="driverName" name="driverName" required>
+                                            id="driverName" name="driver.driverId" required>
                                         <option value=""></option>
                                         <!-- Các option sẽ được thêm qua JavaScript -->
                                     </select>
-                                    <label for="driverId" class="block font-medium">Mã tài xế</label>
-                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="driverId" name="driver.driverId" required>
+<!--                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"-->
+<!--                                        id="driverId" name="driver.driverId" required>-->
                                 </div>
                             </div>
 
@@ -140,13 +140,13 @@
         </div>
         <!-- Modal cập nhật chuyến xe -->
         <div id="updateTripModal" class="fixed z-10 inset-0 overflow-y-auto hidden" tabindex="-1"
-            aria-labelledby="modalLabelUpdate" aria-hidden="true">
+             aria-labelledby="modalLabelUpdate" aria-hidden="true">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="bg-white shadow-lg rounded-lg w-full max-w-2xl p-6">
                     <div class="flex justify-between items-center border-b pb-2 mb-4">
                         <h5 class="text-lg font-bold" id="modalLabelUpdate">Cập Nhật Chuyến Xe</h5>
                         <button type="button" class="text-gray-500 hover:text-gray-700"
-                            onclick="document.getElementById('updateTripModal').classList.add('hidden')">
+                                onclick="document.getElementById('updateTripModal').classList.add('hidden')">
                             &times;
                         </button>
                     </div>
@@ -156,47 +156,29 @@
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
-                                    <label for="editDepartureLocation" class="block font-medium">Thành phố khởi hành</label>
-                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="editDepartureLocation" name="editDepartureLocation" required>
-                                        <option value="">Chọn thành phố khởi hành</option>
-                                        <!-- Các option sẽ được thêm qua JavaScript -->
-                                    </select>
+                                    <label for="editrouteId" class="block font-medium">Mã số tuyến</label>
+                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1" id="editrouteId" name="route.RouteId">
                                 </div>
                                 <div class="px-3">
-                                    <label for="editArrivalLocation" class="block font-medium">Thành phố đến</label>
+                                    <label for="edittripStatus" class="block font-medium">Trạng thái chuyến xe</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="editArrivalLocation" name="editArrivalLocation" required>
-                                        <option value="">Chọn thành phố đến</option>
-                                        <!-- Các option sẽ được thêm qua JavaScript -->
+                                            id="edittripStatus" name="tripStatus" required>
+                                        <option value="SCHEDULED">SCHEDULED</option>
+                                        <option value="COMPLETED">COMPLETED</option>
+                                        <option value="CANCELLED">CANCELLED</option>
                                     </select>
                                 </div>
-                                <input type="hidden" id="editrouteId" name="route.RouteId">
                             </div>
-
 
                             <div class="grid grid-cols-2 gap-4 mb-3">
                                 <div class="px-3">
-                                    <label for="editlicense" class="block font-medium">Biển số xe</label>
-                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="editlicense" name="editlicense" required>
-                                        <option value="">Chọn biển số xe</option>
-                                        <option th:each="bus : ${buses}"
-                                                th:value="${bus.id}"
-                                                th:text="${bus.licensePlate}">
-                                        </option>
-                                    </select>
-                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                    <label for="editbusId" class="block font-medium">Mã số xe</label>
+                                    <input type="text" class="block w-full border border-gray-300 rounded px-2 py-1"
                                            id="editbusId" name="bus.Id" required>
                                 </div>
                                 <div class="px-3">
-                                    <label for="editdriverName" class="block font-medium">Mã số xe</label>
-                                    <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                            id="editdriverName" name="driverName" required>
-                                        <option value=""></option>
-                                        <!-- Các option sẽ được thêm qua JavaScript -->
-                                    </select>
-                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"
+                                    <label for="editdriverId" class="block font-medium">Mã tài xế</label>
+                                    <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
                                            id="editdriverId" name="driver.driverId" required>
                                 </div>
                             </div>
@@ -205,14 +187,14 @@
                                 <div class="px-3">
                                     <label for="editdepartureStation" class="block font-medium">Điểm khởi hành</label>
                                     <input type="text" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editdepartureStation" name="departureStation" required>
+                                           id="editdepartureStation" name="departureStation" required>
                                 </div>
                             </div>
                             <div class="grid gap-4 mb-3">
                                 <div class="px-3">
                                     <label for="editarrivalStation" class="block font-medium">Điểm đến</label>
                                     <input type="text" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editarrivalStation" name="arrivalStation" required>
+                                           id="editarrivalStation" name="arrivalStation" required>
                                 </div>
                             </div>
 
@@ -220,14 +202,14 @@
                                 <div class="px-3">
                                     <label for="editdepartureTime" class="block font-medium">Thời gian khởi hành</label>
                                     <input type="datetime-local"
-                                        class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editdepartureTime" name="departureTime" required>
+                                           class="block w-full border border-gray-300 rounded px-2 py-1"
+                                           id="editdepartureTime" name="departureTime" required>
                                 </div>
                                 <div class="px-3">
                                     <label for="editarrivalTime" class="block font-medium">Thời gian kết thúc</label>
                                     <input type="datetime-local"
-                                        class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editarrivalTime" name="arrivalTime">
+                                           class="block w-full border border-gray-300 rounded px-2 py-1"
+                                           id="editarrivalTime" name="arrivalTime">
                                 </div>
                             </div>
 
@@ -235,24 +217,24 @@
                                 <div class="px-3">
                                     <label for="editprice" class="block font-medium">Giá vé</label>
                                     <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editprice" name="price" required>
+                                           id="editprice" name="price" required>
                                 </div>
                                 <div class="px-3">
                                     <label for="editavailableSeats" class="block font-medium">Chỗ ngồi còn trống</label>
                                     <input type="number" class="block w-full border border-gray-300 rounded px-2 py-1"
-                                        id="editavailableSeats" name="availableSeats" required>
+                                           id="editavailableSeats" name="availableSeats" required>
                                 </div>
                             </div>
 
-                            <div class="grid mb-3 px-3">
-                                <label for="edittripStatus" class="block font-medium">Trạng thái chuyến xe</label>
-                                <select class="block w-full border border-gray-300 rounded px-2 py-1"
-                                    id="edittripStatus" name="tripStatus" required>
-                                    <option value="SCHEDULED">SCHEDULED</option>
-                                    <option value="COMPLETED">COMPLETED</option>
-                                    <option value="CANCELLED">CANCELLED</option>
-                                </select>
-                            </div>
+<!--                            <div class="grid mb-3 px-3">-->
+<!--                                <label for="edittripStatus" class="block font-medium">Trạng thái chuyến xe</label>-->
+<!--                                <select class="block w-full border border-gray-300 rounded px-2 py-1"-->
+<!--                                        id="edittripStatus" name="tripStatus" required>-->
+<!--                                    <option value="SCHEDULED">SCHEDULED</option>-->
+<!--                                    <option value="COMPLETED">COMPLETED</option>-->
+<!--                                    <option value="CANCELLED">CANCELLED</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
 
                             <div class="flex justify-end">
                                 <button type="submit"
@@ -348,57 +330,4 @@
 
 </html>
 <script type="text/javascript" th:src="@{/js/trip.js}"></script>
-<<<<<<< HEAD
-=======
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    // Gọi API khi trang được tải để lấy departureLocation
-    fetch('/admin/routes/getDepartureLocation')
-        .then(response => response.json()) // Chuyển đổi dữ liệu thành JSON
-        .then(data => {
-            const departureSelect = document.getElementById("departureLocation");
-            const arrivalSelect = document.getElementById("arrivalLocation");
 
-            // Xóa các option hiện tại (nếu có)
-            // departureSelect.innerHTML = "";
-            arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>"; // Reset arrivalLocation
-
-            // Thêm các option mới từ dữ liệu API cho departureLocation
-            data.forEach(location => {
-                const option = document.createElement("option");
-                option.value = location; // Giá trị của option
-                option.textContent = location; // Hiển thị văn bản trong dropdown
-                departureSelect.appendChild(option);
-            });
-
-            // Lắng nghe sự kiện thay đổi trên departureLocation
-            departureSelect.addEventListener("change", function () {
-                const selectedDeparture = departureSelect.value;
-
-                if (selectedDeparture) {
-                    // Gọi API để lấy arrivalLocation
-                    fetch(`/admin/routes/getArrivalLocation?departureLocation=${encodeURIComponent(selectedDeparture)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Xóa các option hiện tại trong arrivalLocation
-                            arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>";
-
-                            // Thêm các option mới từ dữ liệu API cho arrivalLocation
-                            data.forEach(location => {
-                                const option = document.createElement("option");
-                                option.value = location;
-                                option.textContent = location;
-                                arrivalSelect.appendChild(option);
-                            });
-                        })
-                        .catch(error => console.error("Error fetching arrival locations:", error));
-                } else {
-                    // Nếu không chọn departureLocation, reset arrivalLocation
-                    arrivalSelect.innerHTML = "<option value=''>Chọn thành phố đến</option>";
-                }
-            });
-        })
-        .catch(error => console.error("Error fetching departure locations:", error));
-    });
-</script>
->>>>>>> origin/khai

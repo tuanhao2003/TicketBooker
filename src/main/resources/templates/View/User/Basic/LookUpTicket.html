@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="vi" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{View/Layout/UserLayout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra cứu thông tin vé</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Tra cứu thông tin vé - FUTA Bus Lines</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -21,195 +20,127 @@
             }
         }
     </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mx-auto px-4 py-8 min-h-[500px] flex items-center">
+        <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl mx-auto">
+            <div class="bg-gradient-to-r from-primary to-secondary p-6 text-white">
+                <h1 class="text-3xl font-bold text-center">Tra cứu thông tin vé</h1>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Search Form -->
+                <div id="searchSection" class="space-y-4">
+                    <label for="ticketId" class="block text-lg font-medium text-gray-700">Mã vé:</label>
+                    <div class="flex">
+                        <input type="text" id="ticketId" name="ticketId" placeholder="Nhập mã vé"
+                               class="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                        <button onclick="fetchTicketInfo()"
+                                class="bg-primary text-white px-6 py-2 rounded-r-md hover:bg-secondary transition duration-300 ease-in-out">
+                            <i class="fas fa-search mr-2"></i>Tra cứu
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ticket Information -->
+                <div id="ticketInfo" class="space-y-6 hidden">
+                    <div class="bg-gray-100 rounded-lg p-6 shadow-inner">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/3">
+                                <img id="qrCodeImage" class="w-full h-auto rounded-lg shadow-md" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExampleTicketData" alt="QR Code">
+                            </div>
+                            <div class="md:w-2/3 space-y-4">
+                                <div class="flex justify-between items-center border-b border-gray-300 pb-2">
+                                    <span class="text-xl font-semibold text-gray-700">Mã vé:</span>
+                                    <span id="ticketIdValue" class="text-2xl font-bold text-primary">FUTA-123456</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600">Họ và tên</p>
+                                        <p id="customerNameValue" class="font-medium">Nguyễn Văn A</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Số điện thoại</p>
+                                        <p id="customerPhoneValue" class="font-medium">0123456789</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Ngày đặt vé</p>
+                                        <p id="bookingDateValue" class="font-medium">07/01/2024, 16:53</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Email</p>
+                                        <p id="emailValue" class="font-medium">example@email.com</p>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-300 pt-4 mt-4">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-semibold text-gray-700">Tổng cộng:</span>
+                                        <span id="totalPriceValue" class="text-2xl font-bold text-red-600">12.960.000 VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trip Information -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-blue-100 px-6 py-3 flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-700">Lộ trình chuyến xe</span>
+                            <span class="text-sm text-gray-600">Thu, 20/01/2022</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-primary">NRT</p>
+                                    <p class="text-lg font-medium text-gray-600 mt-1">09:30</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-gray-700 font-medium">6 tiếng 30 phút</p>
+                                    <div class="flex items-center justify-center space-x-2 mt-2">
+                                        <span class="text-yellow-500"><i class="fas fa-bus"></i></span>
+                                        <p class="text-gray-600">Direct bus</p>
+                                        <span class="text-gray-500">|</span>
+                                        <button class="text-primary hover:text-secondary transition duration-300 ease-in-out">
+                                            Chi tiết <i class="fas fa-angle-down ml-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold text-primary">HAN</p>
+                                    <p class="text-lg font-medium text-gray-600 mt-1">14:00</p>
+                                </div>
+                                <div class="text-center">
+                                    <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class" class="w-12 h-12 mx-auto mb-2">
+                                    <p class="text-sm text-gray-600">1 hành khách</p>
+                                    <p class="text-xl text-red-600 font-bold mt-1">12,960,000 VND</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="resetForm()" class="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-600 transition duration-300 ease-in-out">
+                        <i class="fas fa-redo mr-2"></i>Tra cứu lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        async function fetchTicketInfo() {
-            const ticketId = document.getElementById("ticketId").value;
-
-            if (!ticketId) {
-                Swal.fire({
-                    title: 'Thông báo',
-                    text: "Vui lòng nhập mã vé.",
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-            try {
-                const response = await fetch(`/ticket/search?ticketId=` + ticketId);
-
-                if (response.ok) {
-                    const data = await response.json();
-
-                    if (Object.keys(data).length === 0) {
-                        Swal.fire({
-                            title: 'Không tìm thấy',
-                            text: "Không tìm thấy thông tin vé.",
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                        return;
-                    }
-
-                    document.getElementById("searchSection").classList.add("hidden");
-                    document.getElementById("ticketInfo").classList.remove("hidden");
-
-                    document.getElementById("ticketIdValue").innerText = data.ticketId;
-                    document.getElementById("tripIdValue").innerText = data.tripId;
-                    document.getElementById("bookerIdValue").innerText = data.bookerId;
-                    document.getElementById("invoiceIdValue").innerText = data.invoiceId;
-                    document.getElementById("customerNameValue").innerText = data.customerName;
-                    document.getElementById("customerPhoneValue").innerText = data.customerPhone;
-                    document.getElementById("seatIdValue").innerText = data.seatId;
-                    document.getElementById("statusValue").innerText = data.status;
-                    // Cập nhật hình ảnh QR code
-                    document.getElementById("qrCodeImage").src = "data:image/png;base64," + data.qrCode;
-
-                    const ticketInfoDiv = document.querySelector(".bg-white.p-6.rounded-lg.shadow-lg");
-                    ticketInfoDiv.classList.remove("max-w-md");
-                    ticketInfoDiv.classList.add("max-w-4xl");
-                } else {
-                    Swal.fire({
-                        title: 'Không tìm thấy',
-                        text: "Không tìm thấy thông tin vé.",
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            } catch (error) {
-                Swal.fire({
-                    title: 'Lỗi',
-                    text: "Lỗi khi tra cứu vé: " + error,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
+        function fetchTicketInfo() {
+            // Simulate API call
+            document.getElementById("searchSection").classList.add("hidden");
+            document.getElementById("ticketInfo").classList.remove("hidden");
         }
-
 
         function resetForm() {
             document.getElementById("ticketId").value = "";
             document.getElementById("ticketInfo").classList.add("hidden");
-            const ticketInfoDiv = document.querySelector(".bg-white.p-6.rounded-lg.shadow-lg");
-            ticketInfoDiv.classList.remove("max-w-4xl");
-            ticketInfoDiv.classList.add("max-w-md");
             document.getElementById("searchSection").classList.remove("hidden");
         }
     </script>
-</head>
 
-<body>
-<div layout:fragment="content" class="container mt-5 mx-auto">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold text-primary mb-6 text-center">Tra cứu thông tin vé</h1>
-
-        <div id="searchSection" class="space-y-4 hidden">
-            <label for="ticketId" class="block text-lg font-medium text-gray-700">Mã vé:</label>
-            <input type="text" id="ticketId" name="ticketId" placeholder="Nhập mã vé"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
-            <button onclick="fetchTicketInfo()"
-                    class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Tra cứu
-            </button>
-        </div>
-
-        <div id="ticketInfo" class=" space-y-4">
-            <h2 class="text-xl font-bold text-gray-800">Thông tin vé đặt</h2>
-            <div class="bg-gray-100 p-4 rounded-md shadow-lg w-full flex">
-                <div class="flex items-center w-2/5">
-                    <img id="qrCodeImage" class="h-auto w-full" src="https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTFRaX872E1iX4jlcXwLY01J-fRIap_Bnveev0X5UgEGtUHrSALgmbenlDAx3cryQFr" alt="QR Code">
-                </div>
-                <div class="w-3/4">
-                    <div class="flex">
-                        <div class="px-6 py-4 whitespace-nowrap text-2xl font-bold w-fit">Mã vé</div>
-                        <div class="py-4 whitespace-nowrap text-2xl text-red-600 font-bold italic" id="ticketIdValue">6</div>
-                    </div>
-
-                    <div class="flex">
-                        <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Họ và tên</div>
-                        <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="customerNameValue">Huỳnh Thanh Lộc</div>
-                    </div>
-                    <div class="flex">
-                        <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Số điện thoại</div>
-                        <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="customerPhoneValue">0971019257</div>
-                    </div>
-                    <div class="flex">
-                        <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Ngày đặt vé</div>
-                        <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="">16:53, 07/01/2024</div>
-                    </div>
-                    <div class="flex">
-                        <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Email</div>
-                        <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="">xxxxx@yyyy.zzz</div>
-                    </div>
-                    <div class="flex justify-center">
-                        <hr class="my-4 border-t border-gray-300 w-5/6">
-                    </div>
-                    <div class="flex">
-                        <div class="px-6 py-2 whitespace-nowrap text-2xl font-bold w-1/2">Tổng cộng</div>
-                        <div class="flex items-center justify-end px-6 py-2 whitespace-nowrap w-1/2 text-2xl text-red-600 font-bold"
-                             id="">12.960.000 VND</div>
-                    </div>
-                </div>
-            </div>
-            <button onclick="resetForm()" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600">Tra cứu lại</button>
-
-            <div class="bg-blue-100 px-4 py-2 rounded-t-lg flex justify-between">
-                <p class="text-sm text-gray-500">Lộ trình chuyến xe</p>
-                <p class="text-sm text-gray-500">Thu, 20/01/2022</p>
-            </div>
-            <div class="bg-white rounded-b-lg shadow-md p-4" style="margin: 0;">
-                <div class="flex justify-between items-center bg-white px-8 py-4">
-                    <div class="text-center">
-                        <p class="text-4xl font-bold">NRT</p>
-                        <p class="text-xl font-medium text-gray-500 mt-2">09:30</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-gray-700">6 tiếng 30 phút</p>
-                        <div class="flex items-center justify-center space-x-2">
-                            <span class="text-yellow-500"><i class="fa-solid fa-bus"></i></span>
-                            <p class="text-gray-600">Direct bus</p>
-                            <span class="text-gray-500">|</span>
-                            <p class="text-gray-600 cursor-pointer">Detail<i class="fa-solid fa-angle-down px-2"></i>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-4xl font-bold">HAN</p>
-                        <p class="text-xl font-medium text-gray-500 mt-2">14:00</p>
-                    </div>
-                    <div class="text-center">
-                        <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class"
-                             class="w-8 mx-auto mb-1">
-                        <p class="text-sm text-gray-500">1 passenger</p>
-                        <p class="text-xl text-red-600 font-bold">12,960,000 VND</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div style="display: none;">
-            <div class="flex">
-                <div class="px-6 py-4 whitespace-nowrap font-medium text-gray-700 w-1/2">Mã chuyến:</div>
-                <div class="px-6 py-4 whitespace-nowrap w-1/2" id="tripIdValue"></div>
-            </div>
-            <div class="flex">
-                <div class="px-6 py-4 whitespace-nowrap font-medium text-gray-700 w-1/2">Mã người đặt:</div>
-                <div class="px-6 py-4 whitespace-nowrap w-1/2" id="bookerIdValue"></div>
-            </div>
-            <div class="flex">
-                <div class="px-6 py-4 whitespace-nowrap font-medium text-gray-700 w-1/2">Mã hóa đơn:</div>
-                <div class="px-6 py-4 whitespace-nowrap w-1/2" id="invoiceIdValue"></div>
-            </div>
-            <div class="flex">
-                <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Mã chỗ ngồi:</div>
-                <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="seatIdValue"></div>
-            </div>
-            <div class="flex">
-                <div class="px-6 py-2 whitespace-nowrap font-medium text-gray-700 w-1/2">Trạng thái:</div>
-                <div class="px-6 py-2 whitespace-nowrap w-1/2 text-right" id="statusValue"></div>
-            </div>
-        </div>
-    </div>
 </div>
+
 </body>
 </html>
