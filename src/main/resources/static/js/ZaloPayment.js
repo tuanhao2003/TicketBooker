@@ -10,13 +10,14 @@
             ).then(
                 data => {
                     if(data.returnCode === 1){
-                        console.log(data.returnUrl);
                         fetch("http://localhost:8080/payment/zalo-payment-status", {
                             method: "POST",
                             headers: {"Content-Type": "application/json"},
                             body: JSON.stringify(data)
-                        }).then(
-                            async response => await response.json()
+                        }).then( async response => {
+                                window.location.href = data.returnUrl;
+                                await response.json()
+                            }
                         ).then(
                             data => {console.log(data.returnMessage)}
                         ).catch(e => console.log(e));

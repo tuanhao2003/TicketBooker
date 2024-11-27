@@ -6,9 +6,9 @@ import com.example.ticketbooker.Repository.TripRepo;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Mapper.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class TripServiceImp implements TripService {
@@ -16,15 +16,15 @@ public class TripServiceImp implements TripService {
     private TripRepo tripRepo;
 
     @Override
-    public Trips getTrip(int id) {
-        Trips trips = null;
+    public ResponseTripDTO getTripById(int tripId) {
+        ResponseTripDTO result = new ResponseTripDTO();
         try {
-            trips = this.tripRepo.findById(id);
+            result = TripMapper.toResponseDTO(this.tripRepo.findAllById(tripId));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return result;
         }
-        return trips;
+        return result;
     }
 
     @Override
@@ -37,6 +37,12 @@ public class TripServiceImp implements TripService {
             return result;
         }
         return result;
+    }
+
+    @Override
+    public Page<TripDTO> getAllTrips(Pageable pageable) {
+        Page<Trips> trips = tripRepo.findAll(pageable);
+        return trips.map(TripMapper::toDTO);
     }
 
     @Override

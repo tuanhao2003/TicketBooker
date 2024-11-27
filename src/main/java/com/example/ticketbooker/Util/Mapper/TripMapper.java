@@ -1,9 +1,12 @@
 package com.example.ticketbooker.Util.Mapper;
 
 
+import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
+import com.example.ticketbooker.DTO.Trips.TripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.Entity.Buses;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Util.Enum.TripStatus;
 
@@ -51,5 +54,23 @@ public class TripMapper {
         return ResponseTripDTO.builder()
                 .listTrips(trips)
                 .build();
+    }
+
+    public static TripDTO toDTO(Trips trip) {
+        if (trip == null) return null;
+
+        TripDTO tripDTO = new TripDTO();
+        tripDTO.setId(trip.getId());
+        tripDTO.setRoute(trip.getRoute());
+        tripDTO.setBus(trip.getBus());
+        tripDTO.setDriver(trip.getDriver());
+        tripDTO.setDepartureStation(trip.getDepartureStation());
+        tripDTO.setArrivalStation(trip.getArrivalStation());
+        tripDTO.setDepartureTime(trip.getDepartureTime());
+        tripDTO.setArrivalTime(trip.getArrivalTime());
+        tripDTO.setPrice(trip.getPrice());
+        tripDTO.setAvailableSeats(trip.getAvailableSeats());
+        tripDTO.setTripStatus(trip.getTripStatus());
+        return tripDTO;
     }
 }

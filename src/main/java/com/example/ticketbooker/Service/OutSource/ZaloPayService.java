@@ -25,9 +25,7 @@ public class ZaloPayService {
     @Value("${zalo.appId}")
     private String appId;
     @Value("${zalo.key1}")
-    private String k1;
-    @Value("${zalo.key2}")
-    private String k2;
+    private String key;
     @Value("${zalo.expireDuration}")
     private String expireTime;
     @Value("${zalo.createEndpoint}")
@@ -50,7 +48,7 @@ public class ZaloPayService {
         int randomId = rand.nextInt(1000000);
         String appTransId = getCurrentTimeString("yyMMdd") + "_" + randomId;
         Map embedData = new HashMap(){{
-            put("redirecturl", "http://localhost:8080/fuba");
+            put("redirecturl", "http://localhost:8080/fuba/thankyou");
         }};
 
         Map<String, Object> order = new HashMap<>() {{
@@ -68,7 +66,7 @@ public class ZaloPayService {
 
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
-        order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, k1, data));
+        order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, key, data));
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost postRequest = new HttpPost(createEndpoint);
@@ -101,8 +99,8 @@ public class ZaloPayService {
 
     public ZaloPaymentStatusResponse requestPaymentStatus(String paymentId) throws Exception {
         ZaloPaymentStatusResponse response = new ZaloPaymentStatusResponse();
-        String data = appId +"|"+ paymentId +"|"+ k1;
-        String mac = HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, k1, data);
+        String data = appId +"|"+ paymentId +"|"+ key;
+        String mac = HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, key, data);
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("app_id", appId));
