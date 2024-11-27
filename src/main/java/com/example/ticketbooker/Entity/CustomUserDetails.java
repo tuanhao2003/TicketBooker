@@ -9,16 +9,24 @@ import lombok.Data;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Data
-@AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    Account account;
+    private Account account;
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public CustomUserDetails(Account account) {
+        this.account = account;
+        this.authorities = Collections.singleton(
+                new SimpleGrantedAuthority("ROLE_" + account.getRole().name()));
+    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Mặc định mình sẽ để tất cả là ROLE_USER. Để demo cho đơn giản.
-        return Collections.singleton(new SimpleGrantedAuthority(this.account.getRole().toString()));
+        return authorities;
     }
 
     @Override
