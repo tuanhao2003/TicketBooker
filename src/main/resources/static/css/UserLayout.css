@@ -1,0 +1,40 @@
+        .banner-gradient {
+            background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
+        }
+        .carousel {
+            scroll-behavior: smooth;
+        }
+        .carousel-item {
+            flex: 0 0 100%;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        #mobileMenu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 50;
+            width: 60%;
+        }
+        #mobileMenu.show {
+            transform: translateX(0);
+        }
+
+        .custom-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .custom-nav .group:hover::after {
+            width: 100%;
+        }

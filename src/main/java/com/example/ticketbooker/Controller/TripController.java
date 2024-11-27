@@ -1,17 +1,25 @@
 package com.example.ticketbooker.Controller;
 
+import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
+import com.example.ticketbooker.DTO.Trips.TripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
 import com.example.ticketbooker.Entity.Trips;
+import com.example.ticketbooker.Service.BusService;
 import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Enum.TripStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -24,17 +32,47 @@ public class TripController {
     @Autowired
     private DriverService driverService;
 
+    @Autowired
+    private BusService busService;
 
-    @GetMapping
-    public String tripManagement(Model model) {
-        ResponseTripDTO responseTripDTO = tripService.getAllTrips();
-        model.addAttribute("listTrips", responseTripDTO);
+//    @GetMapping
+//    public String tripManagement(Model model) {
+//        ResponseTripDTO responseTripDTO = tripService.getAllTrips();
+//        model.addAttribute("listTrips", responseTripDTO);
+//
+//        model.addAttribute("createTripForm", new AddTripDTO());
+//        model.addAttribute("updateTripForm", new UpdateTripDTO());
+//
+//        return "View/Admin/Trips/AllTrips";
+//    }
+
+    @GetMapping()
+    public String listTrips(
+            Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TripDTO> tripPage = tripService.getAllTrips(pageable);
+
+        // Log danh sách TripDTO ra console
+        System.out.println("Danh sách TripDTO:");
+        tripPage.getContent().forEach(System.out::println);
+
+        List<BusDTO> buses = busService.getAllBuses();
+        model.addAttribute("buses", buses);
+
+        model.addAttribute("trips", tripPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", tripPage.getTotalPages());
+        model.addAttribute("totalElements", tripPage.getTotalElements());
+        model.addAttribute("size", size);
 
         model.addAttribute("createTripForm", new AddTripDTO());
         model.addAttribute("updateTripForm", new UpdateTripDTO());
-
         return "View/Admin/Trips/AllTrips";
     }
+
 
 
     @PostMapping("/create")
@@ -75,15 +113,4 @@ public class TripController {
     }
 
 
-    @GetMapping("/trip")
-    public String Trip(Model model, @RequestParam int id){
-        Trips trip = tripService.getTrip(id);
-
-        if (trip == null) {
-            System.out.println("No trip found for ID: " + id);
-            return "error";
-        }
-        model.addAttribute("trip", trip);
-        return "View/Admin/Trip";
-    }
 }

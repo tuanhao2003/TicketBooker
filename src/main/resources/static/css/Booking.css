@@ -1,0 +1,23 @@
+.seat {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.seat-available {
+    background-color: white;
+    color: black;
+}
+
+.seat-selected {
+    background-color: #a855f7; /* Màu tím */
+    color: white;
+}
+
+.seat:focus {
+    outline: none; /* Bỏ viền khi ghế được nhấn */
+}

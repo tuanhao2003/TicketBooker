@@ -2,6 +2,7 @@ package com.example.ticketbooker.Repository;
 
 import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
 import com.example.ticketbooker.Entity.Trips;
+import com.example.ticketbooker.Entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,5 @@ public interface TripRepo extends JpaRepository<Trips, Integer> {
             "(t.arrivalTime <= :#{#request.arrivalDate} OR :#{#request.arrivalDate} IS NULL) AND " +
             "(t.availableSeats >= :#{#request.ticketQuantity})")
     ArrayList<Trips> searchTrip(SearchTripRequest request);
+    ArrayList<Trips> findAllById(int tripId);
 }
