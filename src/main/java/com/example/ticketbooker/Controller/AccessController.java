@@ -41,11 +41,17 @@ public class AccessController {
     @PostMapping("/register")
     public ResponseEntity<Object> addAccount(@RequestBody AccountDTO accountDTO, RedirectAttributes redirectAttributes) {
         System.out.println("Received data: " + accountDTO);
-        System.out.println(accountDTO);
-        if(accountService.createAccount(accountDTO) != null) {
-            return ResponseEntity.ok().build();
+        try{
+            if(accountService.createAccount(accountDTO) != null) {
+                ;
+                System.out.println("check inside create ACcount");
+                return ResponseEntity.ok().build();
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        return ResponseEntity.notFound().build();
+            System.out.println("create account eror");
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/user-info")
