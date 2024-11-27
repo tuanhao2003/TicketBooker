@@ -49,4 +49,14 @@ public class AccountApi {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //Khai tìm account tồn tại
+    @GetMapping("exist")
+    public ResponseEntity<?> existAccount(@RequestParam(name = "email", required = true) String email) {
+        if (accountService.getAccountByEmail(email) == null) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

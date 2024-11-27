@@ -1,6 +1,5 @@
 package com.example.ticketbooker.Config.Security;
 
-import com.example.ticketbooker.Entity.Account;
 import com.example.ticketbooker.Entity.CustomUserDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,14 +10,14 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import java.io.IOException;
 
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         // Lấy thông tin người dùng từ Authentication
         Object principal = authentication.getPrincipal();
-
+        // Lưu thông tin vào HttpSession
         if (principal instanceof CustomUserDetails userDetails) {
             //Đăng nhâp bằng account hệ thống
             System.out.println("Class name Login UserDetail: " +userDetails.getClass().getName());
@@ -28,14 +27,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             request.getSession().setAttribute("email", userDetails.getAccount().getEmail());
             // Chuyển hướng đến trang đích sau khi đăng nhập thành công
             response.sendRedirect("/auth/profile");
-
         } else if (principal instanceof OAuth2User oauth2User) {
-            //Đăng nhập bằng oauth, chưa có tk trong hệ thống
-            System.out.println("Oauth2 user: " + oauth2User);
+            System.out.println("if principal instance of oauth2: " + oauth2User.getClass().getName());
             request.getSession().setAttribute("username", oauth2User.getAttribute("name"));
             request.getSession().setAttribute("email", oauth2User.getAttribute("email"));
-            request.getSession().setAttribute("role", "CUSTOMER");
-            response.sendRedirect("/new-password");
+            request.getSession().setAttribute("role", "Customer");
+            response.sendRedirect("/auth/profile");
         }
     }
 }

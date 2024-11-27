@@ -9,6 +9,7 @@ import java.util.List;
 public interface AccountService {
     List<AccountDTO> getAllAccounts();
     AccountDTO getAccountById(int id);
+    AccountDTO getAccountByEmail(String email);
     AccountDTO createAccount(AccountDTO accountDTO);
     boolean updateAccount(AccountDTO accountDTO);
     void deleteAccount(Integer id);

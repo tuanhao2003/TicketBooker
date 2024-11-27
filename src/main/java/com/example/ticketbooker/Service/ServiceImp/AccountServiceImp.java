@@ -7,6 +7,8 @@ import com.example.ticketbooker.Repository.AccountRepo;
 import com.example.ticketbooker.Service.AccountService;
 import com.example.ticketbooker.Util.Mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,31 +20,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Primary
 @Service
-public class AccountServiceImp implements UserDetailsService,AccountService {
+public class AccountServiceImp implements AccountService {
 
     @Autowired
     private AccountRepo accountRepo;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        // Kiểm tra xem user có tồn tại trong database không?
-        Optional<Account> account = accountRepo.findByUsername(username);
-        if (account.isEmpty()) {
-            System.out.println("account is empty!!" + username);
-            throw new UsernameNotFoundException(username);
-        }
-        Account newAccount = account.get();
-        System.out.println("account is :" + account.get());
-        System.out.println("new account is :" + newAccount);
-        return new CustomUserDetails(newAccount);
-    }
     public List<AccountDTO> getAllAccounts() {
         List<Account> accounts = accountRepo.findAll();
         List<AccountDTO> dtos = new ArrayList<>();
         accounts.forEach(account -> dtos.add(AccountMapper.toDTO(account)));
         return dtos;
+    }
+    //khai
+    public AccountDTO getAccountByEmail(String email) {
+        Optional<Account> account = accountRepo.findByEmail(email);
+        if (account.isEmpty()) {
+            System.out.println("account not found!!" + email);
+            throw new UsernameNotFoundException(email);
+        }
+        return AccountMapper.toDTO(account.get());
     }
 
     @Override
