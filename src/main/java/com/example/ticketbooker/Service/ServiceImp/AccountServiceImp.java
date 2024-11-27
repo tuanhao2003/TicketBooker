@@ -2,24 +2,42 @@ package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.Entity.Account;
+import com.example.ticketbooker.Entity.CustomUserDetails;
 import com.example.ticketbooker.Repository.AccountRepo;
 import com.example.ticketbooker.Service.AccountService;
 import com.example.ticketbooker.Util.Mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class AccountServiceImp implements AccountService {
+public class AccountServiceImp implements UserDetailsService,AccountService {
 
     @Autowired
     private AccountRepo accountRepo;
 
     @Override
+    public UserDetails loadUserByUsername(String username) {
+        // Kiểm tra xem user có tồn tại trong database không?
+        Optional<Account> account = accountRepo.findByUsername(username);
+        if (account.isEmpty()) {
+            System.out.println("account is empty!!" + username);
+            throw new UsernameNotFoundException(username);
+        }
+        Account newAccount = account.get();
+        System.out.println("account is :" + account.get());
+        System.out.println("new account is :" + newAccount);
+        return new CustomUserDetails(newAccount);
+    }
     public List<AccountDTO> getAllAccounts() {
         List<Account> accounts = accountRepo.findAll();
         List<AccountDTO> dtos = new ArrayList<>();
@@ -37,7 +55,7 @@ public class AccountServiceImp implements AccountService {
     public AccountDTO getAccountById(int id) {
         AccountDTO result = new AccountDTO();
         try {
-//            result = AccountMapper.toDTO(this.accountRepo.findById(id));
+            result = AccountMapper.toDTO(this.accountRepo.findById(id));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return result;
@@ -51,7 +69,6 @@ public class AccountServiceImp implements AccountService {
         Account savedAccount = accountRepo.save(account);
         return AccountMapper.toDTO(accountRepo.save(account));
     }
-
     @Override
     public boolean updateAccount(AccountDTO accountDTO) {
         try {

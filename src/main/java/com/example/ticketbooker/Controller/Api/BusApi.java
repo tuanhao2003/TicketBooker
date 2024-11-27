@@ -32,6 +32,7 @@ public class BusApi {
         }
     }
 
+    //Cập nhật trạng thái của bus
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> updateBusStatus(@PathVariable("id") Integer id, @RequestBody BusDTO busDTO) {
         BusDTO existingBus = busService.getBusById(id);
