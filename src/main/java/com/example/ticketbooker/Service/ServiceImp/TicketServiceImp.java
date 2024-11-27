@@ -88,4 +88,17 @@ public class TicketServiceImp implements TicketService {
         }
         return result;
     }
+
+    @Override
+    public TicketResponse getTicketsByAccountId(int accountId) {
+        TicketResponse result = new TicketResponse();
+        try {
+            List<Tickets> tickets = ticketRepository.findAllByBookerId(accountId);
+            result.setTicketsCount(tickets.size());
+            result.setListTickets(new ArrayList<>(tickets));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
 }

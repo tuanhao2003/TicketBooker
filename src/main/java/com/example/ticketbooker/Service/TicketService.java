@@ -11,4 +11,5 @@ public interface TicketService {
     TicketResponse getAllTickets();
     TicketResponse getTicketById(TicketIdRequest dto);
     PaymentInforResponse getPaymentInfo(PaymentInforRequest request);
+    TicketResponse getTicketsByAccountId(int accountId);
 }
