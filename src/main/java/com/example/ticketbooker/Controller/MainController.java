@@ -41,6 +41,11 @@ public class MainController {
         return "View/User/Basic/LookUpTicket";
     }
 
+    @GetMapping("/payment-success")
+    public String showPaymentSuccess() {
+        return "View/User/Basic/Thankyou";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "View/Util/Login";

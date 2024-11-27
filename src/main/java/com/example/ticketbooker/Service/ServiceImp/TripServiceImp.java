@@ -1,16 +1,18 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
-import com.example.ticketbooker.DTO.Trips.AddTripDTO;
-import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
-import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
-import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Bus.BusDTO;
+import com.example.ticketbooker.DTO.Trips.*;
 import com.example.ticketbooker.DTO.Users.UserResponse;
+import com.example.ticketbooker.Entity.Buses;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
 import com.example.ticketbooker.Service.TripService;
+import com.example.ticketbooker.Util.Mapper.BusMapper;
 import com.example.ticketbooker.Util.Mapper.TripMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +44,12 @@ public class TripServiceImp implements TripService {
             return result;
         }
         return result;
+    }
+
+    @Override
+    public Page<TripDTO> getAllTrips(Pageable pageable) {
+        Page<Trips> trips = tripRepo.findAll(pageable);
+        return trips.map(TripMapper::toDTO);
     }
 
     @Override

@@ -6,262 +6,197 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt vé xe</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .seat {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .seat-available {
-            background-color: white;
-            color: black;
-        }
-
-        .seat-selected {
-            background-color: #a855f7; /* Màu tím */
-            color: white;
-        }
-
-        .seat:focus {
-            outline: none; /* Bỏ viền khi ghế được nhấn */
-        }
-    </style>
+    <script th:src="@{/js/Booking.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/Booking.css}">
 </head>
 <body class="bg-gray-100">
-<div layout:fragment="content">
-    <div class="flex justify-center mx-40 p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Left Column -->
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded-lg p-6 shadow-sm">
-                <!-- Tab Navigation -->
-                <div class="flex gap-4 border-b mb-6">
-                    <button class="px-4 py-2 text-purple-500 border-b-2 border-purple-500">Chọn ghế</button>
-                </div>
+    <div layout:fragment="content">
+        <div class="flex justify-center mx-40 p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Column -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <!-- Tab Navigation -->
+                    <div class="flex gap-4 border-b mb-6">
+                        <button class="px-4 py-2 text-purple-500 border-b-2 border-purple-500">Chọn ghế</button>
+                    </div>
 
-                <!-- Seat Legend -->
-                <div class="flex gap-6 mb-6">
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 bg-gray-200 rounded"></div>
-                        <span class="text-sm">Đã bán</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 bg-white border border-gray-200 rounded"></div>
-                        <span class="text-sm">Còn trống</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 bg-purple-500 border border-purple-700 rounded"></div>
-                        <span class="text-sm">Đang chọn</span>
-                    </div>
-                </div>
-
-                <!-- Seat Map -->
-                <div class="grid grid-cols-2 gap-8">
-                    <!-- Lower Deck -->
-                    <div>
-                        <h3 class="font-medium mb-4 text-center">Tầng dưới</h3>
-                        <div class="grid grid-cols-3 gap-2" id="lowerDeck">
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A01</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A02</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A03</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A04</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A05</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A06</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A07</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A08</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A09</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A10</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A11</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A12</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A13</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A14</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A15</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A16</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A17</button>
+                    <!-- Seat Legend -->
+                    <div class="flex gap-6 mb-6">
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+                            <span class="text-sm">Đã bán</span>
                         </div>
-                    </div>
-                    <!-- Upper Deck -->
-                    <div>
-                        <h3 class="font-medium mb-4 text-center">Tầng trên</h3>
-                        <div class="grid grid-cols-3 gap-2" id="upperDeck">
-                            <!-- Ghế tầng trên (B01 - B17) -->
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B01</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B02</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B03</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B04</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B05</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B06</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B07</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B08</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B09</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B10</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B11</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B12</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B13</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B14</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B15</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B16</button>
-                            <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B17</button>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-white border border-gray-200 rounded"></div>
+                            <span class="text-sm">Còn trống</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg p-6 shadow-sm mt-2">
-                <!-- Customer Information -->
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="mt-4">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-medium">Thông tin khách hàng</h3>
-                        </div>
-
-                        <form class="space-y-4">
-                            <div>
-                                <label class="block text-sm mb-1">
-                                    Họ và tên <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm mb-1">
-                                    Số điện thoại <span class="text-red-500">*</span>
-                                </label>
-                                <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm mb-1">
-                                    Email <span class="text-red-500">*</span>
-                                </label>
-                                <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="mt-4">
-                        <div class="flex justify-center items-center text-center mb-4">
-                            <span class="text-purple-700 font-bold">ĐIỀU KHOẢN & LƯU Ý</span>
-                        </div>
-
-                        <div class="flex-row text-sm px-2">
-                            <div>
-                                (*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINES. Vui lòng liên hệ Trung tâm tổng đài <span class="text-purple-700 font-bold">1900 6067</span> để được hỗ trợ.
-                            </div>
-                            <div>
-                                (*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển <span class="text-purple-700 font-bold">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.
-                            </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 bg-purple-500 border border-purple-700 rounded"></div>
+                            <span class="text-sm">Đang chọn</span>
                         </div>
                     </div>
 
+                    <!-- Seat Map -->
+                    <div class="grid grid-cols-2 gap-8">
+                        <!-- Lower Deck -->
+                        <div>
+                            <h3 class="font-medium mb-4 text-center">Tầng dưới</h3>
+                            <div class="grid grid-cols-3 gap-2" id="lowerDeck">
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A01</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A02</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A03</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A04</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A05</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A06</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A07</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A08</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A09</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A10</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A11</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A12</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A13</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A14</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A15</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A16</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">A17</button>
+                            </div>
+                        </div>
+                        <!-- Upper Deck -->
+                        <div>
+                            <h3 class="font-medium mb-4 text-center">Tầng trên</h3>
+                            <div class="grid grid-cols-3 gap-2" id="upperDeck">
+                                <!-- Ghế tầng trên (B01 - B17) -->
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B01</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B02</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B03</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B04</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B05</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B06</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B07</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B08</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B09</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B10</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B11</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B12</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B13</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B14</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B15</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B16</button>
+                                <button class="seat seat-available mx-auto" onclick="toggleSeat(this)">B17</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm mt-2">
+                    <!-- Customer Information -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="mt-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-medium">Thông tin khách hàng</h3>
+                            </div>
 
-        </div>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm mb-1">
+                                        Họ và tên <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
+                                </div>
 
-        <!-- Right Column -->
-        <div class="lg:col-span-1">
-            <!-- Trip Information -->
-            <div class="bg-white rounded-lg p-6 shadow-sm mb-4">
-                <h3 class="font-medium mb-4">Thông tin lượt đi</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Tuyến xe</span>
-                        <span>Mien Tay - Da Nang</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Thời gian xuất bến</span>
-                        <span class="text-green-600">18:30 24/11/2024</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Số lượng ghế</span>
-                        <span id="seatCount">0 Ghế</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Số ghế</span>
-                        <span id="selectedSeats" class="text-green-600"></span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Tổng tiền lượt đi</span>
-                        <span id="totalPrice" class="text-green-600">0đ</span>
+                                <div>
+                                    <label class="block text-sm mb-1">
+                                        Số điện thoại <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm mb-1">
+                                        Email <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500" value="">
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="flex justify-center items-center text-center mb-4">
+                                <span class="text-purple-700 font-bold">ĐIỀU KHOẢN & LƯU Ý</span>
+                            </div>
+
+                            <div class="flex-row text-sm px-2">
+                                <div>
+                                    (*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINES. Vui lòng liên hệ Trung tâm tổng đài <span class="text-purple-700 font-bold">1900 6067</span> để được hỗ trợ.
+                                </div>
+                                <div>
+                                    (*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển <span class="text-purple-700 font-bold">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
 
-            <!-- Price Details -->
-            <div class="bg-white rounded-lg p-6 shadow-sm">
-                <h3 class="font-medium mb-4">Chi tiết giá</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Giá vé lượt đi</span>
-                        <span id="ticketPrice">0đ</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Phí thanh toán</span>
-                        <span>0đ</span>
-                    </div>
-                    <div class="flex justify-between font-medium">
-                        <span class="text-gray-600">Tổng tiền</span>
-                        <span id="grandTotal" class="text-purple-500 font-bold">0đ</span>
+            <!-- Right Column -->
+            <div class="lg:col-span-1">
+                <!-- Trip Information -->
+                <div class="bg-white rounded-lg p-6 shadow-sm mb-4">
+                    <h3 class="font-medium mb-4">Thông tin lượt đi</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tuyến xe</span>
+                            <span>Mien Tay - Da Nang</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Thời gian xuất bến</span>
+                            <span class="text-green-600">18:30 24/11/2024</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Số lượng ghế</span>
+                            <span id="seatCount">0 Ghế</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Số ghế</span>
+                            <span id="selectedSeats" class="text-green-600"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tổng tiền lượt đi</span>
+                            <span id="totalPrice" class="text-green-600">0đ</span>
+                        </div>
                     </div>
                 </div>
-                <!-- Buttons -->
-                <div class="mt-6 flex justify-end gap-4">
-                    <button class="px-6 py-2 border rounded hover:bg-purple-600 hover:text-white">
-                        Hủy
-                    </button>
-                    <a href="/fuba/paying" class="py-2 px-4 bg-purple-600 text-white font-medium rounded-md hover:bg-purple-700">Thanh toán</a>
 
+                <!-- Price Details -->
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 class="font-medium mb-4">Chi tiết giá</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Giá vé lượt đi</span>
+                            <span id="ticketPrice">0đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Phí thanh toán</span>
+                            <span>0đ</span>
+                        </div>
+                        <div class="flex justify-between font-medium">
+                            <span class="text-gray-600">Tổng tiền</span>
+                            <span id="grandTotal" class="text-purple-500 font-bold">0đ</span>
+                        </div>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="mt-6 flex justify-end gap-4">
+                        <button class="px-6 py-2 border rounded hover:bg-purple-600 hover:text-white">
+                            Hủy
+                        </button>
+                        <a href="/fuba/paying" class="py-2 px-4 bg-purple-600 text-white font-medium rounded-md hover:bg-purple-700">Thanh toán</a>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        const TICKET_PRICE = 460000; // Giá vé mỗi ghế
-        let selectedSeats = [];
-        let totalPrice = 0;
-
-        function updatePriceInfo() {
-            document.getElementById('seatCount').textContent = `${selectedSeats.length} Ghế`;
-            document.getElementById('selectedSeats').textContent = selectedSeats.join(', ');
-            document.getElementById('totalPrice').textContent = `${totalPrice.toLocaleString()}đ`;
-            document.getElementById('ticketPrice').textContent = `${totalPrice.toLocaleString()}đ`;
-            document.getElementById('grandTotal').textContent = `${totalPrice.toLocaleString()}đ`;
-        }
-
-        function toggleSeat(button) {
-            // Nếu ghế đang ở trạng thái "đang chọn", chuyển về trạng thái "còn trống" và trừ tiền
-            if (button.classList.contains('seat-selected')) {
-                button.classList.remove('seat-selected');
-                button.classList.add('seat-available');
-                // Loại bỏ ghế khỏi danh sách ghế được chọn
-                selectedSeats = selectedSeats.filter(s => s !== button.textContent);
-                // Trừ giá tiền
-                totalPrice -= TICKET_PRICE;
-            }
-            // Nếu ghế đang ở trạng thái "còn trống", chuyển sang trạng thái "đang chọn" và cộng tiền
-            else if (button.classList.contains('seat-available')) {
-                button.classList.remove('seat-available');
-                button.classList.add('seat-selected');
-                // Thêm ghế vào danh sách ghế được chọn
-                selectedSeats.push(button.textContent);
-                // Cộng giá tiền
-                totalPrice += TICKET_PRICE;
-            }
-
-            // Cập nhật thông tin hiển thị
-            updatePriceInfo();
-        }
-
-        // Khởi tạo thông tin giá tiền và ghế
-        updatePriceInfo();
-    </script>
-
-</div>
 
 </body>
 </html>

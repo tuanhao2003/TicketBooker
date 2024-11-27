@@ -1,13 +1,14 @@
 package com.example.ticketbooker.Service;
 
-import com.example.ticketbooker.DTO.Trips.AddTripDTO;
-import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
-import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
-import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Bus.BusDTO;
+import com.example.ticketbooker.DTO.Trips.*;
 import com.example.ticketbooker.Entity.Trips;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TripService {
     public ResponseTripDTO getTripById(int id);
+    Page<TripDTO> getAllTrips(Pageable pageable);
 //    public ArrayList<Trips> findAll();
     public ResponseTripDTO getAllTrips();
     public boolean addTrip(AddTripDTO dto);
