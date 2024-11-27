@@ -4,10 +4,12 @@ import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Users.UserResponse;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Mapper.TripMapper;
+import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,18 @@ import java.util.ArrayList;
 public class TripServiceImp implements TripService {
     @Autowired
     private TripRepo tripRepo;
+
+    @Override
+    public ResponseTripDTO getTripById(int tripId) {
+        ResponseTripDTO result = new ResponseTripDTO();
+        try {
+            result = TripMapper.toResponseDTO(this.tripRepo.findAllById(tripId));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
+    }
 
     @Override
     public ResponseTripDTO getAllTrips() {
