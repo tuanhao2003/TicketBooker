@@ -1,12 +1,13 @@
 package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
+import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
+import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/admin/trips")
@@ -24,5 +25,21 @@ public class TripApi {
             result = false;
         }
         return result;
+    }
+
+    @GetMapping("/{tripId}")
+    public ArrayList<Trips> getTripById(@PathVariable int tripId) {
+        try {
+            ResponseTripDTO trip = tripService.getTripById(tripId);
+            System.out.println("Trip: " + trip);
+            if (trip != null) {
+                return trip.getListTrips();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
