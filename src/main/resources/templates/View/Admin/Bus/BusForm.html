@@ -10,15 +10,22 @@
 <body class="bg-gray-100">
 <div layout:fragment="content">
     <div class="container mx-auto p-4">
-            <h1 th:if="${busDTO.id} == null" class="text-2xl font-bold mb-4">Form Thêm Xe</h1>
-            <h1 th:if="${busDTO.id} != null" class="text-2xl font-bold mb-4">Form Sửa Xe</h1>
+        <h1 th:if="${busDTO.id} == null" class="text-2xl font-bold mb-4">Form Thêm Xe</h1>
+        <h1 th:if="${busDTO.id} != null" class="text-2xl font-bold mb-4">Form Sửa Xe</h1>
 
         <!-- Form để thêm mới (khi busDTO.id là null) -->
         <form th:if="${busDTO.id} == null" th:action="@{/admin/buses/add}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <!-- Routes ID -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="routeIdNew">Mã Tuyến</label>
-                <input type="number" name="routeId" id="routeIdNew" th:field="*{busDTO.routeId.routeId}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select name="routeId" id="routeIdNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Chọn mã tuyến</option>
+                    <option th:each="route : ${routes}"
+                            th:value="${route.routeId}"
+                            th:text="${route.routeId} + ' - ' + ${route.departureLocation} + ' - ' + ${route.arrivalLocation}"
+                            th:selected="${route.routeId == busDTO.routeId?.routeId}"></option>
+                </select>
             </div>
             <!-- License Plate -->
             <div class="mb-4">
@@ -28,9 +35,18 @@
             </div>
             <!-- Bus Type -->
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="busTypeNew">Loại Xe</label>
-                <input type="text" name="busType" id="busTypeNew" th:field="*{busDTO.busType}" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busTypeNew">Trạng Thái Xe</label>
+                <select name="busType" id="busTypeNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="BEDSEAT"
+                            th:selected="${busDTO.busType == T(com.example.ticketbooker.Util.Enum.BusType).BEDSEAT}">
+                        BEDSEAT
+                    </option>
+                    <option value="SEAT"
+                            th:selected="${busDTO.busType == T(com.example.ticketbooker.Util.Enum.BusType).SEAT}">
+                        SEAT
+                    </option>
+                </select>
             </div>
             <!-- Capacity -->
             <div class="mb-4">
@@ -72,8 +88,14 @@
             <!-- Route ID -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã Tuyến</label>
-                <input type="number" name="routeId" id="routeId" th:field="*{busDTO.routeId.routeId}" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select name="routeId" id="routeId" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Chọn mã tuyến</option>
+                    <option th:each="route : ${routes}"
+                            th:value="${route.routeId}"
+                            th:text="${route.routeId} + ' - ' + ${route.departureLocation} + ' - ' + ${route.arrivalLocation}"
+                            th:selected="${route.routeId == busDTO.routeId.routeId}"></option>
+                </select>
             </div>
             <!-- License Plate -->
             <div class="mb-4">
@@ -83,9 +105,18 @@
             </div>
             <!-- Bus Type -->
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Loại Xe</label>
-                <input type="text" name="busType" id="busType" th:field="*{busDTO.busType}" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busType">Trạng Thái Xe</label>
+                <select name="busType" id="busType" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="BEDSEAT"
+                            th:selected="${busDTO.busType == T(com.example.ticketbooker.Util.Enum.BusType).BEDSEAT}">
+                        BEDSEAT
+                    </option>
+                    <option value="SEAT"
+                            th:selected="${busDTO.busType == T(com.example.ticketbooker.Util.Enum.BusType).SEAT}">
+                        SEAT
+                    </option>
+                </select>
             </div>
             <!-- Capacity -->
             <div class="mb-4">

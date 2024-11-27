@@ -2,6 +2,7 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Bus.BusDTO;
 import com.example.ticketbooker.Service.BusService;
+import com.example.ticketbooker.Service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,9 @@ public class BusController {
 
     @Autowired
     private BusService busService;
+
+    @Autowired
+    private RouteService routeService;
 
     //Hiển thị danh sách buses
     @GetMapping()
@@ -39,6 +43,7 @@ public class BusController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("busDTO", new BusDTO());
+        model.addAttribute("routes", routeService.findAllRoutes().getList()); // Lấy danh sách tuyến
         return "View/Admin/Bus/BusForm";
     }
 
@@ -56,6 +61,7 @@ public class BusController {
         BusDTO busDTO = busService.getBusById(id);
         if (busDTO != null) {
             model.addAttribute("busDTO", busDTO);
+            model.addAttribute("routes", routeService.findAllRoutes().getList()); // Lấy danh sách tuyến
             return "View/Admin/Bus/BusForm";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy xe với ID: " + id);
