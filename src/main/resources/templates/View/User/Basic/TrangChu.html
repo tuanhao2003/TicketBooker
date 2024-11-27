@@ -11,16 +11,26 @@
         .banner-gradient {
             background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
         }
+
         .carousel {
             scroll-behavior: smooth;
         }
+
         .carousel-item {
             flex: 0 0 100%;
         }
+
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .animate-slide-in {
             animation: slideIn 0.5s ease-out forwards;
         }
@@ -58,11 +68,13 @@
                     <div class="flex justify-between items-center mb-8">
                         <div class="flex gap-6">
                             <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="tripType" value="oneWay" class="w-5 h-5 text-purple-600 border-purple-600" checked>
+                                <input type="radio" name="tripType" value="oneWay"
+                                       class="rqData w-5 h-5 text-purple-600 border-purple-600" checked>
                                 <span class="ml-2 text-gray-600">Một chiều</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="tripType" value="roundTrip" class="w-5 h-5 text-purple-600 border-purple-600">
+                                <input type="radio" name="tripType" value="roundTrip"
+                                       class="rqData w-5 h-5 text-purple-600 border-purple-600">
                                 <span class="ml-2 text-purple-600 font-medium">Khứ hồi</span>
                             </label>
                         </div>
@@ -74,12 +86,15 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Điểm đi</label>
                             <div class="relative">
-                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
-                                    <option>TP. Hồ Chí Minh</option>
+                                <select name="routeDeparture"
+                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option></option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                             </div>
@@ -88,12 +103,15 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Điểm đến</label>
                             <div class="relative">
-                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
-                                    <option>Đà Nẵng</option>
+                                <select name="routeArrival"
+                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option></option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                             </div>
@@ -102,26 +120,31 @@
                         <div id="dateContainer" class="col-span-1">
                             <label class="block text-sm text-gray-600 mb-1.5">Ngày đi</label>
                             <div class="relative">
-                                <input type="date" placeholder="Thêm ngày đi" class="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                                <input name="departureDate" type="date" placeholder="Thêm ngày đi"
+                                       class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
                             </div>
                         </div>
 
                         <div id="returnDateContainer" class="hidden">
                             <label class="block text-sm text-gray-600 mb-1.5">Ngày về</label>
                             <div class="relative">
-                                <input type="date" placeholder="Thêm ngày về" class="w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
+                                <input name="arrivalDate" type="date" placeholder="Thêm ngày về"
+                                       class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Số vé</label>
                             <div class="relative">
-                                <select class="w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                <select name="ticketQuantity"
+                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
                                     <option>1</option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
                                     </svg>
                                 </div>
                             </div>
@@ -140,7 +163,7 @@
 
                 <!-- Search Button -->
                 <div class="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2">
-                    <button class="h-12 px-12 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                    <button class="btn-submit-trip-search h-12 px-12 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
                         Tìm chuyến xe
                     </button>
                 </div>
@@ -284,6 +307,69 @@
             </div>
         </div>
     </div>
+    <script>
+        (
+            function () {
+                document.addEventListener("DOMContentLoaded", function () {
+                    loadSelectData();
+                    tripSearch();
+
+                    function tripSearch() {
+                        const type = document.querySelector(".rqData[name='tripType']");
+                        const routeDeparture = document.querySelector(".rqData[name='routeDeparture']");
+                        const routeArrival = document.querySelector(".rqData[name='routeArrival']");
+                        const dateDeparture = document.querySelector(".rqData[name='departureDate']");
+                        const dateArrival = document.querySelector(".rqData[name='arrivalDate']");
+                        const ticketQuantity = document.querySelector(".rqData[name='ticketQuantity']");
+                        const submitBtn = document.querySelector(".btn-submit-trip-search");
+
+                        submitBtn.onclick = {};
+                    }
+
+                    function loadSelectData() {
+                        getRoutes();
+
+                        function getRoutes() {
+                            const fetchUrl = "http://localhost:8080/admin/routes/get-routes";
+                            fetch(fetchUrl, {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"}
+                            }).then(respone => {
+                                if (respone.ok) {
+                                    return respone.json();
+                                } else {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                            }).then(data => {
+                                preSetSelect(data.list);
+                            }).catch(e => console.log(e));
+                        }
+
+                        function preSetSelect(data) {
+                            const routeDeparture = document.querySelector(".rqData[name='routeDeparture']");
+                            const routeArrival = document.querySelector(".rqData[name='routeArrival']");
+                            routeDeparture.innerHTML = "";
+                            routeArrival.innerHTML = "";
+                            let departureNames = [];
+                            let arrivalNames = [];
+                            data.forEach(route => {
+                                departureNames.push(route.departureLocation);
+                                arrivalNames.push(route.arrivalLocation);
+                            });
+                            const listDepartures = [...new Set(departureNames)];
+                            const listArrivals = [...new Set(arrivalNames)];
+                            listDepartures.forEach(departureLocation => {
+                                routeDeparture.innerHTML += `<option value="${departureLocation}">${departureLocation}</option>`;
+                            });
+                            listArrivals.forEach(arrivalLocation => {
+                                routeArrival.innerHTML += `<option value="${arrivalLocation}">${arrivalLocation}</option>`;
+                            });
+                        }
+                    }
+                });
+            }
+        )();
+    </script>
 </div>
 
 <script>

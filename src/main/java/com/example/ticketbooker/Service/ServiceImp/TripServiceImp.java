@@ -1,9 +1,6 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
-import com.example.ticketbooker.DTO.Trips.AddTripDTO;
-import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
-import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
-import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Trips.*;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
 import com.example.ticketbooker.Service.TripService;
@@ -79,5 +76,18 @@ public class TripServiceImp implements TripService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public ResponseTripDTO searchTrip(SearchTripRequest dto) {
+        ResponseTripDTO result = new ResponseTripDTO();
+        try {
+//            result = TripMapper.toResponseDTO(this.tripRepo.findAll());
+            result = TripMapper.toResponseDTO(this.tripRepo.searchTrip(dto));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
     }
 }
