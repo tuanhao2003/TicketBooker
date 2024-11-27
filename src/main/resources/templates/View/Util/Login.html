@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <style type="text/tailwindcss">
         @layer utilities {
             .font-montserrat {
@@ -305,10 +307,21 @@
                 .then(response => {
                     if (response.ok) {
                         // Xử lý nếu thành công, ví dụ redirect hoặc thông báo
-                        console.log('ok');
-                        alert("Dang ky thanh cong")
-                        window.location.href = '/auth';
+                        console.log(response);
+                        Swal.fire({
+                            title: 'Đã đăng ký',
+                            text: 'Đăng ký thành công chuyển sang trang đăng nhập',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                        showResgister();
                     } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Có lỗi',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                         console.log("Response error")
                         throw new Error('Error occurred while adding account');
                     }
