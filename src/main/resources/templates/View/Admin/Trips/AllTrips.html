@@ -68,22 +68,18 @@
                                             id="license" name="bus.Id" required>
                                         <option value="">Chọn biển số xe</option>
                                         <option th:each="bus : ${buses}"
-                                                th:value="${bus.id}"
+                                                th:value="${bus.Id}"
                                                 th:text="${bus.licensePlate}">
                                         </option>
                                     </select>
-<!--                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"-->
-<!--                                           id="busId" name="bus.Id" required>-->
                                 </div>
                                 <div class="px-3">
-                                    <label for="driverName" class="block font-medium">Mã số xe</label>
+                                    <label for="driverName" class="block font-medium">Tên tài xế</label>
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
                                             id="driverName" name="driver.driverId" required>
                                         <option value=""></option>
-                                        <!-- Các option sẽ được thêm qua JavaScript -->
+
                                     </select>
-<!--                                    <input type="hidden" class="block w-full border border-gray-300 rounded px-2 py-1"-->
-<!--                                        id="driverId" name="driver.driverId" required>-->
                                 </div>
                             </div>
 
@@ -250,8 +246,7 @@
         </div>
         <!-- Bảng chuyến xe -->
         <!-- Lặp qua danh sách chuyến xe -->
-        <div class="bg-white rounded-lg shadow-lg mb-6 trip-container overflow-hidden"
-            th:each="trip : ${listTrips.listTrips}">
+        <div th:each="trip : ${trips}" class="bg-white rounded-lg shadow-lg mb-6 trip-container overflow-hidden">
             <div class="px-4 py-3 rounded-t-lg flex flex-col sm:flex-row justify-between items-center bg-purple-700">
                 <div class="flex flex-col sm:flex-row items-center mb-2 sm:mb-0">
                     <div class="flex items-center mb-1 sm:mb-0 sm:mr-4">
@@ -324,6 +319,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="pagination-container flex justify-center items-center mt-4">
+            <ul class="flex space-x-2">
+                <li th:if="${currentPage > 0}">
+                    <a th:href="@{'?page=' + (${currentPage} - 1) + '&size=' + ${size}}"
+                       class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Trước</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{'?page=' + ${i} + '&size=' + ${size}}"
+                       th:classappend="${i == currentPage} ? 'bg-purple-600 text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                       class="px-4 py-2 rounded">
+                        <span th:text="${i + 1}"></span>
+                    </a>
+                </li>
+                <li th:if="${currentPage < totalPages - 1}">
+                    <a th:href="@{'?page=' + (${currentPage} + 1) + '&size=' + ${size}}"
+                       class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Sau</a>
+                </li>
+            </ul>
         </div>
     </div>
 </body>

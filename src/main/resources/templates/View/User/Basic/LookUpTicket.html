@@ -7,140 +7,114 @@
     <title>Tra cứu thông tin vé - FUTA Bus Lines</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6B46C1',
-                        secondary: '#9F7AEA',
-                        accent: '#D6BCFA',
-                    }
-                }
-            }
-        }
-    </script>
+    <script th:src="@{/js/LookUpTicket.js}"></script>
 </head>
 <body>
-<div layout:fragment="content">
-    <div class="container mx-auto px-4 py-8 min-h-[500px] flex items-center">
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl mx-auto">
-            <div class="bg-gradient-to-r from-primary to-secondary p-6 text-white">
-                <h1 class="text-3xl font-bold text-center">Tra cứu thông tin vé</h1>
-            </div>
-
-            <div class="p-6 space-y-6">
-                <!-- Search Form -->
-                <div id="searchSection" class="space-y-4">
-                    <label for="ticketId" class="block text-lg font-medium text-gray-700">Mã vé:</label>
-                    <div class="flex">
-                        <input type="text" id="ticketId" name="ticketId" placeholder="Nhập mã vé"
-                               class="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-primary focus:border-primary outline-none">
-                        <button onclick="fetchTicketInfo()"
-                                class="bg-primary text-white px-6 py-2 rounded-r-md hover:bg-secondary transition duration-300 ease-in-out">
-                            <i class="fas fa-search mr-2"></i>Tra cứu
-                        </button>
-                    </div>
+    <div layout:fragment="content">
+        <div class="container mx-auto px-4 py-8 min-h-[500px] flex items-center">
+            <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-4xl mx-auto">
+                <div class="bg-gradient-to-r from-primary to-secondary p-6 text-white">
+                    <h1 class="text-3xl font-bold text-center">Tra cứu thông tin vé</h1>
                 </div>
 
-                <!-- Ticket Information -->
-                <div id="ticketInfo" class="space-y-6 hidden">
-                    <div class="bg-gray-100 rounded-lg p-6 shadow-inner">
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="md:w-1/3">
-                                <img id="qrCodeImage" class="w-full h-auto rounded-lg shadow-md" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExampleTicketData" alt="QR Code">
-                            </div>
-                            <div class="md:w-2/3 space-y-4">
-                                <div class="flex justify-between items-center border-b border-gray-300 pb-2">
-                                    <span class="text-xl font-semibold text-gray-700">Mã vé:</span>
-                                    <span id="ticketIdValue" class="text-2xl font-bold text-primary">FUTA-123456</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p class="text-sm text-gray-600">Họ và tên</p>
-                                        <p id="customerNameValue" class="font-medium">Nguyễn Văn A</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Số điện thoại</p>
-                                        <p id="customerPhoneValue" class="font-medium">0123456789</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Ngày đặt vé</p>
-                                        <p id="bookingDateValue" class="font-medium">07/01/2024, 16:53</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-600">Email</p>
-                                        <p id="emailValue" class="font-medium">example@email.com</p>
-                                    </div>
-                                </div>
-                                <div class="border-t border-gray-300 pt-4 mt-4">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-lg font-semibold text-gray-700">Tổng cộng:</span>
-                                        <span id="totalPriceValue" class="text-2xl font-bold text-red-600">12.960.000 VND</span>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="p-6 space-y-6">
+                    <!-- Search Form -->
+                    <div id="searchSection" class="space-y-4">
+                        <label for="ticketId" class="block text-lg font-medium text-gray-700">Mã vé:</label>
+                        <div class="flex">
+                            <input type="text" id="ticketId" name="ticketId" placeholder="Nhập mã vé"
+                                   class="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+                            <button onclick="fetchTicketInfo()"
+                                    class="bg-primary text-white px-6 py-2 rounded-r-md hover:bg-secondary transition duration-300 ease-in-out">
+                                <i class="fas fa-search mr-2"></i>Tra cứu
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Trip Information -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="bg-blue-100 px-6 py-3 flex justify-between items-center">
-                            <span class="text-sm font-medium text-gray-700">Lộ trình chuyến xe</span>
-                            <span class="text-sm text-gray-600">Thu, 20/01/2022</span>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                                <div class="text-center">
-                                    <p class="text-3xl font-bold text-primary">NRT</p>
-                                    <p class="text-lg font-medium text-gray-600 mt-1">09:30</p>
+                    <!-- Ticket Information -->
+                    <div id="ticketInfo" class="space-y-6 hidden">
+                        <div class="bg-gray-100 rounded-lg p-6 shadow-inner">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="md:w-1/3">
+                                    <img id="qrCodeImage" class="w-full h-auto rounded-lg shadow-md" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExampleTicketData" alt="QR Code">
                                 </div>
-                                <div class="text-center">
-                                    <p class="text-gray-700 font-medium">6 tiếng 30 phút</p>
-                                    <div class="flex items-center justify-center space-x-2 mt-2">
-                                        <span class="text-yellow-500"><i class="fas fa-bus"></i></span>
-                                        <p class="text-gray-600">Direct bus</p>
-                                        <span class="text-gray-500">|</span>
-                                        <button class="text-primary hover:text-secondary transition duration-300 ease-in-out">
-                                            Chi tiết <i class="fas fa-angle-down ml-1"></i>
-                                        </button>
+                                <div class="md:w-2/3 space-y-4">
+                                    <div class="flex justify-between items-center border-b border-gray-300 pb-2">
+                                        <span class="text-xl font-semibold text-gray-700">Mã vé:</span>
+                                        <span id="ticketIdValue" class="text-2xl font-bold text-primary">FUTA-123456</span>
                                     </div>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-3xl font-bold text-primary">HAN</p>
-                                    <p class="text-lg font-medium text-gray-600 mt-1">14:00</p>
-                                </div>
-                                <div class="text-center">
-                                    <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class" class="w-12 h-12 mx-auto mb-2">
-                                    <p class="text-sm text-gray-600">1 hành khách</p>
-                                    <p class="text-xl text-red-600 font-bold mt-1">12,960,000 VND</p>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm text-gray-600">Họ và tên</p>
+                                            <p id="customerNameValue" class="font-medium">Nguyễn Văn A</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600">Số điện thoại</p>
+                                            <p id="customerPhoneValue" class="font-medium">0123456789</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600">Ngày đặt vé</p>
+                                            <p id="bookingDateValue" class="font-medium">07/01/2024, 16:53</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-600">Email</p>
+                                            <p id="emailValue" class="font-medium">example@email.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="border-t border-gray-300 pt-4 mt-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-semibold text-gray-700">Tổng cộng:</span>
+                                            <span id="totalPriceValue" class="text-2xl font-bold text-red-600">12.960.000 VND</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button onclick="resetForm()" class="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-600 transition duration-300 ease-in-out">
-                        <i class="fas fa-redo mr-2"></i>Tra cứu lại
-                    </button>
+                        <!-- Trip Information -->
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="bg-blue-100 px-6 py-3 flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700">Lộ trình chuyến xe</span>
+                                <span class="text-sm text-gray-600">Thu, 20/01/2022</span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                                    <div class="text-center">
+                                        <p class="text-3xl font-bold text-primary">NRT</p>
+                                        <p class="text-lg font-medium text-gray-600 mt-1">09:30</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-gray-700 font-medium">6 tiếng 30 phút</p>
+                                        <div class="flex items-center justify-center space-x-2 mt-2">
+                                            <span class="text-yellow-500"><i class="fas fa-bus"></i></span>
+                                            <p class="text-gray-600">Direct bus</p>
+                                            <span class="text-gray-500">|</span>
+                                            <button class="text-primary hover:text-secondary transition duration-300 ease-in-out">
+                                                Chi tiết <i class="fas fa-angle-down ml-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-3xl font-bold text-primary">HAN</p>
+                                        <p class="text-lg font-medium text-gray-600 mt-1">14:00</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class" class="w-12 h-12 mx-auto mb-2">
+                                        <p class="text-sm text-gray-600">1 hành khách</p>
+                                        <p class="text-xl text-red-600 font-bold mt-1">12,960,000 VND</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="resetForm()" class="w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-600 transition duration-300 ease-in-out">
+                            <i class="fas fa-redo mr-2"></i>Tra cứu lại
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function fetchTicketInfo() {
-            // Simulate API call
-            document.getElementById("searchSection").classList.add("hidden");
-            document.getElementById("ticketInfo").classList.remove("hidden");
-        }
-
-        function resetForm() {
-            document.getElementById("ticketId").value = "";
-            document.getElementById("ticketInfo").classList.add("hidden");
-            document.getElementById("searchSection").classList.remove("hidden");
-        }
-    </script>
-
-</div>
 
 </body>
 </html>

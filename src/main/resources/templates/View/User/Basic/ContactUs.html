@@ -5,25 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liên hệ với chúng tôi - FUTA BUS LINES</title>
+</head>
+<body class="bg-purple-50">
+<div layout:fragment="content">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6B46C1',
-                        secondary: '#9F7AEA'
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-purple-50">
-<div layout:fragment="content">
+    <script th:src="@{/js/ContactUs.js}"></script>
     <!-- Hero Section -->
     <div class="bg-primary text-white py-16">
         <div class="container mx-auto px-4">
@@ -173,13 +162,6 @@
             </div>
         </div>
     </div>
-    <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true
-        });
-    </script>
 </div>
 
 
