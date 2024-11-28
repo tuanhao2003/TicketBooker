@@ -15,4 +15,5 @@ public interface BusService {
     void deleteBus(Integer id);
     Page<BusDTO> getAllBuses(Pageable pageable);
     Optional<Integer> getBusIdByLicensePlate(String licensePlate);
+    Page<BusDTO> getBusesByLicensePlateContaining(String licensePlate, Pageable pageable);
 }

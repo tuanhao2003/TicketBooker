@@ -75,4 +75,10 @@ public class BusServiceImp implements BusService {
     public Optional<Integer> getBusIdByLicensePlate(String licensePlate) {
         return busRepository.findByLicensePlate(licensePlate).map(Buses::getId); // Use map to extract the ID directly
     }
+
+    @Override
+    public Page<BusDTO> getBusesByLicensePlateContaining(String licensePlate, Pageable pageable) {
+        Page<Buses> buses = busRepository.findByLicensePlateContainingIgnoreCase(licensePlate, pageable);
+        return buses.map(BusMapper::toDTO);
+    }
 }
