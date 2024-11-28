@@ -62,6 +62,8 @@ public class AccessController {
             session.setAttribute("username", userDetails.getUsername());
             session.setAttribute("email", userDetails.getAccount().getEmail());
             session.setAttribute("role", userDetails.getAccount().getRole().toString());
+            session.setAttribute("name", userDetails.getAccount().getRole().toString());
+            session.setAttribute("role", userDetails.getAccount().getRole().toString());
             System.out.println( "Username: " + userDetails.getUsername() + " Email: " + userDetails.getAccount().getEmail() + " Role: " + userDetails.getAccount().getRole()) ;
             return "redirect:/auth/profile";
         }

@@ -56,4 +56,9 @@ public class MainController {
         return "View/Util/Login";
     }
 
+    @GetMapping("/profile")
+    public String showProfile() {
+        return "View/User/Registered/Profile/TicketHistory";
+    }
+
 }

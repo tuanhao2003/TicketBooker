@@ -2,7 +2,9 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Ticket.TicketResponse;
 import com.example.ticketbooker.Service.TicketService;
+import com.example.ticketbooker.Service.UserService;
 import com.example.ticketbooker.Util.Enum.TicketStatus;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,17 @@ public class ProfileController {
 
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/info")
-    public String showInfo() {
+    public String showInfo(HttpSession session, Model model) {
+
+        String username = (String) session.getAttribute("username");
+        String email = (String) session.getAttribute("email");
+
+        model.addAttribute("email", email);
+        model.addAttribute("username", username);
         return "View/User/Registered/Profile/Info";
     }
 

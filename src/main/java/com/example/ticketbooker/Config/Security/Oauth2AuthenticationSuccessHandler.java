@@ -26,13 +26,13 @@ public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccess
             request.getSession().setAttribute("role", userDetails.getAuthorities().toString());
             request.getSession().setAttribute("email", userDetails.getAccount().getEmail());
             // Chuyển hướng đến trang đích sau khi đăng nhập thành công
-            response.sendRedirect("/auth/profile");
+            response.sendRedirect("/user-info");
         } else if (principal instanceof OAuth2User oauth2User) {
             System.out.println("if principal instance of oauth2: " + oauth2User.getClass().getName());
             request.getSession().setAttribute("username", oauth2User.getAttribute("name"));
             request.getSession().setAttribute("email", oauth2User.getAttribute("email"));
             request.getSession().setAttribute("role", "Customer");
-            response.sendRedirect("/auth/profile");
+            response.sendRedirect("/user-info");
         }
     }
 }
