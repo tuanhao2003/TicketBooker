@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Quản lý Xe</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
         // function deleteAccount(button) {
         //     if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
@@ -80,6 +81,27 @@
                     alert('Cập nhật vai trò thất bại!');
                 });
         }
+
+        function startSpeechRecognition() {
+            const keywordInput = document.getElementById('keyword');
+            const searchForm = document.getElementById('searchForm'); // Get the form element
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript;
+                keywordInput.value = result;
+                searchForm.submit(); // Submit the form immediately
+            };
+
+            recognition.start();
+        }
+
+        //Optional function to perform search with enter key
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit();
+            }
+        }
     </script>
 </head>
 <body class="bg-gray-100">
@@ -88,13 +110,12 @@
         <h1 class="text-2xl font-bold mb-4">Quản Lý Tài Khoản</h1>
 
         <!-- Search -->
-        <form action="/admin/accounts/search" method="get">
-            <div class="mb-4">
+        <form id="searchForm" action="/admin/accounts/search" method="get">  <!-- Added id to the form -->
+            <div class="mb-4 flex items-center">
                 <input type="text" name="keyword" id="keyword" placeholder="Tìm kiếm theo tên, email, mật khẩu"
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Tìm kiếm
-                </button>
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" onkeydown="handleKeyPress(event)">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2">Tìm kiếm</button>
+                <i class="fas fa-microphone cursor-pointer" onclick="startSpeechRecognition()"></i>
             </div>
         </form>
 
