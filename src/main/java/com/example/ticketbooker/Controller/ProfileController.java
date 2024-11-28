@@ -2,6 +2,7 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Ticket.TicketResponse;
 import com.example.ticketbooker.Service.TicketService;
+import com.example.ticketbooker.Util.Enum.TicketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,8 @@ public class ProfileController {
     public String showHistoryBooking(@PathVariable int accountId, Model model) {
         TicketResponse ticketResponse = ticketService.getTicketsByAccountId(accountId);
         model.addAttribute("ticketResponse", ticketResponse);
+        // Lấy tất cả các giá trị của TicketStatus
+        model.addAttribute("ticketStatuses", TicketStatus.values());
         return "View/User/Registered/Profile/TicketHistory";
     }
 

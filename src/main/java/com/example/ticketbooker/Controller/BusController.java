@@ -80,4 +80,27 @@ public class BusController {
         }
         return "redirect:/admin/buses";
     }
+
+    @GetMapping("/search")
+    public String searchBuses(
+            Model model,
+            @RequestParam(name = "licensePlate", required = false) String licensePlate,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        // If licensePlate is not null or empty, perform search, otherwise get all buses
+        Page<BusDTO> busPage = (licensePlate != null && !licensePlate.isEmpty()) ?
+                busService.getBusesByLicensePlateContaining(licensePlate, pageable) :
+                busService.getAllBuses(pageable);
+
+
+        model.addAttribute("buses", busPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", busPage.getTotalPages());
+        model.addAttribute("licensePlate", licensePlate); // Add this line to persist the search term in the input field
+
+        return "View/Admin/Bus/Bus";
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin/accounts")
 public class AccountController {
@@ -73,5 +75,13 @@ public class AccountController {
             redirectAttributes.addFlashAttribute("errorMessage", "Cập nhật tài khoản thất bại!");
         }
         return "redirect:/admin/accounts";
+    }
+
+    @GetMapping("/search")
+    public String searchAccounts(Model model, @RequestParam("keyword") String keyword) {
+        List<AccountDTO> accounts = accountService.searchAccounts(keyword);
+        model.addAttribute("accounts", accounts);
+        // Add other attributes needed for the view if any (e.g., currentPage, totalPages)
+        return "View/Admin/AccountManagement/Account"; // Return the same view as the listAccounts method
     }
 }
