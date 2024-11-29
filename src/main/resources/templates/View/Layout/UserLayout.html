@@ -20,10 +20,118 @@
     // Cài đặt ngôn ngữ
     recognition.lang = 'vi-VN';
 
+    // Biến lưu trữ vị trí hiện tại
+    let currentLocation = "";
+
+    // Hàm lấy vị trí hiện tại
+    function getCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+            currentLocation = "Vị trí không xác định"; // Giá trị mặc định nếu không lấy được vị trí
+        }
+    }
+
+
+    function showPosition(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+            .then(response => response.json())
+            .then(data => {
+                currentLocation = data.address.city || data.address.town || data.address.village || data.address.state || "Vị trí không xác định";
+
+                // Loại bỏ "Thành phố" và các khoảng trắng thừa
+                currentLocation = currentLocation.replace("Thành phố ", "").trim();
+            })
+            .catch(error => {
+                console.error("Error getting location:", error);
+                currentLocation = "Vị trí không xác định";
+            });
+    }
+
+
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                console.error("User denied the request for Geolocation.");
+                currentLocation = "Người dùng từ chối chia sẻ vị trí";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                console.error("Location information is unavailable.");
+                currentLocation = "Vị trí không khả dụng";
+                break;
+            case error.TIMEOUT:
+                console.error("The request to get user location timed out.");
+                currentLocation = "Yêu cầu vị trí hết thời gian";
+                break;
+            case error.UNKNOWN_ERROR:
+                console.error("An unknown error occurred.");
+                currentLocation = "Lỗi không xác định";
+                break;
+        }
+    }
+
+    // Gọi hàm lấy vị trí khi trang web được tải
+    getCurrentLocation();
+
+
     // Xử lý khi nhận dạng giọng nói
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("search-input").value = transcript;
+    recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        let searchText = "";
+
+        const fromKeywords = ["từ", "ở", "tại", "đi từ", "thành phố"];
+        const toKeywords = ["đi", "đến", "tới", "đi đến", "tôi muốn đi", "muốn đi", "đây", "tại đây"]; // Added "đây" and "tại đây"
+
+        let from = "";
+        let to = "";
+
+        fromKeywords.forEach(keyword => {
+            if (transcript.includes(keyword)) {
+                from = transcript.substring(transcript.indexOf(keyword) + keyword.length).trim();
+
+                let toKeywordIndex = Infinity;
+                toKeywords.forEach(toKeyword => {
+                    let index = from.indexOf(toKeyword);
+                    if (index !== -1 && index < toKeywordIndex) {
+                        toKeywordIndex = index;
+                    }
+                });
+
+                if (toKeywordIndex !== Infinity) {
+                    from = from.substring(0, toKeywordIndex).trim();
+                }
+            }
+        });
+
+        toKeywords.forEach(keyword => {
+            if (transcript.includes(keyword)) {
+                to = transcript.substring(transcript.indexOf(keyword) + keyword.length).trim();
+
+                // If 'to' is "đây" or "tại đây", set it to currentLocation
+                if (to === "đây" || to === "tại đây") {
+                    to = currentLocation;
+                }
+            }
+        });
+
+
+        if (!from && to) { // Nếu không tìm thấy từ khóa "từ" nhưng có từ khóa "đến"
+            from = currentLocation;
+        } else if (from && !to) { // Nếu chỉ có fromKeywords
+            to = currentLocation;
+        }
+
+        if (from && to) {
+            searchText = `${from.charAt(0).toUpperCase() + from.slice(1)} - ${to.charAt(0).toUpperCase() + to.slice(1)}`;
+        } else {
+            searchText = transcript;
+        }
+
+        document.getElementById("search-input").value = searchText;
     }
 
     // Hàm bắt đầu nhận diện khi nhấn nút microphone
