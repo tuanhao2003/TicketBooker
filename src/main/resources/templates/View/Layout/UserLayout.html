@@ -10,6 +10,46 @@
     <link rel="stylesheet" th:href="@{/css/UserLayout.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Fixed Chat Icon */
+        #chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it stays on top */
+            cursor: pointer;
+        }
+
+        /* Chat Box */
+        #chat-box {
+            position: fixed;
+            bottom: 80px; /* Adjust as needed */
+            right: 20px;
+            z-index: 9999;
+            width: 300px; /* Adjust as needed */
+            height: 400px; /* Adjust as needed */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none; /* Initially hidden */
+            flex-direction: column;
+        }
+
+        #chat-box.show {
+            display: flex;
+        }
+
+        #messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        #input-area {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+    </style>
 </head>
 <!-- Script cho nhận diện giọng nói -->
 <script>
@@ -102,6 +142,19 @@
             return "Error in processing request.";
         }
     }
+</script>
+<script>
+    function toggleChatBox() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.classList.toggle('show');
+    }
+
+    // Example: Sending a message (you'll need to implement your actual chat logic)
+    document.getElementById('send-button').addEventListener('click', () => {
+        const message = document.getElementById('chat-input').value;
+        // Send 'message' to your chat backend
+        // ...
+    });
 </script>
 <body class="bg-purple-50">
 <!-- Navigation -->
@@ -272,6 +325,19 @@
                    href="#">Quên mật khẩu?</a>
             </div>
         </form>
+    </div>
+</div>
+<!-- Chat Icon -->
+<div id="chat-icon" onclick="toggleChatBox()">
+    <i class="fas fa-comment text-4xl text-purple-600"></i>
+</div>
+
+<!-- Chat Box -->
+<div id="chat-box">
+    <div id="messages"></div>
+    <div id="input-area">
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." class="w-full border rounded-lg p-2">
+        <button id="send-button" class="bg-purple-600 text-white rounded-lg p-2 mt-2">Gửi</button>
     </div>
 </div>
 </body>
