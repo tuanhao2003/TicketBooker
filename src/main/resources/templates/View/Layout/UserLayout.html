@@ -49,6 +49,30 @@
             padding: 10px;
             border-top: 1px solid #ccc;
         }
+
+        /* css cho chat box */
+        #messages {
+            display: flex;
+            flex-direction: column; /* Ensures messages stack vertically */
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 80%; /* Prevents messages from overflowing */
+            word-wrap: break-word; /* Breaks long words */
+        }
+
+        .user {
+            align-self: flex-end; /* Aligns user messages to the right */
+            background-color: #e9e9e9; /* Light gray for user messages */
+        }
+
+        .bot {
+            align-self: flex-start; /* Aligns bot messages to the left */
+            background-color: #d9f2d9; /* Light green for bot messages */
+        }
     </style>
 </head>
 <!-- Script cho nhận diện giọng nói -->
@@ -142,6 +166,25 @@
             return "Error in processing request.";
         }
     }
+
+    // Hàm gửi đoạn văn bản của chatbox tới API ChatGPT
+    async function sendTextToChatGPT2(userMessage) {
+        try {
+            const response = await fetch('/api/chatgpt/askDetail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userMessage)  // Gửi đoạn văn bản tới API
+            });
+
+            const data = await response.text();  // Nhận kết quả từ API
+            return data;  // Trả về kết quả
+        } catch (error) {
+            console.error("Error sending text to ChatGPT API:", error);
+            return "Error in processing request.";
+        }
+    }
 </script>
 <script>
     function toggleChatBox() {
@@ -149,12 +192,38 @@
         chatBox.classList.toggle('show');
     }
 
-    // Example: Sending a message (you'll need to implement your actual chat logic)
-    document.getElementById('send-button').addEventListener('click', () => {
-        const message = document.getElementById('chat-input').value;
-        // Send 'message' to your chat backend
-        // ...
-    });
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+
+
+    async function sendMessage() {
+        const messageInput = document.getElementById('chat-input');
+        const message = messageInput.value;
+        if (message.trim() !== "") { // Check if the message isn't just whitespace
+            displayMessage(message, 'user');
+            messageInput.value = ''; // Clear the input field
+
+            try {
+                const response = await sendTextToChatGPT2(message);
+                displayMessage(response, 'bot');
+            } catch (error) {
+                console.error("Error:", error);
+                displayMessage("Error in processing request.", 'bot');
+            }
+        }
+    }
+
+    function displayMessage(message, sender) {
+        const messagesDiv = document.getElementById('messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        messageDiv.textContent = message;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to bottom
+    }
 </script>
 <body class="bg-purple-50">
 <!-- Navigation -->
@@ -336,8 +405,10 @@
 <div id="chat-box">
     <div id="messages"></div>
     <div id="input-area">
-        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." class="w-full border rounded-lg p-2">
-        <button id="send-button" class="bg-purple-600 text-white rounded-lg p-2 mt-2">Gửi</button>
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."
+               class="w-full border rounded-lg p-2" onkeydown="handleKeyPress(event)">
+        <button id="send-button" class="bg-purple-600 text-white rounded-lg p-2 mt-2"
+                onclick="sendMessage()">Gửi</button>
     </div>
 </div>
 </body>
