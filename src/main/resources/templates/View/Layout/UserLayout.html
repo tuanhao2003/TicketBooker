@@ -13,130 +13,94 @@
 </head>
 <!-- Script cho nhận diện giọng nói -->
 <script>
-    // Kiểm tra trình duyệt có hỗ trợ SpeechRecognition không
+    // Voice recognition setup
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-
-    // Cài đặt ngôn ngữ
     recognition.lang = 'vi-VN';
 
-    // Biến lưu trữ vị trí hiện tại
-    let currentLocation = "";
+    recognition.onresult = async function(event) {
+        const transcript = event.results[0][0].transcript;
 
-    // Hàm lấy vị trí hiện tại
-    function getCurrentLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, showError);
-        } else {
-            console.error("Geolocation is not supported by this browser.");
-            currentLocation = "Vị trí không xác định"; // Giá trị mặc định nếu không lấy được vị trí
+        try {
+            const currentLocation = await getCurrentLocation();
+            const finalInput = "Vị trí hiện tại: " + currentLocation + ". " + transcript;
+            document.getElementById("search-input").value = finalInput;
+
+            // Gửi request tới API của ChatGPT
+            const chatGPTResponse = await sendTextToChatGPT(finalInput);
+            document.getElementById("search-input").value = chatGPTResponse;  // Cập nhật kết quả vào input
+        } catch (error) {
+            console.error("Error getting location or ChatGPT response:", error);
+            document.getElementById("search-input").value = transcript;  // Fallback chỉ sử dụng transcript nếu có lỗi
         }
     }
 
-
-    function showPosition(position) {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
-            .then(response => response.json())
-            .then(data => {
-                currentLocation = data.address.city || data.address.town || data.address.village || data.address.state || "Vị trí không xác định";
-
-                // Loại bỏ "Thành phố" và các khoảng trắng thừa
-                currentLocation = currentLocation.replace("Thành phố ", "").trim();
-            })
-            .catch(error => {
-                console.error("Error getting location:", error);
-                currentLocation = "Vị trí không xác định";
-            });
-    }
-
-
-    function showError(error) {
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                console.error("User denied the request for Geolocation.");
-                currentLocation = "Người dùng từ chối chia sẻ vị trí";
-                break;
-            case error.POSITION_UNAVAILABLE:
-                console.error("Location information is unavailable.");
-                currentLocation = "Vị trí không khả dụng";
-                break;
-            case error.TIMEOUT:
-                console.error("The request to get user location timed out.");
-                currentLocation = "Yêu cầu vị trí hết thời gian";
-                break;
-            case error.UNKNOWN_ERROR:
-                console.error("An unknown error occurred.");
-                currentLocation = "Lỗi không xác định";
-                break;
-        }
-    }
-
-    // Gọi hàm lấy vị trí khi trang web được tải
-    getCurrentLocation();
-
-
-    // Xử lý khi nhận dạng giọng nói
-    recognition.onresult = function (event) {
-        const transcript = event.results[0][0].transcript.toLowerCase();
-        let searchText = "";
-
-        const fromKeywords = ["từ", "ở", "tại", "đi từ", "thành phố"];
-        const toKeywords = ["đi", "đến", "tới", "đi đến", "tôi muốn đi", "muốn đi", "đây", "tại đây"]; // Added "đây" and "tại đây"
-
-        let from = "";
-        let to = "";
-
-        fromKeywords.forEach(keyword => {
-            if (transcript.includes(keyword)) {
-                from = transcript.substring(transcript.indexOf(keyword) + keyword.length).trim();
-
-                let toKeywordIndex = Infinity;
-                toKeywords.forEach(toKeyword => {
-                    let index = from.indexOf(toKeyword);
-                    if (index !== -1 && index < toKeywordIndex) {
-                        toKeywordIndex = index;
-                    }
-                });
-
-                if (toKeywordIndex !== Infinity) {
-                    from = from.substring(0, toKeywordIndex).trim();
-                }
-            }
-        });
-
-        toKeywords.forEach(keyword => {
-            if (transcript.includes(keyword)) {
-                to = transcript.substring(transcript.indexOf(keyword) + keyword.length).trim();
-
-                // If 'to' is "đây" or "tại đây", set it to currentLocation
-                if (to === "đây" || to === "tại đây") {
-                    to = currentLocation;
-                }
-            }
-        });
-
-
-        if (!from && to) { // Nếu không tìm thấy từ khóa "từ" nhưng có từ khóa "đến"
-            from = currentLocation;
-        } else if (from && !to) { // Nếu chỉ có fromKeywords
-            to = currentLocation;
-        }
-
-        if (from && to) {
-            searchText = `${from.charAt(0).toUpperCase() + from.slice(1)} - ${to.charAt(0).toUpperCase() + to.slice(1)}`;
-        } else {
-            searchText = transcript;
-        }
-
-        document.getElementById("search-input").value = searchText;
-    }
-
-    // Hàm bắt đầu nhận diện khi nhấn nút microphone
     function startSpeechRecognition() {
         recognition.start();
+    }
+
+    async function getCurrentLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async position => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        try {
+                            const locationName = await getLocationName(latitude, longitude);
+                            resolve(locationName);
+                        } catch (error) {
+                            console.error("Error getting location name:", error);
+                            resolve(`${latitude}, ${longitude}`); // Fallback nếu không lấy được vị trí
+                        }
+
+                    },
+                    error => {
+                        reject(error.message);
+                    }
+                );
+            } else {
+                reject("Geolocation is not supported by this browser.");
+            }
+        });
+    }
+
+    async function getLocationName(latitude, longitude) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.address) {
+            if (data.address.city) {
+                return data.address.city;
+            } else if (data.address.state || data.address.province) {
+                return data.address.state || data.address.province;
+            } else {
+                return data.display_name;
+            }
+        } else {
+            throw new Error("Location name not found in response");
+        }
+    }
+
+    // Hàm gửi đoạn văn bản tới API ChatGPT
+    async function sendTextToChatGPT(userMessage) {
+        try {
+            const response = await fetch('/api/chatgpt/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userMessage)  // Gửi đoạn văn bản tới API
+            });
+
+            const data = await response.text();  // Nhận kết quả từ API
+            return data;  // Trả về kết quả
+        } catch (error) {
+            console.error("Error sending text to ChatGPT API:", error);
+            return "Error in processing request.";
+        }
     }
 </script>
 <body class="bg-purple-50">
@@ -155,6 +119,7 @@
                 <div class="relative flex items-center border-2 border-transparent focus-within:border-purple-400 rounded-full">
                     <input id="search-input" type="text" placeholder="Tìm kiếm..."
                            class="bg-purple-700 text-white placeholder-purple-300 rounded-l-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-400 w-40 sm:w-48 md:w-56 lg:w-64 text-sm sm:text-base">
+                    <!-- Button để bắt đầu voice recognition và gửi tới ChatGPT -->
                     <button class="bg-purple-700 rounded-r-full p-2 hover:bg-purple-600 transition duration-300 ease-in-out"
                             onclick="startSpeechRecognition()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
