@@ -31,4 +31,14 @@ public class ChatGPTController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+    @PostMapping("/askDetail")
+    public ResponseEntity<String> askDetailChatGPT(@RequestBody String userMessage) {
+        try {
+            String response = chatGPTService.askDetailChatGPT(userMessage);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
 }
