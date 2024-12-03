@@ -41,7 +41,6 @@
                                 <span class="ml-2 text-purple-600 font-medium">Khứ hồi</span>
                             </label>
                         </div>
-                        <a href="#" class="text-purple-600 hover:text-purple-700">Hướng dẫn mua vé</a>
                     </div>
 
                     <!-- Booking Form -->
@@ -208,178 +207,69 @@
             <!-- Results List -->
             <div class="col-span-1 md:col-span-4 space-y-4">
                 <!-- Route Header -->
-                <div class="text-xl font-medium mb-4">
-                    TP. Hồ Chí Minh - Đà Nẵng (3)
-                </div>
+                <div class="route-preview text-xl font-medium mb-4">
 
-                <!-- Filter Tags -->
-                <div class="flex gap-3 mb-6">
-                    <div class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-500 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
-                        </svg>
-                        <span>Giá rẻ bất ngờ</span>
-                    </div>
-                    <div class="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-500 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Giờ khởi hành</span>
-                    </div>
-                    <div class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
-                        </svg>
-                        <span>Ghế trống</span>
-                    </div>
                 </div>
 
                 <!-- Route Cards -->
                 <div class="space-y-4">
-                    <!-- Route Card 1 -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div th:each="trip : ${responseTripDTO.listTrips}" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                         <!-- Thời gian và hành trình -->
                         <div class="grid grid-cols-[auto_1fr_auto] gap-4 items-center mb-6">
                             <!-- Thời gian khởi hành -->
                             <div class="flex items-center gap-3">
-                                <div class="text-2xl font-bold">14:30</div>
+                                <div th:text="${trip.departureTime}" class="text-2xl font-bold"></div>
                                 <div class="w-2 h-2 rounded-full bg-green-500"></div>
                             </div>
                             <!-- Khoảng thời gian và múi giờ -->
                             <div class="text-gray-500 text-center">
-                                <div>20 giờ</div>
-                                <div class="text-sm">(Asian/Ho Chi Minh)</div>
+                                <div th:text="${trip.route.estimatedTime}"></div>
                             </div>
                             <!-- Thời gian đến -->
                             <div class="flex items-center gap-3">
                                 <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                                <div class="text-2xl font-bold">10:30</div>
+                                <div th:text="${trip.arrivalTime}" class="text-2xl font-bold"></div>
                             </div>
                         </div>
-
                         <!-- Điểm đi và điểm đến -->
                         <div class="flex justify-between mb-4">
-                            <div class="text-gray-600">Bến xe An Sương</div>
-                            <div class="text-gray-600">Bến Xe Trung Tâm Đà Nẵng</div>
+                            <div th:text="${trip.departureStation}" class="text-gray-600"></div>
+                            <div th:text="${trip.arrivalStation}" class="text-gray-600"></div>
                         </div>
-
                         <!-- Thông tin bổ sung -->
                         <div class="flex justify-between items-center mb-4">
                             <div class="flex items-center gap-2 text-gray-500">
-                                <span>Limousine</span>
-                                <span class="text-green-600 font-medium">26 chỗ trống</span>
+                                <span th:text="${trip.bus.busType}"></span>
+                                <span th:text="${trip.availableSeats}" class="text-green-600 font-medium"></span>
                             </div>
-                            <div class="text-2xl font-bold text-red-500">460.000đ</div>
+                            <div th:text="${trip.price}" class="text-2xl font-bold text-red-500"></div>
                         </div>
-
                         <!-- Các nút chọn -->
-                        <div class="grid grid-cols-5 gap-2 text-sm text-center">
-                            <button class="py-2 border border-gray-300 rounded-md">Chọn ghế</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Lịch trình</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Trung chuyển</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Chính sách</button>
-                            <a href="/fuba/booking" class="py-2 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700">Chọn chuyến</a>
-                        </div>
-                        <div class="seat-selection hidden">
-                            <!-- Nội dung chọn ghế sẽ được thêm vào đây -->
+                        <div class="grid grid-cols-5 gap-2 text-sm text-end">
+                            <a th:href="@{/fuba/booking?tripId={id}(id=${trip.id})}" class="py-2 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700 btnSubmit">Chọn chuyến</a>
                         </div>
                     </div>
 
-                    <!-- Route Card 2 (Similar structure, different times) -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <!-- Thời gian và hành trình -->
-                        <div class="grid grid-cols-[auto_1fr_auto] gap-4 items-center mb-6">
-                            <!-- Thời gian khởi hành -->
-                            <div class="flex items-center gap-3">
-                                <div class="text-2xl font-bold">14:30</div>
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                            </div>
-                            <!-- Khoảng thời gian và múi giờ -->
-                            <div class="text-gray-500 text-center">
-                                <div>20 giờ</div>
-                                <div class="text-sm">(Asian/Ho Chi Minh)</div>
-                            </div>
-                            <!-- Thời gian đến -->
-                            <div class="flex items-center gap-3">
-                                <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                                <div class="text-2xl font-bold">10:30</div>
-                            </div>
-                        </div>
-
-                        <!-- Điểm đi và điểm đến -->
-                        <div class="flex justify-between mb-4">
-                            <div class="text-gray-600">Bến xe An Sương</div>
-                            <div class="text-gray-600">Bến Xe Trung Tâm Đà Nẵng</div>
-                        </div>
-
-                        <!-- Thông tin bổ sung -->
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <span>Limousine</span>
-                                <span class="text-green-600 font-medium">26 chỗ trống</span>
-                            </div>
-                            <div class="text-2xl font-bold text-red-500">460.000đ</div>
-                        </div>
-
-                        <!-- Các nút chọn -->
-                        <div class="grid grid-cols-5 gap-2 text-sm text-center">
-                            <button class="py-2 border border-gray-300 rounded-md">Chọn ghế</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Lịch trình</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Trung chuyển</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Chính sách</button>
-                            <button class="py-2 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700">Chọn chuyến</button>
-                        </div>
-                    </div>
-
-                    <!-- Route Card 3 -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <!-- Thời gian và hành trình -->
-                        <div class="grid grid-cols-[auto_1fr_auto] gap-4 items-center mb-6">
-                            <!-- Thời gian khởi hành -->
-                            <div class="flex items-center gap-3">
-                                <div class="text-2xl font-bold">14:30</div>
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                            </div>
-                            <!-- Khoảng thời gian và múi giờ -->
-                            <div class="text-gray-500 text-center">
-                                <div>20 giờ</div>
-                                <div class="text-sm">(Asian/Ho Chi Minh)</div>
-                            </div>
-                            <!-- Thời gian đến -->
-                            <div class="flex items-center gap-3">
-                                <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                                <div class="text-2xl font-bold">10:30</div>
-                            </div>
-                        </div>
-
-                        <!-- Điểm đi và điểm đến -->
-                        <div class="flex justify-between mb-4">
-                            <div class="text-gray-600">Bến xe An Sương</div>
-                            <div class="text-gray-600">Bến Xe Trung Tâm Đà Nẵng</div>
-                        </div>
-
-                        <!-- Thông tin bổ sung -->
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <span>Limousine</span>
-                                <span class="text-green-600 font-medium">26 chỗ trống</span>
-                            </div>
-                            <div class="text-2xl font-bold text-red-500">460.000đ</div>
-                        </div>
-
-                        <!-- Các nút chọn -->
-                        <div class="grid grid-cols-5 gap-2 text-sm text-center">
-                            <button class="py-2 border border-gray-300 rounded-md">Chọn ghế</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Lịch trình</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Trung chuyển</button>
-                            <button class="py-2 border border-gray-300 rounded-md">Chính sách</button>
-                            <button class="py-2 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700">Chọn chuyến</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        (
+            function (){
+                document.addEventListener("DOMContentLoaded", function (){
+                    const routePreview = document.querySelector(".route-preview");
+
+                });
+            }
+        )();
+        // #######################dang lam#############################
+        // private String departure;
+        // private String arrival;
+        // private Date departureDate;
+        // private Date arrivalDate;
+        // private int ticketQuantity;
+    </script>
 </div>
 
 

@@ -23,7 +23,7 @@ public class Trips {
     @JoinColumn(name = "routeId")
     private Routes route;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "busId")
     private Buses bus;
 
