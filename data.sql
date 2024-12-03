@@ -1,16 +1,4 @@
-INSERT INTO Account (username, password, email, role, accountStatus) VALUES
-('john_doe', 'password123', 'john@example.com', 'CUSTOMER', 'ACTIVE'),
-('jane_doe', 'password456', 'jane@example.com', 'STAFF', 'ACTIVE'),
-('manager1', 'manager789', 'manager@example.com', 'MANAGER', 'ACTIVE'),
-('customer123', 'passcust123', 'cust123@example.com', 'CUSTOMER', 'INACTIVE'),
-('staff456', 'passstaff456', 'staff456@example.com', 'STAFF', 'ACTIVE'),
-('customer789', 'passcust789', 'cust789@example.com', 'CUSTOMER', 'ACTIVE'),
-('manager2', 'passmanager2', 'manager2@example.com', 'MANAGER', 'ACTIVE'),
-('staff789', 'passstaff789', 'staff789@example.com', 'STAFF', 'INACTIVE'),
-('john_smith', 'johnsmith123', 'johnsmith@example.com', 'CUSTOMER', 'ACTIVE'),
-('jane_smith', 'janesmith456', 'janesmith@example.com', 'STAFF', 'ACTIVE');
-
-INSERT INTO Users (accountId, fullName, phone, address, dateOfBirth, gender, profilePhoto, userStatus) VALUES
+INSERT INTO Users (userId, fullName, phone, address, dateOfBirth, gender, profilePhoto, userStatus) VALUES
 (1, 'John Doe', '0123456789', '123 Main St', '1990-01-01', 'MALE', 'john_doe.jpg', 'ACTIVE'),
 (2, 'Jane Doe', '0987654321', '456 Maple Ave', '1985-05-12', 'FEMALE', 'jane_doe.jpg', 'ACTIVE'),
 (3, 'Manager One', '0912345678', '789 Oak St', '1975-07-22', 'MALE', NULL, 'ACTIVE'),
@@ -21,6 +9,18 @@ INSERT INTO Users (accountId, fullName, phone, address, dateOfBirth, gender, pro
 (8, 'Staff 789', '0923456712', '105 Fir St', '1991-04-05', 'FEMALE', NULL, 'INACTIVE'),
 (9, 'John Smith', '0911123456', '106 Birch St', '1993-06-16', 'MALE', NULL, 'ACTIVE'),
 (10, 'Jane Smith', '0945612312', '107 Walnut St', '1987-08-09', 'FEMALE', NULL, 'ACTIVE');
+
+INSERT INTO Account (userId, username, password, email, role, accountStatus) VALUES
+(1, 'john_doe', 'password123', 'john@example.com', 'CUSTOMER', 'ACTIVE'),
+(2, 'jane_doe', 'password456', 'jane@example.com', 'STAFF', 'ACTIVE'),
+(3, 'manager1', 'manager789', 'manager@example.com', 'MANAGER', 'ACTIVE'),
+(4, 'customer123', 'passcust123', 'cust123@example.com', 'CUSTOMER', 'INACTIVE'),
+(5, 'staff456', 'passstaff456', 'staff456@example.com', 'STAFF', 'ACTIVE'),
+(6, 'customer789', 'passcust789', 'cust789@example.com', 'CUSTOMER', 'ACTIVE'),
+(7, 'manager2', 'passmanager2', 'manager2@example.com', 'MANAGER', 'ACTIVE'),
+(8, 'staff789', 'passstaff789', 'staff789@example.com', 'STAFF', 'INACTIVE'),
+(9, 'john_smith', 'johnsmith123', 'johnsmith@example.com', 'CUSTOMER', 'ACTIVE'),
+(10, 'jane_smith', 'janesmith456', 'janesmith@example.com', 'STAFF', 'ACTIVE');
 
 INSERT INTO Routes (departureLocation, arrivalLocation, estimatedTime, routeStatus) VALUES
 ('City A', 'City B', '02:00:00', 'ACTIVE'),
@@ -70,17 +70,17 @@ INSERT INTO Trips (routeId, busId, driverId, departureStation, arrivalStation, d
 (9, 9, 9, 'Station N', 'Station O', '2024-10-22 17:00:00', '2024-10-22 20:00:00', 125, 38, 'SCHEDULED'),
 (10, 10, 10, 'Station P', 'Station Q', '2024-10-22 18:00:00', '2024-10-22 19:00:00', 90, 25, 'SCHEDULED');
 
-INSERT INTO Seats (tripId, seatCode, seatStatus) VALUES
-(1, 'A1', 'AVAILABLE'),
-(1, 'A2', 'SOLD'),
-(1, 'A3', 'BOOKING'),
-(2, 'B1', 'AVAILABLE'),
-(2, 'B2', 'SOLD'),
-(2, 'B3', 'BOOKING'),
-(3, 'C1', 'AVAILABLE'),
-(3, 'C2', 'SOLD'),
-(3, 'C3', 'BOOKING'),
-(4, 'D1', 'AVAILABLE');
+INSERT INTO Seats (tripId, seatCode) VALUES
+(1, 'A1'),
+(1, 'A2'),
+(1, 'A3'),
+(2, 'B1'),
+(2, 'B2'),
+(2, 'B3'),
+(3, 'C1'),
+(3, 'C2'),
+(3, 'C3'),
+(4, 'D1');
 
 INSERT INTO Invoices (totalAmount, paymentStatus, paymentTime, paymentMethod) VALUES
 (100, 'PAID', '2024-10-22 10:15:00', 'CREDITCARD'),
