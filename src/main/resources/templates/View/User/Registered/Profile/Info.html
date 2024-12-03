@@ -31,8 +31,25 @@
                                     <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
                                          th:src="@{/components/noavt_other.png}"
                                          class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">                                </div>
-                                <button class="px-4 py-2 w-2/3  bg-gray-100 border-2 border-gray-300 rounded-full hover:bg-gray-200">Chọn ảnh</button>
-                                <p class="text-sm w-2/3 font-bold text-center text-gray-500">Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
+                                <div class="flex flex-col items-start gap-2">
+                                    <label for="file" class="px-4 py-2 w-full bg-gray-100 border-2 border-gray-300 rounded-full hover:bg-gray-200">
+                                        Chọn ảnh
+                                    </label>
+                                    <input type="file" id="file" accept="image/*" class="hidden" th:field="*{profilePhoto}">
+                                </div>
+                                <p id="file-name" class="text-sm w-2/3 font-bold text-center text-gray-500">Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
+                                <script>
+                                    const fileInput = document.getElementById('file');
+                                    const fileNameP = document.getElementById('file-name');
+
+                                    fileInput.addEventListener('change', () => {
+                                        if (fileInput.files.length > 0) {
+                                            fileNameP.textContent = fileInput.files[0].name;
+                                        } else {
+                                            fileNameP.textContent = 'Không có tệp nào được chọn';
+                                        }
+                                    });
+                                </script>
                             </div>
 
                             <div class="grid gap-4">
