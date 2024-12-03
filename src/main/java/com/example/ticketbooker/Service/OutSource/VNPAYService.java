@@ -1,5 +1,6 @@
-package com.example.ticketbooker.Config;
+package com.example.ticketbooker.Service.OutSource;
 
+import com.example.ticketbooker.Config.VNPAYConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.*;
 public class VNPAYService {
 
     public String createOrder(HttpServletRequest request, int amount, String orderInfor, String urlReturn){
-        //Các bạn có thể tham khảo tài liệu hướng dẫn và điều chỉnh các tham số
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
