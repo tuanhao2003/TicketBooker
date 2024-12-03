@@ -37,11 +37,6 @@ public class ZaloPayController {
                     e.printStackTrace();
                 }
                 if (!paymentStatus.isProcessing()) {
-                    if (paymentStatus.getReturnCode() == 1) {
-                        System.out.println("Thanh toán thành công!");
-                    } else if (paymentStatus.getReturnCode() == 2) {
-                        System.out.println("Thanh toán thất bại!");
-                    }
                     return paymentStatus;
                 } else {
                     try {
