@@ -67,7 +67,42 @@
                 }
             });
         });
+
+        function removeSpaces(text) {
+            return text.replace(/\s+/g, ''); // Remove all spaces
+        }
+
+        function startSpeechRecognition() {
+            const searchInput = document.getElementById("searchInput");
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+
+            recognition.onresult = function(event) {
+                let result = event.results[0][0].transcript;
+                result = removeSpaces(result); // Remove spaces here
+                searchInput.value = result;
+                searchBuses(); // Automatically search after voice input
+            };
+
+            recognition.start();
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("searchInput").addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    searchBuses();
+                }
+            });
+
+            // Add microphone icon and event listener
+            const microphoneIcon = document.createElement("i");
+            microphoneIcon.classList.add("fas", "fa-microphone", "ml-2", "cursor-pointer"); // Using Font Awesome for the icon
+            microphoneIcon.addEventListener("click", startSpeechRecognition);
+            document.getElementById("searchInput").parentNode.appendChild(microphoneIcon);
+        });
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
 <div layout:fragment="content">
@@ -75,10 +110,12 @@
         <h1 class="text-2xl font-bold mb-4">Quản lý xe</h1>
 
         <!-- Search Bar -->
+        <div class="mb-4 relative">  </div>
         <div class="mb-4">
             <input type="text" id="searchInput" name="licensePlate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập biển số xe" th:value="${param.licensePlate}">
             <button onclick="searchBuses()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Tìm kiếm</button>
         </div>
+    </div>
 
         <!-- Thông báo thành công hoặc lỗi -->
         <div>
