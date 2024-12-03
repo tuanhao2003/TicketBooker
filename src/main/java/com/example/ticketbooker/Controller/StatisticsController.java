@@ -1,7 +1,9 @@
 package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Invoice.RevenueStatsDTO;
+import com.example.ticketbooker.DTO.Ticket.TicketStatsDTO;
 import com.example.ticketbooker.Service.InvoiceService;
+import com.example.ticketbooker.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,12 @@ public class StatisticsController {
 
     @Autowired
     private InvoiceService invoiceService;
+
     @GetMapping()
+    public String statistics() {
+        return "View/Admin/Statistics/Statistics";  // Trả về view của Thymeleaf
+    }
+    @GetMapping("/revenue")
     public String revenueStats(
             @RequestParam(value = "period", defaultValue = "Day") String period,  // Default period to 'Day'
             @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}")
@@ -29,6 +36,22 @@ public class StatisticsController {
         RevenueStatsDTO stats = invoiceService.getRevenueStats(period, selectedDate);
         model.addAttribute("stats", stats);
 
-        return "View/Admin/Statistics/Stats";  // Trả về view của Thymeleaf
+        return "View/Admin/Statistics/RevenueStatistics";  // Trả về view của Thymeleaf
+    }
+
+    @Autowired
+    private TicketService ticketService;
+
+    @GetMapping("/ticket")
+    public String ticketCountStats(
+            @RequestParam(value = "period", defaultValue = "Day") String period,
+            @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate,
+            Model model) {
+
+        TicketStatsDTO stats = ticketService.getTicketStats(period, selectedDate);
+        model.addAttribute("stats", stats);
+
+        return "View/Admin/Statistics/TicketStatistics";
     }
 }

@@ -30,4 +30,6 @@ public interface TicketRepo extends JpaRepository<Tickets, Integer> {
                                 @Param("departureDate") LocalDate departureDate,
                                 @Param("route") String route,
                                 @Param("status") TicketStatus status);
+
+    int countByTripDepartureTimeBetween(LocalDateTime start, LocalDateTime end);
 }

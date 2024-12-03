@@ -16,4 +16,5 @@ public interface TicketService {
     PaymentInforResponse getPaymentInfo(PaymentInforRequest request);
     TicketResponse getTicketsByAccountId(int accountId);
     TicketResponse searchTickets(int accountId, Integer ticketId, LocalDate departureDate, String route, TicketStatus status);
+    TicketStatsDTO getTicketStats(String period, LocalDate selectedDate);
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ticket Count Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.3.1"></script>
+</head>
+<body class="font-sans p-6">
+
+<h1 class="text-2xl font-bold mb-4 text-center">Ticket Count Statistics</h1>
+
+<div th:if="${stats != null}" class="container mx-auto flex justify-center items-start gap-8">
+    <div class="form-details w-1/3">
+        <form th:action="@{/admin/statistics/ticket}" method="get" class="space-y-4">
+            <div>
+                <label for="period" class="block mb-2">Period:</label>
+                <select id="period" name="period" class="w-full p-2 border rounded">
+                    <option value="Day">Day</option>
+                    <option value="Month">Month</option>
+                    <option value="Year">Year</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="date" class="block mb-2">Date:</label>
+                <input type="date" id="date" name="date" class="w-full p-2 border rounded" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"/>
+            </div>
+
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Get Stats</button>
+        </form>
+
+        <p>Period: <span th:text="${stats.period}"></span></p>
+        <p>Selected Date: <span th:text="${#temporals.format(stats.selectedDate, 'dd/MM/yyyy')}"></span></p>
+        <p>Current Period Ticket Count: <span th:text="${stats.currentPeriodTicketCount}"></span></p>
+        <p>Previous Period Ticket Count: <span th:text="${stats.previousPeriodTicketCount}"></span></p>
+
+        <div class="mt-4">
+            <a href="/admin/statistics" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700">Trở về</a>
+        </div>
+    </div>
+
+    <div class="chart-container w-1/3">
+        <canvas id="ticketCountChart"></canvas>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var currentCount = /*[[${stats.currentPeriodTicketCount}]]*/ 0;
+    var previousCount = /*[[${stats.previousPeriodTicketCount}]]*/ 0;
+
+    var ctx = document.getElementById('ticketCountChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Current Period', 'Previous Period'],
+            datasets: [{
+                label: 'Ticket Count',
+                data: [currentCount, previousCount],
+                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 206, 86, 0.2)'], // Màu nền
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)'], // Màu viền
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Ticket Count'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
