@@ -2,11 +2,10 @@ package com.example.ticketbooker.Util;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
@@ -31,5 +30,9 @@ public class GlobalExceptionHandler {
         // Các ngoại lệ khác có thể được xử lý ở đây
         model.addAttribute("errorMessage", "Something went wrong");
         return new ModelAndView("View/Util/404Page", "error", model);
+    }
+    @ModelAttribute("isLoggedIn")
+    public boolean isLoggedIn() {
+        return SecurityUtils.isLoggedIn();
     }
 }

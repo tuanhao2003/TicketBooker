@@ -6,24 +6,25 @@ import com.example.ticketbooker.Util.Enum.Role;
 import lombok.Data;
 
 @Data
-public class AddAccountDTO {
-    private String username = "";
+public class UpdateAccountDTO {
+    private Integer accountId;
+    private String username;
     private Integer userId;
-    private String email = "";
+    private String email;
     private Role role;
     private AccountStatus accountStatus;
 
-    public AddAccountDTO() {
+    public UpdateAccountDTO() {
+        this.accountId = null;
         this.username = "";
-        this.userId = null;
         this.email = "";
         this.role = null;
         this.accountStatus = null;
     }
 
-    public AddAccountDTO(String username, Integer userId, String email, Role role, AccountStatus accountStatus) {
+    public UpdateAccountDTO(String username,Integer accountId,  String email, Role role, AccountStatus accountStatus) {
+        this.accountId = accountId;
         this.username = username;
-        this.userId = userId;
         this.email = email;
         this.role = role;
         this.accountStatus = accountStatus;

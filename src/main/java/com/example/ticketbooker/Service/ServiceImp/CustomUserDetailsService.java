@@ -27,10 +27,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
-        Optional<Account> account = accountRepo.findByUsername(username);
+        Optional<Account> account = accountRepo.findByEmail(username);
         if (account.isEmpty()) {
-            System.out.println("account not found!!" + username);
-            throw new UsernameNotFoundException(username);
+            account = accountRepo.findByUsername(username);
+            if (account.isEmpty()) {
+                System.out.println("account not found!!: username = " + username);
+                throw new UsernameNotFoundException("Custom message: User not found with username: " + username);
+            }
         }
         Account newAccount = account.get();
         System.out.println("new account is :" + newAccount);

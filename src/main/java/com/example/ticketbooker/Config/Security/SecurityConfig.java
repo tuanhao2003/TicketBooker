@@ -75,7 +75,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/fuba","/register","/access-denied","/new-password","/404").permitAll() // Các URL yêu cầu đăng nhập
+                        .requestMatchers("/fuba","/register","/access-denied","/404",
+                        "/api/accounts/exist").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/fuba/**").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/favicon.icon").permitAll()
                         .requestMatchers("/auth").anonymous()
@@ -95,6 +96,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin((form) -> form
                         .loginPage("/auth")
+                        .failureUrl("/auth?error")
                         .successHandler(customAuthenticationSuccessHandler())
                         .permitAll()
                 )

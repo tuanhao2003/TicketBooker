@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,31 +43,13 @@ public class AccessController {
     public ResponseEntity<Object> addAccount(@RequestBody AccountDTO accountDTO, RedirectAttributes redirectAttributes) {
         System.out.println("Received data: " + accountDTO);
         try{
-            if(accountService.createAccount(accountDTO) != null) {
-                ;
-                System.out.println("check inside create ACcount");
+            if(accountService.createAccountWithUser(accountDTO) != null) {
                 return ResponseEntity.ok().build();
             }
         }catch (Exception e) {
             e.printStackTrace();
         }
-            System.out.println("create account eror");
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/user-info")
-    public String getUserInfo(HttpSession session) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            session.setAttribute("username", userDetails.getUsername());
-            session.setAttribute("email", userDetails.getAccount().getEmail());
-            session.setAttribute("role", userDetails.getAccount().getRole().toString());
-            session.setAttribute("name", userDetails.getAccount().getRole().toString());
-            session.setAttribute("role", userDetails.getAccount().getRole().toString());
-            System.out.println( "Username: " + userDetails.getUsername() + " Email: " + userDetails.getAccount().getEmail() + " Role: " + userDetails.getAccount().getRole()) ;
-            return "redirect:/auth/profile";
-        }
-        return "redirect:/auth";
-    }
 }

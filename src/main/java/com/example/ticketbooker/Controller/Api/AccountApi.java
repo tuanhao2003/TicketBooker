@@ -51,11 +51,17 @@ public class AccountApi {
     }
 
     //Khai tìm account tồn tại
-    @GetMapping("exist")
-    public ResponseEntity<?> existAccount(@RequestParam(name = "email", required = true) String email) {
-        if (accountService.getAccountByEmail(email) == null) {
+    @GetMapping("/exist")
+    public ResponseEntity<?> existAccount(
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name = "username", required = false) String username) {
+
+        if ((email != null && accountService.getAccountByEmail(email) != null) ||
+            (username != null && accountService.getAccountByUsername(username) != null)) {
+            System.out.println("Timf thay");
             return ResponseEntity.ok().build();
         }
+        System.out.println("Khoong tim thay: ");
         return ResponseEntity.notFound().build();
     }
 

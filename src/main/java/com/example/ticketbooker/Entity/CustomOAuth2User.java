@@ -25,6 +25,6 @@ public class CustomOAuth2User extends DefaultOAuth2User {
     @Override
     public String getName() {
         // Trả về tên người dùng hoặc giá trị từ OAuth2
-        return account.getUsername();
+        return account.getUser().getFullName();
     }
 }

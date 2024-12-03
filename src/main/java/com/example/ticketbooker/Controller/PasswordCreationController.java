@@ -3,22 +3,34 @@ import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.DTO.Users.AddUserRequest;
 import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
 import com.example.ticketbooker.Entity.Account;
+import com.example.ticketbooker.Entity.CustomOAuth2User;
+import com.example.ticketbooker.Entity.CustomUserDetails;
+import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Repository.AccountRepo;
 import com.example.ticketbooker.Service.AccountService;
 import com.example.ticketbooker.Service.UserService;
 import com.example.ticketbooker.Util.Enum.AccountStatus;
 import com.example.ticketbooker.Util.Enum.Role;
 import com.example.ticketbooker.Util.Enum.UserStatus;
+import com.example.ticketbooker.Util.SecurityUtils;
 import jakarta.servlet.http.HttpSession;
+import javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 
 @Controller
@@ -39,62 +51,48 @@ public class PasswordCreationController {
 
     @GetMapping("/new-password")
     public String showPasswordCreationPage(Model model) {
-        String email = (String) httpSession.getAttribute("oauth2_email");
-        String name = (String) httpSession.getAttribute("oauth2_name");
-        if (email == null) {
-            return "redirect:/auth";
+        // Lấy data người dùng đã đặng nhâập
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isLoggedIn = SecurityUtils.isLoggedIn();
+        if (isLoggedIn) {
+            Account account = SecurityUtils.extractAccount(authentication.getPrincipal());
+            model.addAttribute("email", account.getEmail());
+            model.addAttribute("username", account.getUsername());
+            return "View/Util/NewPassword";
+
         }
-        model.addAttribute("email", email);
-        model.addAttribute("name", name);
-        return "View/Util/NewPassword";
+        return "redirect:/fuba";
     }
 
     @PostMapping("/new-password")
     public String handlePasswordCreation(@RequestParam String password) {
         // Lấy email từ thông tin đăng nhập
-        String email = (String) httpSession.getAttribute("email");
-        String username = (String) httpSession.getAttribute("username");
-        System.out.println("email lay tu session" + email);
-        System.out.println("username lay tu session" + username);
-        System.out.println("password lay tu param" + password);
-        if (email == null) {
-            return "redirect:/auth";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isLoggedIn = SecurityUtils.isLoggedIn();
+        if (isLoggedIn) {
+            Object principal = authentication.getPrincipal();
+            if(principal instanceof CustomUserDetails) {
+                return "redirect:/fuba";
+            }
+            else if(principal instanceof CustomOAuth2User customOAuth2User) {
+                System.out.println("OAuthUSer: "+customOAuth2User);
+                Account account = SecurityUtils.extractAccount(principal);
+                String email = account.getEmail();
+                String fullname = account.getUser().getFullName();
+                //Khởi tạo tài khoản lưu vào dtb
+                AccountDTO accountDTO = new AccountDTO();
+                accountDTO.setEmail(email);
+                accountDTO.setUsername(email);
+                accountDTO.setPassword(password);
+                accountDTO.setRole(Role.valueOf("CUSTOMER"));
+                accountDTO.setAccountStatus(AccountStatus.ACTIVE);
+                accountDTO.setUser(Users.builder().fullName(fullname).build());
+                if(accountService.createAccountWithUser(accountDTO) != null) {
+                    return "redirect:/auth/profile";
+                }
+                return "redirect:/new-password?error";
+                }
         }
-        // Tạo đối tượng tài khoản để luưu
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setEmail(email);
-        accountDTO.setUsername(username);
-        accountDTO.setPassword(password);
-        accountDTO.setRole(Role.valueOf("CUSTOMER"));
-        accountDTO.setAccountStatus(AccountStatus.ACTIVE);
-        System.out.println("Account dto tao tk sau khi nhap mk" + accountDTO);
-
-        accountService.createAccount(accountDTO);
-        AddUserRequest addUserRequest = new AddUserRequest();
-        addUserRequest.setStatus(UserStatus.ACTIVE);
-        addUserRequest.setPhone("0987654321");
-        addUserRequest.setFullName(username);
-        userService.addUser(addUserRequest);
-
-        Integer accoundID = accountService.getAccountByEmail(email).getId();
-
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest();
-        updateUserRequest.setStatus(UserStatus.ACTIVE);
-        updateUserRequest.setPhone("0987654321");
-        updateUserRequest.setFullName(username);
-        updateUserRequest.setAccountId(accoundID);
-        userService.updateUser(updateUserRequest);
-
-        // Luuw thong tin user vào session
-//        userService.getAllUserByNam
-        httpSession.setAttribute("user", username);
-//        account.setPassword(new BCryptPasswordEncoder().encode(password));
-//        accountRepo.save(account);
-        // Clear session data
-        httpSession.removeAttribute("oauth2_email");
-        httpSession.removeAttribute("oauth2_name");
-
-        // Sau khi tạo mật khẩu mới, chuyển hướng người dùng đến trang chính
         return "redirect:/fuba";
     }
 }

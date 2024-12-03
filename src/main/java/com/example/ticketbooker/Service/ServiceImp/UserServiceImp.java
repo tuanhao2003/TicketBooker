@@ -30,6 +30,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public Integer addUserGetId(AddUserRequest dto) {
+        Users user;
+        try {
+            user = UserMapper.fromAdd(dto);
+            user = this.usersRepo.save(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return user.getId();
+    }
+
+    @Override
     public boolean updateUser(UpdateUserRequest dto) {
         try {
             Users user = UserMapper.fromUpdate(dto);
