@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Service
 public class TripServiceImp implements TripService {
     @Autowired
@@ -95,5 +98,44 @@ public class TripServiceImp implements TripService {
             return result;
         }
         return result;
+    }
+
+    @Override
+    public TripStatsDTO getTripStats(String period, LocalDate selectedDate) {
+        LocalDateTime startDate = selectedDate.atStartOfDay();
+        LocalDateTime endDate;
+
+        LocalDateTime prevStartDate;
+        LocalDateTime prevEndDate;
+
+        switch (period) {
+            case "Day":
+                endDate = startDate.plusDays(1);
+                prevStartDate = startDate.minusDays(1);
+                prevEndDate = endDate.minusDays(1);
+                break;
+            case "Month":
+                endDate = startDate.plusMonths(1);
+                prevStartDate = startDate.minusMonths(1);
+                prevEndDate = endDate.minusMonths(1);
+                break;
+            case "Year":
+                endDate = startDate.plusYears(1);
+                prevStartDate = startDate.minusYears(1);
+                prevEndDate = endDate.minusYears(1);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid period: " + period);
+        }
+
+        long currentPeriodCount = tripRepo.countTripsByDepartureTimeBetween(startDate, endDate);
+        long previousPeriodCount = tripRepo.countTripsByDepartureTimeBetween(prevStartDate, prevEndDate);
+
+        return TripStatsDTO.builder()
+                .period(period)
+                .selectedDate(selectedDate)
+                .currentPeriodTripCount(currentPeriodCount)
+                .previousPeriodTripCount(previousPeriodCount)
+                .build();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 @Repository
 public interface TripRepo extends JpaRepository<Trips, Integer> {
@@ -21,4 +22,6 @@ public interface TripRepo extends JpaRepository<Trips, Integer> {
             "(t.availableSeats >= :#{#request.ticketQuantity})")
     ArrayList<Trips> searchTrip(SearchTripRequest request);
     ArrayList<Trips> findAllById(int tripId);
+
+    long countTripsByDepartureTimeBetween (LocalDateTime start, LocalDateTime end);
 }

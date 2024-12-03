@@ -2,8 +2,10 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Invoice.RevenueStatsDTO;
 import com.example.ticketbooker.DTO.Ticket.TicketStatsDTO;
+import com.example.ticketbooker.DTO.Trips.TripStatsDTO;
 import com.example.ticketbooker.Service.InvoiceService;
 import com.example.ticketbooker.Service.TicketService;
+import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -53,5 +55,21 @@ public class StatisticsController {
         model.addAttribute("stats", stats);
 
         return "View/Admin/Statistics/TicketStatistics";
+    }
+
+    @Autowired
+    private TripService tripService;
+
+    @GetMapping("/trip")
+    public String tripCountStats(
+            @RequestParam(value = "period", defaultValue = "Day") String period,
+            @RequestParam(value = "date", defaultValue = "#{T(java.time.LocalDate).now()}")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate,
+            Model model) {
+
+        TripStatsDTO stats = tripService.getTripStats(period, selectedDate);
+        model.addAttribute("stats", stats);
+
+        return "View/Admin/Statistics/TripStatistics"; // Create this Thymeleaf template
     }
 }
