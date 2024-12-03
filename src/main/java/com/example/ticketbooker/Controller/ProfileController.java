@@ -109,13 +109,19 @@ public class ProfileController {
         return "redirect:/profile/info";
     }
 
-    @GetMapping("/history-booking/{accountId}")
-    public String showHistoryBooking(@PathVariable int accountId,
-                                     @RequestParam(required = false) Integer ticketId,
+    @GetMapping("/history-booking")
+    public String showHistoryBooking(@RequestParam(required = false) Integer ticketId,
                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
                                      @RequestParam(required = false) String route,
                                      @RequestParam(required = false) TicketStatus status,
                                      Model model) {
+        boolean isLoggedIn = SecurityUtils.isLoggedIn();
+        if(!isLoggedIn) {
+            return  "redirect:/fuba";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Account account = SecurityUtils.extractAccount(authentication.getPrincipal());
+        Integer accountId = account.getId();
         TicketResponse ticketResponse = ticketService.searchTickets(accountId, ticketId, departureDate, route, status);
         model.addAttribute("ticketResponse", ticketResponse);
         // Lấy tất cả các giá trị của TicketStatus
