@@ -17,15 +17,15 @@ public class InvoiceServiceImp implements InvoiceService {
     @Autowired
     private InvoiceRepo invoicesRepo;
     @Override
-    public boolean addInvoice(AddInvoiceDTO dto) {
+    public int addInvoice(AddInvoiceDTO dto) {
         try {
             Invoices invoices = InvoiceMapper.fromAdd(dto);
-            this.invoicesRepo.save(invoices);
+            Invoices savedInvoice = this.invoicesRepo.save(invoices);
+            return savedInvoice.getId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
         }
-        return true;
+        return 0;
     }
     @Override
     public ResponseInvoiceDTO getAllInvoices() {
