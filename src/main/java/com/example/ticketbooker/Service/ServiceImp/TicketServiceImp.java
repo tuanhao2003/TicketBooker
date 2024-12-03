@@ -88,10 +88,16 @@ public class TicketServiceImp implements TicketService {
             if (ticketOptional.isPresent()) {
                 Tickets ticket = ticketOptional.get();
 
-                if (ticket.getCustomerPhone().equals(request.getCustomerPhone())) {
-                    return TicketMapper.toPaymentInfor(ticket);
+                // Kiểm tra trạng thái của ticket
+                if (ticket.getTicketStatus() == TicketStatus.BOOKED) {
+                    // Kiểm tra số điện thoại
+                    if (ticket.getCustomerPhone().equals(request.getCustomerPhone())) {
+                        return TicketMapper.toPaymentInfor(ticket);
+                    } else {
+                        System.out.println("Số điện thoại không trùng khớp.");
+                    }
                 } else {
-                    System.out.println("Số điện thoại không trùng khớp.");
+                    System.out.println("Trạng thái ticket không hợp lệ: " + ticket.getTicketStatus());
                 }
             } else {
                 System.out.println("Không tìm thấy ticket với ID: " + request.getTicketId());
@@ -101,6 +107,7 @@ public class TicketServiceImp implements TicketService {
         }
         return null;
     }
+
 
 
     @Override

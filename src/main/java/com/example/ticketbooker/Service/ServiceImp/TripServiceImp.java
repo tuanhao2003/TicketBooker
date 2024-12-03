@@ -85,6 +85,11 @@ public class TripServiceImp implements TripService {
     }
 
     @Override
+    public Trips getTripById(Integer tripId) {
+        return tripRepo.findById(tripId).orElse(null);
+    }
+
+    @Override
     public ResponseTripDTO searchTrip(SearchTripRequest dto) {
         ResponseTripDTO result = new ResponseTripDTO();
         try {

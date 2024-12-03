@@ -14,13 +14,13 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <img th:src="@{/vnpay-logo.png}" style="width: 200px">
+                    <img src="https://vinadesign.vn/uploads/thumbnails/800/2023/05/vnpay-logo-vinadesign-25-12-59-16.jpg" style="width: 200px">
                     <h2 class="card-title text-center">Tạo Đơn Hàng</h2>
                     <form th:action="@{/submitOrder}" method="post">
                         <!-- Số tiền -->
                         <div class="form-group">
                             <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required value="300000">
+                            <input type="number" class="form-control" id="amount" name="amount" required th:value="${grandTotal}" readonly>
                         </div>
 
                         <!-- Thông tin đơn hàng -->
