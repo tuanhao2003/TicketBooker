@@ -60,6 +60,10 @@ public class SecurityConfig {
                         .requestMatchers("/fuba/*").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/auth").permitAll()
                         .requestMatchers("/favicon.icon").permitAll()
+                        .requestMatchers("/components/**").permitAll()
+                        .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/payment/*").permitAll()
                         .anyRequest().authenticated() // Các URL còn lại cần xác thực
 //                        .anyRequest().permitAll()
                 )
@@ -86,7 +90,7 @@ public class SecurityConfig {
 }
 
 
-
+//
 //package com.example.ticketbooker.Config.Security;
 //
 //import org.springframework.context.annotation.Bean;

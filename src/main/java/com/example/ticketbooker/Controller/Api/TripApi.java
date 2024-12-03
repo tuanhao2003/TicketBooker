@@ -5,6 +5,7 @@ import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
 import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.ticketbooker.Entity.Trips;
 
@@ -28,11 +29,12 @@ public class TripApi {
         return result;
     }
 
-    @PostMapping
-    public ResponseTripDTO searchTrip(@RequestBody SearchTripRequest request) {
+    @PostMapping("/search-trip")
+    public ResponseTripDTO searchTrip(@RequestBody SearchTripRequest request, Model model) {
         ResponseTripDTO result = new ResponseTripDTO();
         try {
             result = tripService.searchTrip(request);
+            model.addAttribute("responseTripDTO", result);
         } catch (Exception e) {
             e.printStackTrace();
         }
