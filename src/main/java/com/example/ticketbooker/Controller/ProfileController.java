@@ -29,12 +29,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Objects;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/profile")
@@ -102,8 +110,13 @@ public class ProfileController {
     }
 
     @GetMapping("/history-booking/{accountId}")
-    public String showHistoryBooking(@PathVariable int accountId, Model model) {
-        TicketResponse ticketResponse = ticketService.getTicketsByAccountId(accountId);
+    public String showHistoryBooking(@PathVariable int accountId,
+                                     @RequestParam(required = false) Integer ticketId,
+                                     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
+                                     @RequestParam(required = false) String route,
+                                     @RequestParam(required = false) TicketStatus status,
+                                     Model model) {
+        TicketResponse ticketResponse = ticketService.searchTickets(accountId, ticketId, departureDate, route, status);
         model.addAttribute("ticketResponse", ticketResponse);
         // Lấy tất cả các giá trị của TicketStatus
         model.addAttribute("ticketStatuses", TicketStatus.values());

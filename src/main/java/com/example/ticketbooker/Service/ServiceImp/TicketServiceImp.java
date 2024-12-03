@@ -6,11 +6,14 @@ import com.example.ticketbooker.Entity.Tickets;
 import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Repository.TicketRepo;
 import com.example.ticketbooker.Service.TicketService;
+import com.example.ticketbooker.Util.Enum.TicketStatus;
 import com.example.ticketbooker.Util.Mapper.TicketMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +97,19 @@ public class TicketServiceImp implements TicketService {
         TicketResponse result = new TicketResponse();
         try {
             List<Tickets> tickets = ticketRepository.findAllByBookerId(accountId);
+            result.setTicketsCount(tickets.size());
+            result.setListTickets(new ArrayList<>(tickets));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public TicketResponse searchTickets(int accountId, Integer ticketId, LocalDate departureDate, String route, TicketStatus status) {
+        TicketResponse result = new TicketResponse();
+        try {
+            List<Tickets> tickets = ticketRepository.searchTickets(accountId, ticketId, departureDate, route, status);
             result.setTicketsCount(tickets.size());
             result.setListTickets(new ArrayList<>(tickets));
         } catch (Exception e) {
