@@ -31,5 +31,6 @@ public interface TicketRepo extends JpaRepository<Tickets, Integer> {
                                 @Param("route") String route,
                                 @Param("status") TicketStatus status);
 
-    int countByTripDepartureTimeBetween(LocalDateTime start, LocalDateTime end);
+    @Query("SELECT COUNT(t) FROM Tickets t WHERE t.invoice.paymentTime BETWEEN :start AND :end")
+    int countTicketsByPaymentTimeBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

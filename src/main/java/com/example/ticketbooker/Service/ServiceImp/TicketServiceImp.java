@@ -120,38 +120,10 @@ public class TicketServiceImp implements TicketService {
 
     @Override
     public TicketStatsDTO getTicketStats(String period, LocalDate selectedDate) {
-        LocalDate startDate = selectedDate;
-        LocalDate endDate = selectedDate;
-        LocalDate previousStartDate = selectedDate;
-        LocalDate previousEndDate = selectedDate;
+        LocalDate previousDate = getPreviousDate(period, selectedDate);
 
-
-        switch (period) {
-            case "Day":
-                previousStartDate = selectedDate.minusDays(1);
-                previousEndDate = previousStartDate;
-                break;
-            case "Month":
-
-                startDate = selectedDate.withDayOfMonth(1);
-                endDate = selectedDate.withDayOfMonth(selectedDate.lengthOfMonth());
-
-                previousStartDate = selectedDate.minusMonths(1).withDayOfMonth(1);
-                previousEndDate = selectedDate.minusMonths(1).withDayOfMonth(selectedDate.minusMonths(1).lengthOfMonth());
-                break;
-            case "Year":
-
-                startDate = selectedDate.withDayOfYear(1);
-                endDate = selectedDate.withDayOfYear(selectedDate.lengthOfYear());
-
-                previousStartDate = selectedDate.minusYears(1).withDayOfYear(1);
-                previousEndDate = selectedDate.minusYears(1).withDayOfYear(selectedDate.minusYears(1).lengthOfYear());
-                break;
-        }
-
-        int currentPeriodCount = ticketRepository.countByTripDepartureTimeBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
-        int previousPeriodCount = ticketRepository.countByTripDepartureTimeBetween(previousStartDate.atStartOfDay(), previousEndDate.atTime(23, 59, 59));
-
+        int currentPeriodCount = getTicketCountByPeriod(period, selectedDate);
+        int previousPeriodCount = getTicketCountByPeriod(period, previousDate);
 
         return TicketStatsDTO.builder()
                 .period(period)
@@ -159,5 +131,42 @@ public class TicketServiceImp implements TicketService {
                 .currentPeriodTicketCount(currentPeriodCount)
                 .previousPeriodTicketCount(previousPeriodCount)
                 .build();
+    }
+
+
+    private int getTicketCountByPeriod(String period, LocalDate date) {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        switch (period) {
+            case "Day":
+                start = date.atStartOfDay();
+                end = date.plusDays(1).atStartOfDay();
+                break;
+            case "Month":
+                start = date.withDayOfMonth(1).atStartOfDay();
+                end = date.plusMonths(1).withDayOfMonth(1).atStartOfDay();
+                break;
+            case "Year":
+                start = date.withDayOfYear(1).atStartOfDay();
+                end = date.plusYears(1).withDayOfYear(1).atStartOfDay();
+                break;
+        }
+
+        return ticketRepository.countTicketsByPaymentTimeBetween(start, end);
+    }
+
+
+    private LocalDate getPreviousDate(String period, LocalDate date) {
+        switch (period) {
+            case "Day":
+                return date.minusDays(1);
+            case "Month":
+                return date.minusMonths(1);
+            case "Year":
+                return date.minusYears(1);
+            default:
+                return date;
+        }
     }
 }
