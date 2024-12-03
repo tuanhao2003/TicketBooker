@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public interface InvoiceRepo extends JpaRepository<Invoices, Integer> {
@@ -23,4 +25,6 @@ public interface InvoiceRepo extends JpaRepository<Invoices, Integer> {
             @Param("totalAmount") Integer totalAmount,
             @Param("paymentStatus") PaymentStatus paymentStatus,
             @Param("paymentMethod") PaymentMethod paymentMethod);
+
+    List<Invoices> findAllByPaymentTimeBetweenAndPaymentStatus(LocalDateTime start, LocalDateTime end, PaymentStatus paymentStatus);
 }
