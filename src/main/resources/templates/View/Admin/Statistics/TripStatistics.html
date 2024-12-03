@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+<head>
+    <title>Trip Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script> </head>
+<body class="p-6 font-sans">
+<div layout:fragment="content">
+<h1 class="text-2xl font-bold mb-4 text-center">Thống Kê Chuyến Đi</h1>
+<div th:if="${stats != null}" class="container mx-auto flex justify-center items-start gap-8">
+    <div class="form-details w-1/3">
+        <form th:action="@{/admin/statistics/trip}" method="get" class="space-y-4">
+            <label for="period" class="block mb-2">Thống Kê Theo:</label>
+            <select id="period" name="period" class="w-full p-2 border rounded">
+                <option value="Day">Ngày</option>
+                <option value="Month">Tháng</option>
+                <option value="Year">Năm</option>
+            </select>
+            <label for="date" class="block mb-2">Ngày:</label>
+            <input type="date" id="date" name="date" class="w-full p-2 border rounded" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"/>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Lấy Số Liệu</button>
+        </form>
+        <p>Thống Kê Theo: <span th:text="${stats.period}"></span></p>
+        <p>Ngày Đã Chọn: <span th:text="${#temporals.format(stats.selectedDate, 'dd/MM/yyyy')}"></span></p>
+        <p>Số Chuyến Đi Kỳ Này: <span th:text="${stats.currentPeriodTripCount}"></span></p>
+        <p>Số Chuyến Kỳ Trước: <span th:text="${stats.previousPeriodTripCount}"></span></p>
+        <div class="mt-4">
+            <a href="/admin/statistics" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700">Trở về</a>
+        </div>
+    </div>
+    <div class="chart-container w-1/3">
+        <canvas id="tripChart"></canvas>
+    </div>
+</div>
+<script th:inline="javascript">
+    var currentTripCount = /*[[${stats.currentPeriodTripCount}]]*/ 0;
+    var previousTripCount = /*[[${stats.previousPeriodTripCount}]]*/ 0;
+    var ctx = document.getElementById('tripChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Kỳ Này', 'Kỳ Trước'],
+            datasets: [{
+                label: 'Số Lượng Chuyến',
+                data: [currentTripCount, previousTripCount],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+</script>
+</div>
+</body>
+</html>
