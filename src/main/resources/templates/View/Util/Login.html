@@ -32,15 +32,18 @@
 <div class="font-[sans-serif] max-w-7xl mx-auto h-screen relative">
     <div class="grid md:grid-cols-2 items-center gap-8 h-full">
         <form class="login-form max-w-lg max-md:mx-auto w-full p-6 transform opacity-100 duration-1000" action="/auth"  method="post">
-            <div class="mb-12">
+            <div class="mb-8">
                 <h3 class="text-gray-800 text-4xl font-extrabold">Sign in</h3>
                 <p class="text-gray-800 text-sm mt-6">Immerse yourself in a hassle-free login journey with our intuitively designed login form. Effortlessly access your account.</p>
             </div>
 
             <div>
-                <label for="email" class="text-gray-800 text-[15px] mb-2 block">Email</label>
-                <div class="relative flex items-center">
-                    <input  id="email" name="username" type="email" required class="login-email w-full text-sm text-gray-800 bg-gray-100 focus:bg-transparent px-4 py-3.5 rounded-md outline-blue-600" placeholder="Enter email" />
+                <div class="relative flex items-center text-red-800 mb-4">
+                    <p><span th:text="${error}"></span></p>
+                </div>
+                <label for="email" class="text-gray-800 text-[15px] mb-2 block">Tên tài khoản</label>
+                <div class="relative flex items-center ">
+                    <input  id="email" name="username" type="text" required class="login-email w-full text-sm text-gray-800 bg-gray-100 focus:bg-transparent px-4 py-3.5 rounded-md outline-blue-600" placeholder="Enter username" />
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 682.667 682.667">
                         <defs>
                             <clipPath id="a" clipPathUnits="userSpaceOnUse">
@@ -87,13 +90,64 @@
             <p class="text-sm mt-8 text-center text-gray-800">Don't have an account? <a href="javascript:void(0);" class="register-here text-blue-600 font-semibold tracking-wide hover:underline ml-1">Register here</a></p>
         </form>
 
-        <div class="login-img h-full md:py-6 flex items-center relative transition-all opacity-100 duration-1000 max-md:before:hidden before:absolute before:bg-gradient-to-r before:from-indigo-500 before:via-purple-500 before:to-pink-500 before:h-full before:w-3/4 before:right-0 before:z-0 ">
-            <img src="https://readymadeui.com/photo.webp" class="rounded-md lg:w-4/5 md:w-11/12 z-50 relative" alt="Dining Experience" />
+        <div class="login-img h-full items-center relative transition-all opacity-100 duration-1000 max-md:before:hidden before:absolute before:bg-white before:h-full before:w-full before:right-0 before:z-0 ">
+<!--            <img src="https://readymadeui.com/photo.webp" class="rounded-md lg:w-4/5 md:w-11/12 z-50 relative" alt="Dining Experience" />-->
+            <div class="md:mb-16 mb-8 z-10 mx-20 mt-40 relative ">
+                <h3 class="text-gray-800 text-4xl font-extrabold ">Instant Access</h3>
+
+            </div>
+
+            <div class="space-y-6 z-10 mx-20 w-1/2 relative ">
+                <a href="/oauth2/authorization/facebook"
+                   class="w-full px-5 py-2.5 flex items-center justify-center rounded-md text-white text-base tracking-wider font-semibold border-none outline-none bg-blue-600 hover:bg-blue-700">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22px" fill="#fff" class="inline shrink-0 mr-4" viewBox="0 0 167.657 167.657">
+                            <path
+                                    d="M83.829.349C37.532.349 0 37.881 0 84.178c0 41.523 30.222 75.911 69.848 82.57v-65.081H49.626v-23.42h20.222V60.978c0-20.037 12.238-30.956 30.115-30.956 8.562 0 15.92.638 18.056.919v20.944l-12.399.006c-9.72 0-11.594 4.618-11.594 11.397v14.947h23.193l-3.025 23.42H94.026v65.653c41.476-5.048 73.631-40.312 73.631-83.154 0-46.273-37.532-83.805-83.828-83.805z"
+                                    data-original="#010002" />
+                        </svg>
+                        Continue with Facebook
+                    </button>
+                </a>
+                <a href="/oauth2/authorization/google" class="w-full px-5 py-2.5 flex items-center justify-center rounded-md text-gray-800 text-base tracking-wider font-semibold border-none outline-none bg-gray-100 hover:bg-gray-200">
+                    <button type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22px" fill="#fff" class="inline shrink-0 mr-4" viewBox="0 0 512 512">
+                            <path fill="#fbbd00"
+                                  d="M120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308H52.823C18.568 144.703 0 198.922 0 256s18.568 111.297 52.823 155.785h86.308v-86.308C126.989 305.13 120 281.367 120 256z"
+                                  data-original="#fbbd00" />
+                            <path fill="#0f9d58"
+                                  d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216C305.044 385.147 281.181 392 256 392z"
+                                  data-original="#0f9d58" />
+                            <path fill="#31aa52"
+                                  d="m139.131 325.477-86.308 86.308a260.085 260.085 0 0 0 22.158 25.235C123.333 485.371 187.62 512 256 512V392c-49.624 0-93.117-26.72-116.869-66.523z"
+                                  data-original="#31aa52" />
+                            <path fill="#3c79e6"
+                                  d="M512 256a258.24 258.24 0 0 0-4.192-46.377l-2.251-12.299H256v120h121.452a135.385 135.385 0 0 1-51.884 55.638l86.216 86.216a260.085 260.085 0 0 0 25.235-22.158C485.371 388.667 512 324.38 512 256z"
+                                  data-original="#3c79e6" />
+                            <path fill="#cf2d48"
+                                  d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606C388.668 26.629 324.381 0 256 0l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
+                                  data-original="#cf2d48" />
+                            <path fill="#eb4132"
+                                  d="M256 120V0C187.62 0 123.333 26.629 74.98 74.98a259.849 259.849 0 0 0-22.158 25.235l86.308 86.308C162.883 146.72 206.376 120 256 120z"
+                                  data-original="#eb4132" />
+                        </svg>
+                        Continue with Google
+                    </button>
+                </a>
+                <a href="/oauth2/authorization/github" class="w-full px-5 py-2.5 flex items-center justify-center rounded-md text-white text-base tracking-wider font-semibold border-none outline-none bg-[#24292e] hover:bg-[#2f363d]">
+                    <button type="button" class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" class="inline shrink-0 mr-4">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        Continue with GitHub
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 
 
-    <div class="register-container pointer-events-none grid md:grid-cols-2 items-center gap-8 h-full w-full absolute top-0">
+    <div class="register-container pointer-events-none grid md:grid-cols-2 items-center gap-8 h-full w-full absolute top-0 z-100">
         <form class="registration-form max-w-lg max-md:mx-auto w-full p-6 transition-all opacity-0 duration-1000">
             <div class="mb-8">
                 <h3 class="text-gray-800 text-4xl font-extrabold">Register</h3>
@@ -101,9 +155,9 @@
 
             <div class="space-y-6">
                 <div>
-                    <label class="text-gray-800 text-sm mb-2 block">Name</label>
+                    <label class="text-gray-800 text-sm mb-2 block">Full Name</label>
                     <div class="relative flex items-center">
-                        <input name="name" type="text" id="register-name" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter name" />
+                        <input name="name" type="email" id="register-name" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter full name" />
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4" viewBox="0 0 24 24">
                             <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
                             <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
@@ -111,9 +165,9 @@
                     </div>
                 </div>
                 <div>
-                    <label class="text-gray-800 text-sm mb-2 block">Email Id</label>
+                    <label class="text-gray-800 text-sm mb-2 block">Email</label>
                     <div class="relative flex items-center">
-                        <input name="email" type="text" id="register-email" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter email" />
+                        <input name="email" type="email" id="register-email" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter email" />
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4" viewBox="0 0 682.667 682.667">
                             <defs>
                                 <clipPath id="a" clipPathUnits="userSpaceOnUse">
@@ -128,12 +182,28 @@
                     </div>
                 </div>
                 <div>
+                    <label class="text-gray-800 text-sm mb-2 block">Username</label>
+                    <div class="relative flex items-center">
+                        <input name="username" type="text" id="register-username" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter username" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4" viewBox="0 0 24 24">
+                            <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
+                            <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div>
                     <label class="text-gray-800 text-sm mb-2 block">Password</label>
                     <div class="relative flex items-center">
                         <input name="password" id="register-password" type="password" required class="bg-white border border-gray-300 w-full text-sm text-gray-800 pl-4 pr-10 py-2.5 rounded-md outline-blue-500" placeholder="Enter password" />
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4 cursor-pointer" viewBox="0 0 128 128">
                             <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
                         </svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative flex items-center">
+                        <span id="error-announcer" class="bg-white w-full text-sm text-red-800 font-li pr-10 rounded-md">
+                        </span>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -152,13 +222,14 @@
             <p class="text-gray-800 text-sm mt-6 text-center">Already have an account? <a href="javascript:void(0);" class="login-here text-blue-600 font-semibold hover:underline ml-1">Login here</a></p>
         </form>
 
-        <div class="registration-img h-full  items-center relative transition-all opacity-0 duration-1000 max-md:before:hidden before:absolute before:bg-gradient-to-r before:from-sky-400 before:via-cyan before:to-teal-400 before:h-full before:w-full before:left-0 before:z-0">
-            <div class="md:mb-16 mb-8 z-10 mx-20 mt-40 relative z-100 ">
+        <div class="registration-img h-full items-center relative transition-color  duration-1000 max-md:hidden absolute bg-gradient-to-r from-sky-400 via-cyan to-teal-400 before:h-full w-full left-0 z-101">
+            <div class="md:mb-16 mb-8 z-100 mx-20 mt-40 relative  ">
                 <h3 class="text-gray-800 text-4xl font-extrabold ">Instant Access</h3>
+
             </div>
 
-            <div class="space-y-6 z-10 mx-20 w-1/2 relative z-100">
-                <a href="/oauth2/authorization/google"
+            <div class="space-y-6 z-100 mx-20 w-1/2 relative ">
+                <a href="/oauth2/authorization/facebook"
                    class="w-full px-5 py-2.5 flex items-center justify-center rounded-md text-white text-base tracking-wider font-semibold border-none outline-none bg-blue-600 hover:bg-blue-700">
                     <button type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22px" fill="#fff" class="inline shrink-0 mr-4" viewBox="0 0 167.657 167.657">
@@ -210,26 +281,25 @@
 </div>
 
 <script>
-    // document.querySelector(".submit-login").addEventListener("click", function submitForm() {
-    //     const username = document.querySelector(".login-email").value;
-    //     const password = document.querySelector(".login-password").value;
-    //     console.log(JSON.stringify({
-    //         username: username,
-    //         password: password
-    //     }));
+    // document.querySelector('.login-form').addEventListener("submit", async (event) => {
+    //     event.preventDefault();
+    //     console.log((this))
+    //     // Lấy dữ liệu từ form
+    //     const form = event.target;
+    //     const formData = new FormData(form);
+    //     // chuyển dữ liệu thành URL-encoded string
+    //     const urlEncodedData = new URLSearchParams(formData).toString();
     //     fetch("/auth", {
     //         method: "POST",
     //         headers: {
-    //             "Content-Type": "application/json"
+    //             "Content-Type": "application/x-www-form-urlencoded"
     //         },
-    //         body: JSON.stringify({
-    //             username: username,
-    //             password: password
-    //         })
+    //         body: urlEncodedData,
     //     })
     //         .then(response => {
     //             if(response.ok){
     //                 alert("Login successfully");
+    //                 window.location.href = '/auth/profile'
     //             }
     //             else {
     //                 throw new Error('Login failed');
@@ -251,7 +321,6 @@
         logForm.classList.toggle('opacity-0');
         logForm.classList.toggle('opacity-100');
 
-        logImg.classList.toggle('-translate-x-[50vw]');
         logImg.classList.toggle('opacity-0');
         logImg.classList.toggle('opacity-100');
 
@@ -260,43 +329,78 @@
         regform.classList.toggle('opacity-100');
 
         regImg.classList.toggle('-translate-x-[40vw]');
-        regImg.classList.toggle('opacity-0');
-        regImg.classList.toggle('opacity-100');
+        regImg.classList.toggle('from-sky-400');
+        regImg.classList.toggle('via-cyan');
+        regImg.classList.toggle('to-teal-400');
+
+        regImg.classList.toggle('to-sky-400');
+        regImg.classList.toggle('via-cyan');
+        regImg.classList.toggle('from-teal-400');
+        // regImg.classList.toggle('from-indigo-500');
+        // regImg.classList.toggle('via-purple-500');
+        // regImg.classList.toggle('to-pink-500');
+        // regImg.classList.toggle('opacity-0');
+        // regImg.classList.toggle('opacity-100');
 
         regCont.classList.toggle('pointer-events-none');
     }
     //DĐăng ký
     document.querySelector("#register-submit").addEventListener("click", async function () {
-        let name = document.querySelector("#register-name").value;
+        let fullName = document.querySelector("#register-name").value;
+        let username = document.querySelector("#register-username").value;
         let email = document.querySelector("#register-email").value;
         let password = document.querySelector("#register-password").value;
-        let emailValid = false;
+        let error = document.querySelector("#error-announcer");
+        let errorMsg = "";
+        let emailValid = true;
+        let usernameValid = true;
         //kiểm tra email tồn tại
         console.log('email flag:'+ emailValid)
             try {
-                let url = '/api/account/exist?email=' + email;
+                let url = '/api/accounts/exist?email=' + email;
                 const response = await fetch(url);
                 //Thay đổi giá trị cờ khi yêu cầu thành công
                 if (response.ok) {
+                    emailValid = false;
+                    errorMsg = "Email đã tồn tại <br>";
+                    throw new Error('Email Existed, flag =' + emailValid);
+                } else if(response.status === 404){
                     emailValid = true;
                     console.log("Email ok, flag= " + emailValid);
-                } else {
-                    emailValid = false;
-                    throw new Error('Email Existed, flag =' + emailValid);
                 }
             }catch(error) {
                 console.log(error);
             }
-        console.log('flag sau ham async:'+ emailValid)
-        //Thêm account mới
-        const accountDTO = {
-            username: name,
-            password: password,
-            email: email,
-            role: 'CUSTOMER',
-            accountStatus: 'ACTIVE'
-        };
-        if(emailValid){
+            try {
+                let url = '/api/accounts/exist?username=' + username;
+                const response = await fetch(url);
+                //Thay đổi giá trị cờ khi yêu cầu thành công
+                if (response.ok) {
+                    usernameValid = false;
+                    errorMsg += "Username đã tồn tại";
+                    throw new Error('Username existed, flag =' + usernameValid);
+                } else if(response.status === 404) {
+                    usernameValid = true;
+                    console.log("Username ok, flag= " + usernameValid);
+                }
+            }catch(error) {
+                console.log(error);
+            }
+        console.log('flag sau ham async:'+ usernameValid + emailValid)
+        error.innerHTML = errorMsg;
+        if(emailValid && usernameValid){
+            //Thêm account mới
+            const accountDTO = {
+                username: username,
+                password: password,
+                email: email,
+                role: 'CUSTOMER',
+                accountStatus: 'ACTIVE',
+                user: {               // User object embedded within the account
+                    fullName: fullName,        // Replace with actual user data fields
+                }
+            }
+            console.log(accountDTO)
             fetch("/register",{
                 method: 'POST',
                 headers: {

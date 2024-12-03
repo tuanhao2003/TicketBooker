@@ -1,10 +1,12 @@
 package com.example.ticketbooker.Config.Security;
 
 import com.example.ticketbooker.Entity.Account;
+import com.example.ticketbooker.Entity.CustomOAuth2User;
 import com.example.ticketbooker.Entity.CustomUserDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -27,15 +29,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             request.getSession().setAttribute("role", userDetails.getAuthorities().toString());
             request.getSession().setAttribute("email", userDetails.getAccount().getEmail());
             // Chuyển hướng đến trang đích sau khi đăng nhập thành công
-            response.sendRedirect("/auth/profile");
+            response.sendRedirect("/profile/info");
 
-        } else if (principal instanceof OAuth2User oauth2User) {
+        } else if (principal instanceof CustomOAuth2User customOAuth2User) {
             //Đăng nhập bằng oauth, chưa có tk trong hệ thống
-            System.out.println("Oauth2 user: " + oauth2User);
-            request.getSession().setAttribute("username", oauth2User.getAttribute("name"));
-            request.getSession().setAttribute("email", oauth2User.getAttribute("email"));
-            request.getSession().setAttribute("role", "CUSTOMER");
-            response.sendRedirect("/new-password");
+            System.out.println("Oauth2 user: " + customOAuth2User);
+            if(customOAuth2User.getAccount().getPassword().isEmpty()) {
+                response.sendRedirect("/new-password");
+            }else
+                response.sendRedirect("/profile/info");
         }
     }
 }

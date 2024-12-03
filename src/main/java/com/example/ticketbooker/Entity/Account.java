@@ -16,6 +16,10 @@ public class Account {
     @Column(name = "accountId", nullable = false)
     private Integer id;
 
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private Users user;
+
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
@@ -35,6 +39,7 @@ public class Account {
 
     public Account() {
         this.id = null;
+        this.user = null;
         this.username = "";
         this.password = "";
         this.email = null;
@@ -42,8 +47,9 @@ public class Account {
         this.accountStatus = AccountStatus.ACTIVE;
     }
 
-    public Account(Integer id, String username, String password, String email, Role role, AccountStatus accountStatus) {
+    public Account(Integer id, Users user, String username, String password, String email, Role role, AccountStatus accountStatus) {
         this.id = id;
+        this.user = user;
         this.username = username;
         this.password = password;
         this.email = email;
