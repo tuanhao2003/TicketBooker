@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Service;
 
 import com.example.ticketbooker.DTO.Trips.*;
+import com.example.ticketbooker.Entity.Trips;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +14,5 @@ public interface TripService {
     public boolean updateTrip(UpdateTripDTO updateTripDTO);
     public boolean deleteTrip(RequestIdTripDTO dto); // Thêm phương thức xóa chuyến xe
     public ResponseTripDTO searchTrip(SearchTripRequest dto);
+    Trips getTripById(Integer tripId);
 }

@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketServiceImp implements TicketService {
@@ -83,14 +83,32 @@ public class TicketServiceImp implements TicketService {
 
     @Override
     public PaymentInforResponse getPaymentInfo(PaymentInforRequest request) {
-        PaymentInforResponse result = new PaymentInforResponse();
         try {
-            result = this.ticketRepository.findAllById(request.getTicketId()).size()==1 ? TicketMapper.toPaymentInfor( this.ticketRepository.findAllById(request.getTicketId()).get(0)) : new PaymentInforResponse();
+            Optional<Tickets> ticketOptional = this.ticketRepository.findById(request.getTicketId());
+            if (ticketOptional.isPresent()) {
+                Tickets ticket = ticketOptional.get();
+
+                // Kiểm tra trạng thái của ticket
+                if (ticket.getTicketStatus() == TicketStatus.BOOKED) {
+                    // Kiểm tra số điện thoại
+                    if (ticket.getCustomerPhone().equals(request.getCustomerPhone())) {
+                        return TicketMapper.toPaymentInfor(ticket);
+                    } else {
+                        System.out.println("Số điện thoại không trùng khớp.");
+                    }
+                } else {
+                    System.out.println("Trạng thái ticket không hợp lệ: " + ticket.getTicketStatus());
+                }
+            } else {
+                System.out.println("Không tìm thấy ticket với ID: " + request.getTicketId());
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Lỗi trong quá trình xử lý: " + e.getMessage());
         }
-        return result;
+        return null;
     }
+
+
 
     @Override
     public TicketResponse getTicketsByAccountId(int accountId) {
