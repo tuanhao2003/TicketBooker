@@ -1,8 +1,11 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
+import com.example.ticketbooker.DTO.Routes.SearchRouteRequest;
 import com.example.ticketbooker.DTO.Trips.*;
+import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
+import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Mapper.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class TripServiceImp implements TripService {
     @Autowired
     private TripRepo tripRepo;
+    @Autowired
+    private RouteService routeService;
 
     @Override
     public ResponseTripDTO getTripById(int tripId) {
@@ -85,11 +90,16 @@ public class TripServiceImp implements TripService {
     }
 
     @Override
+    public Trips getTripById(Integer tripId) {
+        return tripRepo.findById(tripId).orElse(null);
+    }
+
+    @Override
     public ResponseTripDTO searchTrip(SearchTripRequest dto) {
         ResponseTripDTO result = new ResponseTripDTO();
         try {
-//            result = TripMapper.toResponseDTO(this.tripRepo.findAll());
-            result = TripMapper.toResponseDTO(this.tripRepo.searchTrip(dto));
+            Routes route = routeService.findByLocations(new SearchRouteRequest(dto.getDeparture(), dto.getArrival())).getList().get(0);
+            result = TripMapper.toResponseDTO(this.tripRepo.searchTrip(dto, route));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return result;

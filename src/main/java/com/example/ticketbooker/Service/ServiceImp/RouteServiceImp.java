@@ -1,9 +1,6 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
-import com.example.ticketbooker.DTO.Routes.AddRouteDTO;
-import com.example.ticketbooker.DTO.Routes.RequestRouteIdDTO;
-import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
-import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
+import com.example.ticketbooker.DTO.Routes.*;
 import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Repository.RouteRepo;
 import com.example.ticketbooker.Service.RouteService;
@@ -133,6 +130,21 @@ public class RouteServiceImp implements RouteService {
         ArrayList<Routes> routes;
         try{
             routes = this.routeRepo.findByDepartureLocationAndArrivalLocation(location, location);
+            result.setRouteCount(routes.size());
+            result.setList(routes);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return result;
+    }
+
+    @Override
+    public ResponseRouteDTO findByLocations(SearchRouteRequest request) {
+        ResponseRouteDTO result = new ResponseRouteDTO();
+        ArrayList<Routes> routes;
+        try{
+            routes = this.routeRepo.findByDepartureLocationAndArrivalLocation(request.getDeparture(), request.getArrival());
             result.setRouteCount(routes.size());
             result.setList(routes);
         }catch (Exception e){

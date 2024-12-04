@@ -30,35 +30,19 @@
     </div>
 
     <!-- Booking Form -->
-    <div class="max-w-5xl mx-auto">
+    <form action="http://localhost:8080/fuba/search-trips" th:object="${searchData}" method="post" class="max-w-5xl mx-auto">
         <div class="container mx-auto -mt-4 relative">
             <div class="relative bg-white rounded-2xl shadow-sm border border-purple-100">
                 <div class="p-6">
-                    <!-- Trip Type Selection -->
-                    <div class="flex justify-between items-center mb-8">
-                        <div class="flex gap-6">
-                            <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="tripType" value="oneWay"
-                                       class="rqData w-5 h-5 text-purple-600 border-purple-600" checked>
-                                <span class="ml-2 text-gray-600">Một chiều</span>
-                            </label>
-                            <label class="flex items-center cursor-pointer">
-                                <input type="radio" name="tripType" value="roundTrip"
-                                       class="rqData w-5 h-5 text-purple-600 border-purple-600">
-                                <span class="ml-2 text-purple-600 font-medium">Khứ hồi</span>
-                            </label>
-                        </div>
-                        <a href="#" class="text-purple-600 hover:text-purple-700">Hướng dẫn mua vé</a>
-                    </div>
 
                     <!-- Booking Form -->
                     <div class="grid grid-cols-4 gap-4">
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Điểm đi</label>
                             <div class="relative">
-                                <select name="routeDeparture"
-                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
-                                    <option></option>
+                                <select th:field="*{departure}"
+                                        class="selectFill departure w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option value=""></option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
@@ -73,9 +57,9 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Điểm đến</label>
                             <div class="relative">
-                                <select name="routeArrival"
-                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
-                                    <option></option>
+                                <select th:field="*{arrival}"
+                                        class="selectFill arrival w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
+                                    <option value=""></option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
@@ -90,15 +74,7 @@
                         <div id="dateContainer" class="col-span-1">
                             <label class="block text-sm text-gray-600 mb-1.5">Ngày đi</label>
                             <div class="relative">
-                                <input name="departureDate" type="date" placeholder="Thêm ngày đi"
-                                       class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
-                            </div>
-                        </div>
-
-                        <div id="returnDateContainer" class="hidden">
-                            <label class="block text-sm text-gray-600 mb-1.5">Ngày về</label>
-                            <div class="relative">
-                                <input name="arrivalDate" type="date" placeholder="Thêm ngày về"
+                                <input th:field="*{departureDate}" type="datetime-local" placeholder="Thêm ngày đi"
                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
                             </div>
                         </div>
@@ -106,9 +82,13 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Số vé</label>
                             <div class="relative">
-                                <select name="ticketQuantity"
+                                <select th:field="*{ticketQuantity}"
                                         class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:border-purple-500">
-                                    <option>1</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
@@ -133,13 +113,13 @@
 
                 <!-- Search Button -->
                 <div class="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2">
-                    <button class="btn-submit-trip-search h-12 px-12 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                    <button type="submit" class="btn-submit-trip-search h-12 px-12 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
                         Tìm chuyến xe
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- Popular Routes Section -->
     <div class="bg-white py-12">
