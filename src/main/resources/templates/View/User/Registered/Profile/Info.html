@@ -19,18 +19,19 @@
 
                                     <img th:if="*{profilePhoto != null}" th:src="*{profilePhoto}"
                                          class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                                    <img th:if="*{profilePhoto == null and gender == null}"
+                                    <img th:if="*{profilePhoto == null}"
                                          th:src="@{/components/noavt_male.png}"
                                          class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
-                                         th:src="@{/components/noavt_male.png}"
-                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
-                                         th:src="@{/components/noavt_female.png}"
-                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
-                                         th:src="@{/components/noavt_other.png}"
-                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">                                </div>
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"-->
+<!--                                         th:src="@{/components/noavt_male.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"-->
+<!--                                         th:src="@{/components/noavt_female.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
+<!--                                         th:src="@{/components/noavt_other.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+                                </div>
                                 <div class="flex flex-col items-start gap-2">
                                     <label for="file" class="px-4 py-2 w-full bg-gray-100 border-2 border-gray-300 rounded-full hover:bg-gray-200">
                                         Chọn ảnh
@@ -69,15 +70,15 @@
                                     <select th:field="*{gender}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                                         <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
                                                 th:text="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
-                                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}">
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}">
                                         </option>
                                         <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
                                                 th:text="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
-                                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}">
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}">
                                         </option>
                                         <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
                                                 th:text="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
-                                                th:selected="*{gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}">
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}">
                                         </option>
                                     </select>
                                 </div>
