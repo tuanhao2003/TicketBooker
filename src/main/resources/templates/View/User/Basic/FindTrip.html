@@ -8,6 +8,61 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" th:src="@{/js/FindTrip.js}"></script>
     <link rel="stylesheet" th:href="@{/css/FindTrip.css}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy tất cả các phần tử chứa thời gian departureTime
+            var departureTimeElements = document.querySelectorAll('#departureTime');
+            // Lấy tất cả các phần tử chứa thời gian arrivalTime
+            var arrivalTimeElements = document.querySelectorAll('#arrivalTime');
+            // Lấy tất cả các phần tử chứa giá
+            var priceElements = document.querySelectorAll('#price');
+
+            // Hàm để định dạng thời gian
+            function formatTime(timeElement) {
+                var time = timeElement.textContent || timeElement.innerText;
+
+                if (time) {
+                    // Chuyển giá trị thành Date object
+                    var dateObj = new Date(time);
+
+                    // Lấy phần giờ và phút
+                    var hours = dateObj.getHours();
+                    var minutes = dateObj.getMinutes();
+
+                    // Định dạng lại giờ: thêm 0 nếu là số nhỏ hơn 10
+                    var formattedTime = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+
+                    // Cập nhật lại giá trị giờ đã định dạng vào phần tử
+                    timeElement.textContent = formattedTime;
+                }
+            }
+
+            // Hàm để định dạng giá tiền
+            function formatPrice(priceElement) {
+                var price = parseInt(priceElement.textContent.replace(/\D/g, ''), 10); // Lấy giá trị số
+                if (!isNaN(price)) {
+                    // Định dạng lại giá trị với dấu phẩy và thêm 'đ'
+                    priceElement.textContent = price.toLocaleString('vi-VN') + 'đ';
+                }
+            }
+
+            // Duyệt qua tất cả các phần tử departureTime và định dạng
+            departureTimeElements.forEach(function (element) {
+                formatTime(element);
+            });
+
+            // Duyệt qua tất cả các phần tử arrivalTime và định dạng
+            arrivalTimeElements.forEach(function (element) {
+                formatTime(element);
+            });
+
+            // Duyệt qua tất cả các phần tử price và định dạng
+            priceElements.forEach(function (element) {
+                formatPrice(element);
+            });
+        });
+    </script>
+
 </head>
 <body class="bg-gray-50">
 <div layout:fragment="content">
@@ -218,17 +273,18 @@
                         <div class="grid grid-cols-[auto_1fr_auto] gap-4 items-center mb-6">
                             <!-- Thời gian khởi hành -->
                             <div class="flex items-center gap-3">
-                                <div th:text="${trip.departureTime}" class="text-2xl font-bold"></div>
+                                <div id="departureTime" th:text="${trip.departureTime}" class="text-2xl font-bold"></div>
                                 <div class="w-2 h-2 rounded-full bg-green-500"></div>
                             </div>
                             <!-- Khoảng thời gian và múi giờ -->
                             <div class="text-gray-500 text-center">
                                 <div th:text="${trip.route.estimatedTime}"></div>
+                                <div class="text-sm">(Asian/Ho Chi Minh)</div>
                             </div>
                             <!-- Thời gian đến -->
                             <div class="flex items-center gap-3">
                                 <div class="w-2 h-2 rounded-full bg-orange-500"></div>
-                                <div th:text="${trip.arrivalTime}" class="text-2xl font-bold"></div>
+                                <div id="arrivalTime" th:text="${trip.arrivalTime}" class="text-2xl font-bold"></div>
                             </div>
                         </div>
                         <!-- Điểm đi và điểm đến -->
@@ -240,14 +296,22 @@
                         <div class="flex justify-between items-center mb-4">
                             <div class="flex items-center gap-2 text-gray-500">
                                 <span th:text="${trip.bus.busType}"></span>
-                                <span th:text="${trip.availableSeats}" class="text-green-600 font-medium"></span>
+                                <span th:text="${trip.availableSeats + ' chỗ ngồi'}" class="text-green-600 font-medium"></span>
                             </div>
-                            <div th:text="${trip.price}" class="text-2xl font-bold text-red-500"></div>
+                            <div id="price" th:text="${trip.price}" class="text-2xl font-bold text-red-500"></div>
                         </div>
                         <!-- Các nút chọn -->
-                        <div class="grid grid-cols-5 gap-2 text-sm text-end">
-                            <a th:href="@{/fuba/booking?tripId={id}(id=${trip.id})}" class="py-2 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700 btnSubmit">Chọn chuyến</a>
+                        <div class="flex justify-between items-center text-sm">
+                            <div class="flex gap-2">
+                                <button class="p-2 border border-gray-300 rounded-md">Trung chuyển</button>
+                                <button class="p-2 border border-gray-300 rounded-md">Chính sách</button>
+                            </div>
+                            <a th:href="@{/fuba/booking?tripId={id}(id=${trip.id})}"
+                               class="py-2 px-4 bg-purple-500 text-white font-medium rounded-md hover:bg-purple-700 btnSubmit">
+                                Chọn chuyến
+                            </a>
                         </div>
+
                     </div>
 
                 </div>
