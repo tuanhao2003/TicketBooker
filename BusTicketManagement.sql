@@ -1,25 +1,25 @@
--- Table: Account
-CREATE TABLE Account (
-    accountId INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    role ENUM('CUSTOMER', 'STAFF', 'MANAGER') NOT NULL,
-    accountStatus ENUM('ACTIVE', 'INACTIVE') NOT NULL
-);
-
 -- Table: User
 CREATE TABLE Users (
     userId INT AUTO_INCREMENT PRIMARY KEY,
-    accountId INT,
     fullName VARCHAR(255) NOT NULL,
-    phone VARCHAR(11) UNIQUE NOT NULL,
+    phone VARCHAR(11) UNIQUE,
     address VARCHAR(255),
     dateOfBirth DATE,
     gender ENUM('MALE', 'FEMALE', 'OTHER'),
     profilePhoto BLOB,
-    FOREIGN KEY (accountId) REFERENCES Account(accountId),
     userStatus ENUM('ACTIVE', 'INACTIVE') NOT NULL
+);
+
+-- Table: Account
+CREATE TABLE Account (
+    accountId INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    role ENUM('CUSTOMER', 'STAFF', 'MANAGER') NOT NULL,
+    accountStatus ENUM('ACTIVE', 'INACTIVE') NOT NULL,
+    FOREIGN KEY (userId) REFERENCES Users(userId)
 );
 
 -- Table: Routes

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,6 @@ import java.sql.Date;
 public class SearchTripRequest {
     private String departure;
     private String arrival;
-    private Date departureDate;
-    private Date arrivalDate;
+    private LocalDateTime departureDate;
     private int ticketQuantity;
 }
