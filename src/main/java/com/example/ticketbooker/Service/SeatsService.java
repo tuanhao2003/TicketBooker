@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SeatsService {
     List<Integer> addSeats(AddSeatDTO addSeatDTO);
+    List<String> getBookedSeatsForTrip(Integer tripId);
 }

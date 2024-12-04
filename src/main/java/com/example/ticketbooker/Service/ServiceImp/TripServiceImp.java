@@ -106,4 +106,8 @@ public class TripServiceImp implements TripService {
         }
         return result;
     }
+
+    public Trips getTripByIdpath(int tripId) {
+        return tripRepo.findById(tripId);
+    }
 }
