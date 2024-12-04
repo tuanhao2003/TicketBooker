@@ -18,14 +18,10 @@ public class Users {
     @Column(name = "userId", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountId")
-    private Account account;
-
     @Column(name = "fullName", nullable = false)
     private String fullName;
 
-    @Column(name = "phone", nullable = false, length = 11)
+    @Column(name = "phone",length = 11)
     private String phone;
 
     @Column(name = "address")
@@ -49,7 +45,6 @@ public class Users {
 
     public Users() {
         this.id = null;
-        this.account = null;
         this.fullName = "";
         this.phone = "";
         this.address = null;
@@ -59,9 +54,8 @@ public class Users {
         this.userStatus = UserStatus.ACTIVE;
     }
 
-    public Users(Integer id, Account account, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus userStatus) {
+    public Users(Integer id, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus userStatus) {
         this.id = id;
-        this.account = account;
         this.fullName = fullName;
         this.phone = phone;
         this.address = address;

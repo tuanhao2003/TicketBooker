@@ -8,7 +8,105 @@
 <body>
     <div layout:fragment="profileContent">
         <main class="flex-1 p-8 flex flex-col">
-            <p> Đây là trang Info</p>
+            <div class="container mx-auto p-6">
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+                    <h1 class="text-2xl font-bold mb-2">Thông tin tài khoản</h1>
+                    <p class="text-gray-600 mb-6">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+                    <form th:action="@{/profile/info/update}" th:object="${updateUserForm}" method="post">
+                        <div class="space-y-6 grid grid-cols-2">
+                            <div class="flex flex-col items-center self-center gap-4">
+                                <div class="w-52 h-52 rounded-full overflow-hidden">
+
+                                    <img th:if="*{profilePhoto != null}" th:src="*{profilePhoto}"
+                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+                                    <img th:if="*{profilePhoto == null}"
+                                         th:src="@{/components/noavt_male.png}"
+                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"-->
+<!--                                         th:src="@{/components/noavt_male.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"-->
+<!--                                         th:src="@{/components/noavt_female.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
+<!--                                         th:src="@{/components/noavt_other.png}"-->
+<!--                                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+                                </div>
+                                <div class="flex flex-col items-start gap-2">
+                                    <label for="file" class="px-4 py-2 w-full bg-gray-100 border-2 border-gray-300 rounded-full hover:bg-gray-200">
+                                        Chọn ảnh
+                                    </label>
+                                    <input type="file" id="file" accept="image/*" class="hidden" th:field="*{profilePhoto}">
+                                </div>
+                                <p id="file-name" class="text-sm w-2/3 font-bold text-center text-gray-500">Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
+                                <script>
+                                    const fileInput = document.getElementById('file');
+                                    const fileNameP = document.getElementById('file-name');
+
+                                    fileInput.addEventListener('change', () => {
+                                        if (fileInput.files.length > 0) {
+                                            fileNameP.textContent = fileInput.files[0].name;
+                                        } else {
+                                            fileNameP.textContent = 'Không có tệp nào được chọn';
+                                        }
+                                    });
+                                </script>
+                            </div>
+
+                            <div class="grid gap-4">
+                                <input type="hidden" th:field="*{userId}" />
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Họ và tên:</label>
+                                    <input type="text" required="" th:field="*{fullName}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Số điện thoại:</label>
+                                    <input type="tel" required="" th:field="*{phone}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Giới tính:</label>
+                                    <select th:field="*{gender}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                        <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
+                                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}">
+                                        </option>
+                                        <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
+                                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}">
+                                        </option>
+                                        <option th:value="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
+                                                th:text="${T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
+                                                th:selected="${gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}">
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Email:</label>
+                                    <input type="email" name="email" th:value="${email}" required="" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Ngày sinh:</label>
+                                    <input type="date" required="" th:field="*{dateOfBirth}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="grid grid-cols-[100px_1fr] items-center gap-4">
+                                    <label class="text-right">Địa chỉ:</label>
+                                    <input type="text" required="" th:field="*{address}" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                                </div>
+                                <div class="grid grid-cols-1 items-center gap-4">
+                                    <div class="flex justify-center">
+                                        <button class="px-8 py-2 bg-[#F15A24] hover:bg-[#d14b1d] text-white rounded-md">Cập nhật</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </main>
     </div>
 </body>

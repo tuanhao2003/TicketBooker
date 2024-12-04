@@ -1,7 +1,11 @@
 package com.example.ticketbooker.Controller;
 
+import com.example.ticketbooker.Entity.Account;
+import com.example.ticketbooker.Util.SecurityUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.ticketbooker.DTO.Invoice.AddInvoiceDTO;
-import com.example.ticketbooker.DTO.Seats.AddSeatDTO;
 import com.example.ticketbooker.DTO.Ticket.AddTicketRequest;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
@@ -11,8 +15,6 @@ import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Enum.PaymentMethod;
 import com.example.ticketbooker.Util.Enum.PaymentStatus;
 import com.example.ticketbooker.Util.Utils.CookieUtils;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/fuba")
@@ -36,7 +36,23 @@ public class MainController {
 
     @GetMapping()
     public String showMainPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Check if the user is logged in (not anonymous)
+        boolean isLoggedIn = SecurityUtils.isLoggedIn();
+        if(isLoggedIn) {
+            Object principal = authentication.getPrincipal();
+            Account account = SecurityUtils.extractAccount(principal);
+            if(account != null) {
+                model.addAttribute("fullname", account.getUser().getFullName());
+//                model.addAttribute("email", account.getEmail());
+//                model.addAttribute("role", account.getRole().toString());
+//                model.addAttribute("user", account.getUser());
+            }else{
+                model.addAttribute("fullname","not logedin");
+            }
+        }
         model.addAttribute("searchData", new SearchTripRequest());
+        model.addAttribute("isLoggedIn", isLoggedIn);
         return "View/User/Basic/TrangChu";
     }
 
@@ -68,9 +84,14 @@ public class MainController {
     @GetMapping("/booking")
     public String showBooking(@RequestParam int tripId, Model model) {
         model.addAttribute("bookingInformation", tripService.getTripById(tripId));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Account account = SecurityUtils.extractAccount(authentication.getPrincipal());
+
+        model.addAttribute("fullname",account.getUser().getFullName());
+        model.addAttribute("phone",account.getUser().getPhone());
+        model.addAttribute("email",account.getEmail());
         return "View/User/Basic/Booking";
     }
-
 
     @GetMapping("/paying")
     public String showPaying() {
@@ -114,5 +135,11 @@ public class MainController {
     public String login() {
         return "View/Util/Login";
     }
+
+    @GetMapping("/profile")
+    public String showProfile() {
+        return "View/User/Registered/Profile/TicketHistory";
+    }
+
 
 }

@@ -11,7 +11,6 @@ public class UserMapper {
     public static Users fromAdd(AddUserRequest dto) {
         return Users.builder()
                 .fullName(dto.getFullName())
-                .phone(dto.getPhone())
                 .userStatus(dto.getStatus())
                 .build();
     }
@@ -32,7 +31,7 @@ public class UserMapper {
     public static UpdateUserRequest toUpdateDTO(Users entity) {
         return UpdateUserRequest.builder()
                 .userId(entity.getId())
-                .accountId(entity.getAccount() != null ? entity.getAccount().getId() : null)
+//                .accountId(entity.getAccount() != null ? entity.getAccount().getId() : null)
                 .fullName(entity.getFullName())
                 .phone(entity.getPhone())
                 .address(entity.getAddress())

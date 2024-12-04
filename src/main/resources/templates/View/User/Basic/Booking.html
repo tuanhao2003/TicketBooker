@@ -98,7 +98,7 @@
                                         <label class="block text-sm mb-1">
                                             Họ và tên <span class="text-red-500">*</span>
                                         </label>
-                                        <input type="text" name="customerName"
+                                        <input type="text" name="customerName" th:value="${fullname}"
                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                                                value="">
                                     </div>
@@ -107,7 +107,7 @@
                                         <label class="block text-sm mb-1">
                                             Số điện thoại <span class="text-red-500">*</span>
                                         </label>
-                                        <input type="tel" name="customerPhone"
+                                        <input type="tel" name="customerPhone" th:value="${phone}"
                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                                                value="">
                                     </div>
@@ -116,7 +116,7 @@
                                         <label class="block text-sm mb-1">
                                             Email <span class="text-red-500">*</span>
                                         </label>
-                                        <input type="email" name="email"
+                                        <input type="email" name="email" th:value="${email}"
                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500"
                                                value="">
                                     </div>

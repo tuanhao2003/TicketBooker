@@ -8,6 +8,7 @@ import com.example.ticketbooker.Util.Enum.Gender;
 
 public interface UserService {
     boolean addUser(AddUserRequest dto);
+    Integer addUserGetId(AddUserRequest dto);
     boolean updateUser(UpdateUserRequest dto);
     boolean deleteUser(UserIdRequest dto);
     UserResponse getAllUsers();
