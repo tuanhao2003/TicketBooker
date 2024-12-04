@@ -15,6 +15,18 @@
 
         <!-- Form để thêm mới (khi accountDTO.id là null) -->
         <form th:if="${accountDTO.id} == null" th:action="@{/admin/accounts/add}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Users ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="userIdNew">Mã Người Dùng</label>
+                <select name="userId" id="userIdNew" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Chọn Mã Người Dùng</option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.id} + ' - ' + ${user.fullName} + ' - ' + ${user.phone}"
+                            th:selected="${user.id == accountDTO.userId?.id}"></option>
+                </select>
+            </div>
             <!-- Tên -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="usernameNew">Tên</label>
@@ -83,6 +95,18 @@
             <!-- Account ID -->
             <input type="number" name="id" th:value="${accountDTO.id}" required
                    class="hidden shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <!-- Users ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="userId">Mã Người Dùng</label>
+                <select name="userId" id="userId" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Chọn Mã Người Dùng</option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.id} + ' - ' + ${user.fullName} + ' - ' + ${user.phone}"
+                            th:selected="${user.id == accountDTO.userId?.id}"></option>
+                </select>
+            </div>
             <!-- Tên -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Tên</label>
