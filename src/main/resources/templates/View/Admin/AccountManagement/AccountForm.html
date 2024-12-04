@@ -24,7 +24,7 @@
                     <option th:each="user : ${users}"
                             th:value="${user.id}"
                             th:text="${user.id} + ' - ' + ${user.fullName} + ' - ' + ${user.phone}"
-                            th:selected="${user.id == accountDTO.userId?.id}"></option>
+                            th:selected="${user.id == accountDTO.user?.id}"></option>
                 </select>
             </div>
             <!-- Tên -->
@@ -104,7 +104,7 @@
                     <option th:each="user : ${users}"
                             th:value="${user.id}"
                             th:text="${user.id} + ' - ' + ${user.fullName} + ' - ' + ${user.phone}"
-                            th:selected="${user.id == accountDTO.userId?.id}"></option>
+                            th:selected="${user.id == accountDTO.user?.id}"></option>
                 </select>
             </div>
             <!-- Tên -->
