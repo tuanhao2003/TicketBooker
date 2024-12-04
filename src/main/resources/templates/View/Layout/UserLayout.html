@@ -87,7 +87,7 @@
 
         try {
             const currentLocation = await getCurrentLocation();
-            const finalInput = "Vị trí hiện tại: " + currentLocation + ". " + transcript;
+            const finalInput = "Currentlocation: " + currentLocation + ". " + transcript;
             document.getElementById("search-input").value = finalInput;
 
             // Gửi request tới API của ChatGPT

@@ -6,6 +6,7 @@ import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Util.Enum.RouteStatus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface RouteService {
     public boolean addRoute(AddRouteDTO dto);
@@ -18,4 +19,5 @@ public interface RouteService {
     public ResponseRouteDTO findByArrivalLocation(String arrivalLocation);
     public ResponseRouteDTO findByLocation(String arrivalLocation);
     public ResponseRouteDTO findByLocations(SearchRouteRequest request);
+    public List<Routes> getAllRoutes();
 }

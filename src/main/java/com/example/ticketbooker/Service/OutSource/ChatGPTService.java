@@ -2,6 +2,10 @@ package com.example.ticketbooker.Service.OutSource;
 
 import com.example.ticketbooker.DTO.OutSource.ChatGPTRequest;
 import com.example.ticketbooker.DTO.OutSource.ChatGPTResponse;
+import com.example.ticketbooker.Entity.Routes;
+import com.example.ticketbooker.Service.RouteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,31 +29,46 @@ public class ChatGPTService {
     @Value("${openai.model}")
     private String model;  // Đọc mô hình từ application.properties
 
+    // Các biến @Value như trước
     private final RestTemplate restTemplate;
+    private final RouteService routeService;
+    private final ObjectMapper objectMapper;
 
-    public ChatGPTService(RestTemplate restTemplate) {
+    @Autowired
+    public ChatGPTService(RestTemplate restTemplate, RouteService routeService, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.routeService = routeService;
+        this.objectMapper = objectMapper;
     }
 
     public String askChatGPT(String userMessage) {
-        // Thêm thông điệp hệ thống để giới hạn chủ đề về du lịch
-        ChatGPTRequest.Message systemMessage = new ChatGPTRequest.Message("system", "Bây giờ khi tôi nói \"Tôi muốn đi từ Vị Trí A Đến vị Trí B\" hoặc đại loại như vậy thì bạn hãy trả cho tôi kết quả \"Vị trí A - Vị Trí B\" (lưu ý không thêm dấu câu hay ngoặc kép vào kết quả). Nếu không có thông tin vị trí bắt đầu hoặc kết thúc thì hãy lấy vị trí hiện tại của tôi sẽ được truyền thông qua câu hỏi của tôi.  Ví dụ khi tôi nói \"từ Vị Trí A đến đây\" hoặc đại loại ý nghĩa như vậy thì kết quả sẽ là \"Vị Trí A - Vị trí hiện tại của tôi\", hoặc khi tôi nói \"đến Vị Trí B\" hoặc ý nghĩa tương tự thì kết quả sẽ là \"Vị trí hiện tại của tôi - Vị Trí B\" (lưu ý vị trí hiện tại, vị trí A, vị trí B không chưa các từ \"thành phố\", \"tỉnh\",... Ví dụ tôi nói \"thành phố hồ chí minh đến thành phố đà nẵng\" thì kết quả cho ra sẽ là Hồ Chí Minh - Đà Nẵng). Nếu không có thông tin vị trí bắt đầu hoặc kết thúc hoặc vị trí bắt đầu và kết thúc không phải là thành phố hoặc tỉnh thành của Việt Nam thì trả về \"Vui lòng nhập địa danh Việt Nam muốn đi!\".");
-        ChatGPTRequest.Message userMessageObj = new ChatGPTRequest.Message("user", userMessage);
+        try {
+            // Lấy danh sách tuyến đường
+            List<Routes> routes = routeService.getAllRoutes();
 
-        // Tạo yêu cầu với cả thông điệp hệ thống và thông điệp từ người dùng
-        ChatGPTRequest request = new ChatGPTRequest(model, List.of(systemMessage, userMessageObj));
+            // Chuyển đổi danh sách thành JSON
+            String routesJson = objectMapper.writeValueAsString(routes);
 
-        // Cấu hình Header
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + apiKey);
-        headers.set("Content-Type", "application/json");
+            // Tạo thông điệp với danh sách tuyến đường
+            ChatGPTRequest.Message systemMessage = new ChatGPTRequest.Message("system", "Tôi sẽ truyền danh sách các tuyến đường bao gồm điểm đi và điểm đến, nếu câu người dùng nói có ý nghĩa muốn đi từ địa điểm A đến địa điểm B nếu địa điểm A và B khớp với departureLocation và arrivalLocation thì trả về kết quả \"departureLocation - arrivalLocation\" (Không bao gồm ngoặc kép). Ngoài ra tôi sẽ truyền vào \"Currentlocation\". Nếu người dùng nói những câu có ý nghĩa như \"tôi muốn đến địa điểm B\" mà không có vị trí departureLocation cụ thể mà \"Currentlocation\" khớp với departureLocation thì trả về kết quả \"departureLocation(khớp với Currentlocation) - arrivalLocation\". Nếu người dùng nói những câu có ý nghĩa như \"Từ địa điểm A về đây\" mà không có vị trí arrivalLocation cụ thể mà \"Currentlocation\" khớp với arrivalLocation thì trả về kết quả \"departureLocation - arrivalLocation (khớp với Currentlocation)\". Nếu câu hỏi không liên quan hoặc không có kết quả hợp lý thì trả về \"Vui lòng nhập tuyến đường\".\n" +
+                    "Đây là danh sách các tuyến đường: " + routesJson);
+            ChatGPTRequest.Message userMessageObj = new ChatGPTRequest.Message("user", userMessage);
 
-        // Gửi yêu cầu
-        HttpEntity<ChatGPTRequest> requestEntity = new HttpEntity<>(request, headers);
-        ResponseEntity<ChatGPTResponse> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, ChatGPTResponse.class);
+            // Tạo yêu cầu
+            ChatGPTRequest request = new ChatGPTRequest(model, List.of(systemMessage, userMessageObj));
 
-        // Lấy nội dung phản hồi
-        return response.getBody().getChoices().get(0).getMessage().getContent();
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + apiKey);
+            headers.set("Content-Type", "application/json");
+
+            HttpEntity<ChatGPTRequest> requestEntity = new HttpEntity<>(request, headers);
+            ResponseEntity<ChatGPTResponse> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, ChatGPTResponse.class);
+
+            return response.getBody().getChoices().get(0).getMessage().getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Đã xảy ra lỗi khi lấy dữ liệu.";
+        }
     }
 
     public String askDetailChatGPT(String userMessage) {
