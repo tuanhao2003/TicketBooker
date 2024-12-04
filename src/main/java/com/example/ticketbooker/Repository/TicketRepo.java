@@ -22,12 +22,15 @@ public interface TicketRepo extends JpaRepository<Tickets, Integer> {
 
     @Query("SELECT t FROM Tickets t WHERE t.booker.id = :bookerId " +
             "AND (:ticketId IS NULL OR t.id = :ticketId) " +
-            "AND (:departureDate IS NULL OR t.trip.departureTime = :departureDate) " +
+            "AND (:departureDate IS NULL OR CAST(t.trip.departureTime AS DATE) = :departureDate) " + // Corrected line
             "AND (:route IS NULL OR CONCAT(t.trip.departureStation, ' - ', t.trip.arrivalStation) LIKE %:route%) " +
             "AND (:status IS NULL OR t.ticketStatus = :status)")
     List<Tickets> searchTickets(@Param("bookerId") int bookerId,
                                 @Param("ticketId") Integer ticketId,
-                                @Param("departureDate") LocalDate departureDate,
+                                @Param("departureDate") LocalDate departureDate, // Parameter remains LocalDate
                                 @Param("route") String route,
                                 @Param("status") TicketStatus status);
+
+    @Query("SELECT COUNT(t) FROM Tickets t WHERE t.invoice.paymentTime BETWEEN :start AND :end")
+    int countTicketsByPaymentTimeBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

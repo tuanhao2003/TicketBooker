@@ -10,7 +10,221 @@
     <link rel="stylesheet" th:href="@{/css/UserLayout.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Fixed Chat Icon */
+        #chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it stays on top */
+            cursor: pointer;
+        }
+
+        /* Chat Box */
+        #chat-box {
+            position: fixed;
+            bottom: 80px; /* Adjust as needed */
+            right: 20px;
+            z-index: 9999;
+            width: 300px; /* Adjust as needed */
+            height: 400px; /* Adjust as needed */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none; /* Initially hidden */
+            flex-direction: column;
+        }
+
+        #chat-box.show {
+            display: flex;
+        }
+
+        #messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        #input-area {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        /* css cho chat box */
+        #messages {
+            display: flex;
+            flex-direction: column; /* Ensures messages stack vertically */
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 80%; /* Prevents messages from overflowing */
+            word-wrap: break-word; /* Breaks long words */
+        }
+
+        .user {
+            align-self: flex-end; /* Aligns user messages to the right */
+            background-color: #e9e9e9; /* Light gray for user messages */
+        }
+
+        .bot {
+            align-self: flex-start; /* Aligns bot messages to the left */
+            background-color: #d9f2d9; /* Light green for bot messages */
+        }
+    </style>
 </head>
+<!-- Script cho nhận diện giọng nói -->
+<script>
+    // Voice recognition setup
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'vi-VN';
+
+    recognition.onresult = async function(event) {
+        const transcript = event.results[0][0].transcript;
+
+        try {
+            const currentLocation = await getCurrentLocation();
+            const finalInput = "Vị trí hiện tại: " + currentLocation + ". " + transcript;
+            document.getElementById("search-input").value = finalInput;
+
+            // Gửi request tới API của ChatGPT
+            const chatGPTResponse = await sendTextToChatGPT(finalInput);
+            document.getElementById("search-input").value = chatGPTResponse;  // Cập nhật kết quả vào input
+        } catch (error) {
+            console.error("Error getting location or ChatGPT response:", error);
+            document.getElementById("search-input").value = transcript;  // Fallback chỉ sử dụng transcript nếu có lỗi
+        }
+    }
+
+    function startSpeechRecognition() {
+        recognition.start();
+    }
+
+    async function getCurrentLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async position => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        try {
+                            const locationName = await getLocationName(latitude, longitude);
+                            resolve(locationName);
+                        } catch (error) {
+                            console.error("Error getting location name:", error);
+                            resolve(`${latitude}, ${longitude}`); // Fallback nếu không lấy được vị trí
+                        }
+
+                    },
+                    error => {
+                        reject(error.message);
+                    }
+                );
+            } else {
+                reject("Geolocation is not supported by this browser.");
+            }
+        });
+    }
+
+    async function getLocationName(latitude, longitude) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.address) {
+            if (data.address.city) {
+                return data.address.city;
+            } else if (data.address.state || data.address.province) {
+                return data.address.state || data.address.province;
+            } else {
+                return data.display_name;
+            }
+        } else {
+            throw new Error("Location name not found in response");
+        }
+    }
+
+    // Hàm gửi đoạn văn bản tới API ChatGPT
+    async function sendTextToChatGPT(userMessage) {
+        try {
+            const response = await fetch('/api/chatgpt/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userMessage)  // Gửi đoạn văn bản tới API
+            });
+
+            const data = await response.text();  // Nhận kết quả từ API
+            return data;  // Trả về kết quả
+        } catch (error) {
+            console.error("Error sending text to ChatGPT API:", error);
+            return "Error in processing request.";
+        }
+    }
+
+    // Hàm gửi đoạn văn bản của chatbox tới API ChatGPT
+    async function sendTextToChatGPT2(userMessage) {
+        try {
+            const response = await fetch('/api/chatgpt/askDetail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userMessage)  // Gửi đoạn văn bản tới API
+            });
+
+            const data = await response.text();  // Nhận kết quả từ API
+            return data;  // Trả về kết quả
+        } catch (error) {
+            console.error("Error sending text to ChatGPT API:", error);
+            return "Error in processing request.";
+        }
+    }
+</script>
+<script>
+    function toggleChatBox() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.classList.toggle('show');
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+
+
+    async function sendMessage() {
+        const messageInput = document.getElementById('chat-input');
+        const message = messageInput.value;
+        if (message.trim() !== "") { // Check if the message isn't just whitespace
+            displayMessage(message, 'user');
+            messageInput.value = ''; // Clear the input field
+
+            try {
+                const response = await sendTextToChatGPT2(message);
+                displayMessage(response, 'bot');
+            } catch (error) {
+                console.error("Error:", error);
+                displayMessage("Error in processing request.", 'bot');
+            }
+        }
+    }
+
+    function displayMessage(message, sender) {
+        const messagesDiv = document.getElementById('messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        messageDiv.textContent = message;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to bottom
+    }
+</script>
 <body class="bg-purple-50">
 <!-- Navigation -->
 <nav class="bg-gradient-to-r from-purple-800 to-indigo-900 text-white py-2 custom-nav">
@@ -25,9 +239,11 @@
             <div class="hidden md:flex items-center space-x-2 lg:space-x-4 xl:space-x-8 ml-auto text-xs sm:text-sm md:sm lg:text-lg">
                 <!-- Search Bar -->
                 <div class="relative flex items-center border-2 border-transparent focus-within:border-purple-400 rounded-full">
-                    <input type="text" placeholder="Tìm kiếm..."
+                    <input id="search-input" type="text" placeholder="Tìm kiếm..."
                            class="bg-purple-700 text-white placeholder-purple-300 rounded-l-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-400 w-40 sm:w-48 md:w-56 lg:w-64 text-sm sm:text-base">
-                    <button class="bg-purple-700 rounded-r-full p-2 hover:bg-purple-600 transition duration-300 ease-in-out">
+                    <!-- Button để bắt đầu voice recognition và gửi tới ChatGPT -->
+                    <button class="bg-purple-700 rounded-r-full p-2 hover:bg-purple-600 transition duration-300 ease-in-out"
+                            onclick="startSpeechRecognition()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -248,6 +464,21 @@
                    href="#">Quên mật khẩu?</a>
             </div>
         </form>
+    </div>
+</div>
+<!-- Chat Icon -->
+<div id="chat-icon" onclick="toggleChatBox()">
+    <i class="fas fa-comment text-4xl text-purple-600"></i>
+</div>
+
+<!-- Chat Box -->
+<div id="chat-box">
+    <div id="messages"></div>
+    <div id="input-area">
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."
+               class="w-full border rounded-lg p-2" onkeydown="handleKeyPress(event)">
+        <button id="send-button" class="bg-purple-600 text-white rounded-lg p-2 mt-2"
+                onclick="sendMessage()">Gửi</button>
     </div>
 </div>
 </body>
