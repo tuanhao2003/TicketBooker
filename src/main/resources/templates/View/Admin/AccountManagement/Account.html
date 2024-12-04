@@ -141,6 +141,7 @@
             <thead>
             <tr>
                 <th class="py-2 px-4 border-b">ID Tài Khoản</th>
+                <th class="py-2 px-4 border-b">ID Người Dùng</th>
                 <th class="py-2 px-4 border-b">Tên</th>
                 <th class="py-2 px-4 border-b">Email</th>
                 <th class="py-2 px-4 border-b">Mật Khẩu</th>
@@ -151,6 +152,7 @@
             <tbody>
             <tr th:each="account : ${accounts}" class="text-center">
                 <td class="py-2 px-4 border-b" th:text="${account.id}">1</td>
+                <td class="py-2 px-4 border-b" th:text="${account.userId?.id}"></td>
                 <td class="py-2 px-4 border-b" th:text="${account.username}">Nguyen Van A</td>
                 <td class="py-2 px-4 border-b" th:text="${account.email}">abc123@gmail.com</td>
                 <td class="py-2 px-4 border-b" th:text="${account.password}">*************</td>

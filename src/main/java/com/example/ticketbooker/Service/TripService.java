@@ -5,6 +5,8 @@ import com.example.ticketbooker.Entity.Trips;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+
 public interface TripService {
     public ResponseTripDTO getTripById(int id);
     Page<TripDTO> getAllTrips(Pageable pageable);
@@ -16,5 +18,7 @@ public interface TripService {
     public ResponseTripDTO searchTrip(SearchTripRequest dto);
     Trips getTripById(Integer tripId);
     public Trips getTripByIdpath(int tripId);
+
+    TripStatsDTO getTripStats(String period, LocalDate selectedDate);
 
 }
