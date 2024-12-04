@@ -14,29 +14,57 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <img src="https://vinadesign.vn/uploads/thumbnails/800/2023/05/vnpay-logo-vinadesign-25-12-59-16.jpg" style="width: 200px">
+                    <img src="https://vinadesign.vn/uploads/thumbnails/800/2023/05/vnpay-logo-vinadesign-25-12-59-16.jpg"
+                         style="width: 200px">
                     <h2 class="card-title text-center">Tạo Đơn Hàng</h2>
-                    <form th:action="@{/submitOrder}" method="post">
+                    <form class="orderForm" th:action="@{/submitOrder}" method="post">
                         <!-- Số tiền -->
                         <div class="form-group">
                             <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required th:value="${grandTotal}" readonly>
+                            <input type="number" class="form-control" id="amount" name="amount" required
+                                   th:value="${grandTotal}" readonly>
                         </div>
 
                         <!-- Thông tin đơn hàng -->
                         <div class="form-group">
                             <label for="orderInfo">Nội dung chuyển khoản:</label>
-                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="A0, A1, B0, B1">
+                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required
+                                   value="A0, A1, B0, B1">
                         </div>
                         <!-- Nút Thanh toán -->
-                        <button type="submit" class="btn btn-primary btn-block mt-4">Thanh toán</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-4 btn-submit">Thanh toán</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    (
+        function () {
+            document.addEventListener("DOMContentLoaded", function () {
+                const btnSubmit = document.querySelector(".btn-submit");
+                const form = document.querySelector("form.orderForm");
+                btnSubmit.addEventListener("click", function (even) {
+                    even.preventDefault();
+                    const expiresTime = new Date();
+                    expiresTime.setTime(expiresTime.getTime() + 10 * 60 * 1000)
+                    const expires = expiresTime.toUTCString();
+                    document.cookie = `paymentStatus=${encodeURIComponent(2)}; expires=${expires} ;path=/`;
+                    fetch("http://localhost:8080/vnpay/vnpay-payment-status", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"}
+                    }).then(async response => {
+                        if (response.ok) {
+                            await response.json();
+                        }
+                    }).catch(e => console.log(e));
+                    form.submit();
+                });
+            });
+        }
+    )();
+</script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

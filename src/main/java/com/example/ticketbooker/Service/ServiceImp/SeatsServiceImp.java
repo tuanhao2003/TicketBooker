@@ -69,4 +69,18 @@ public class SeatsServiceImp implements SeatsService {
                 .map(Seats::getSeatCode)  // Lấy mã ghế từ đối tượng Seats
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Seats getSeatById(int id) {
+        return seatsRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteSeat(int id) {
+        try {
+            seatsRepository.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
