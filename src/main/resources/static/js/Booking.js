@@ -50,7 +50,7 @@
 
         function handlePayment() {
             const btnPay = document.getElementById('btnPay');
-            btnPay.addEventListener("click", function () {
+            btnPay.addEventListener("click", async function () {
                 console.log("handlePayment đã được gọi!");
 
                 try {
@@ -66,31 +66,37 @@
                         return;
                     }
 
-                    // Tìm phương thức thanh toán đã chọn
+                    // Lưu dữ liệu cần thiết vào cookie
+                    document.cookie = `tripId=${encodeURIComponent(tripId)}; path=/`;
+                    document.cookie = `selectedSeats=${encodeURIComponent(selectedSeats)}; path=/`;
+                    document.cookie = `grandTotal=${encodeURIComponent(grandTotal)}; path=/`;
+                    document.cookie = `customerName=${encodeURIComponent(customerName)}; path=/`;
+                    document.cookie = `customerPhone=${encodeURIComponent(customerPhone)}; path=/`;
+                    document.cookie = `email=${encodeURIComponent(email)}; path=/`;
+
+                    // Gọi API prebooking-seat
+                    const preBookingResponse = await fetch('/api/seats/prebooking-seat', {
+                        method: 'POST',
+                        credentials: 'include' // Gửi kèm cookie
+                    });
+
+                    if (!preBookingResponse.ok) {
+                        alert("Đặt trước ghế thất bại. Vui lòng thử lại!");
+                        return;
+                    }
+
+//                    const seatIds = await preBookingResponse.json(); // Lấy danh sách seatIds trả về
+//                    console.log("Ghế được đặt trước thành công:", seatIds);
+
+                    // Điều hướng đến trang thanh toán
                     const selectedPayment = document.querySelector('input[name="payment"]:checked');
                     if (selectedPayment) {
                         const paymentMethod = selectedPayment.closest('div').querySelector('span').textContent.trim();
-                        if(paymentMethod === "VNPay"){
-                            console.log("Phương thức thanh toán đã chọn:", paymentMethod);
+                        console.log("Phương thức thanh toán đã chọn:", paymentMethod);
 
-                            document.cookie = `tripId=${encodeURIComponent(tripId)}; path=/`;
-                            document.cookie = `selectedSeats=${encodeURIComponent(selectedSeats)}; path=/`;
-                            document.cookie = `grandTotal=${encodeURIComponent(grandTotal)}; path=/`;
-                            document.cookie = `customerName=${encodeURIComponent(customerName)}; path=/`;
-                            document.cookie = `customerPhone=${encodeURIComponent(customerPhone)}; path=/`;
-                            document.cookie = `email=${encodeURIComponent(email)}; path=/`;
-
+                        if (paymentMethod === "VNPay") {
                             window.location.href = '/vnpay';
-                        } else{
-                            console.log("Phương thức thanh toán đã chọn:", paymentMethod);
-
-                            document.cookie = `tripId=${encodeURIComponent(tripId)}; path=/`;
-                            document.cookie = `selectedSeats=${encodeURIComponent(selectedSeats)}; path=/`;
-                            document.cookie = `grandTotal=${encodeURIComponent(grandTotal)}; path=/`;
-                            document.cookie = `customerName=${encodeURIComponent(customerName)}; path=/`;
-                            document.cookie = `customerPhone=${encodeURIComponent(customerPhone)}; path=/`;
-                            document.cookie = `email=${encodeURIComponent(email)}; path=/`;
-
+                        } else {
                             window.location.href = '/zalopay';
                         }
                     } else {
