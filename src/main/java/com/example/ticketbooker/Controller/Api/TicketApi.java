@@ -8,6 +8,7 @@ import com.example.ticketbooker.Service.TicketService;
 import com.example.ticketbooker.Util.Enum.TicketStatus;
 import com.example.ticketbooker.Util.Mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,13 +45,30 @@ public class TicketApi {
         return result;
     }
 
+//    @PostMapping("/book-ticket")
+//    public boolean bookTicket(@RequestParam int tripId, @RequestParam int bookerId, @RequestParam String tcustomerName, ) {
+//        boolean result = false;
+//        try {
+//            result = this.ticketsService.addTicket(request);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            result = false;
+//        }
+//        return result;
+//    }
+
     @PostMapping("/payment-infor")
-    public PaymentInforResponse paymentInfor(@RequestBody PaymentInforRequest request) {
+    public ResponseEntity<PaymentInforResponse> paymentInfor(@RequestBody PaymentInforRequest request) {
         try {
-            return this.ticketsService.getPaymentInfo(request);
+            PaymentInforResponse response = ticketsService.getPaymentInfo(request);
+            if (response == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-        return null;
     }
+
 }

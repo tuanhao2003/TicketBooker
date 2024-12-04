@@ -11,21 +11,25 @@
 <body>
 <div class="container">
     <div class="row justify-content-center mt-5">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <img th:src="@{/vnpay-logo.png}" style="width: 200px">
-                    <h2 class="card-title">Tạo Đơn Hàng</h2>
+                    <img src="https://vinadesign.vn/uploads/thumbnails/800/2023/05/vnpay-logo-vinadesign-25-12-59-16.jpg" style="width: 200px">
+                    <h2 class="card-title text-center">Tạo Đơn Hàng</h2>
                     <form th:action="@{/submitOrder}" method="post">
+                        <!-- Số tiền -->
                         <div class="form-group">
                             <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required value="299999">
+                            <input type="number" class="form-control" id="amount" name="amount" required th:value="${grandTotal}" readonly>
                         </div>
+
+                        <!-- Thông tin đơn hàng -->
                         <div class="form-group">
-                            <label for="orderInfo">Thông tin đơn hàng:</label>
-                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Thanh toan don hang 2923">
+                            <label for="orderInfo">Nội dung chuyển khoản:</label>
+                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="A0, A1, B0, B1">
                         </div>
-                        <button type="submit" class="btn btn-primary">Thanh toán</button>
+                        <!-- Nút Thanh toán -->
+                        <button type="submit" class="btn btn-primary btn-block mt-4">Thanh toán</button>
                     </form>
                 </div>
             </div>

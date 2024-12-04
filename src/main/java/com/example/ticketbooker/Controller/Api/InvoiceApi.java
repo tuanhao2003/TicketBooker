@@ -16,13 +16,12 @@ public class InvoiceApi {
     private InvoiceService invoiceService;
 
     @PostMapping("/create")
-    public boolean createInvoice(@RequestBody AddInvoiceDTO addInvoiceDTO) {
-        boolean result = false;
+    public int createInvoice(@RequestBody AddInvoiceDTO addInvoiceDTO) {
+        int result = 0;
         try {
             result = invoiceService.addInvoice(addInvoiceDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
         }
         return result;
     }
