@@ -23,13 +23,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         if (principal instanceof CustomUserDetails userDetails) {
             //Đăng nhâp bằng account hệ thống
-            System.out.println("Class name Login UserDetail: " +userDetails.getClass().getName());
+            Account account = userDetails.getAccount();
             request.getSession().setAttribute("accountId", userDetails.getAccount().getId());
             request.getSession().setAttribute("username", userDetails.getUsername());
             request.getSession().setAttribute("role", userDetails.getAuthorities().toString());
             request.getSession().setAttribute("email", userDetails.getAccount().getEmail());
             // Chuyển hướng đến trang đích sau khi đăng nhập thành công
-            response.sendRedirect("/profile/info");
+            if(account.getRole().toString().equals("MANAGER")){
+                response.sendRedirect("/admin/users");
+            }else {
+                response.sendRedirect("/profile/info");
+            }
 
         } else if (principal instanceof CustomOAuth2User customOAuth2User) {
             //Đăng nhập bằng oauth, chưa có tk trong hệ thống
@@ -37,7 +41,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             if(customOAuth2User.getAccount().getPassword().isEmpty()) {
                 response.sendRedirect("/new-password");
             }else
-                response.sendRedirect("/admin/users");
+                response.sendRedirect("/profile/info");
         }
     }
 }
