@@ -1,19 +1,38 @@
 package com.example.ticketbooker.Controller;
 
+import com.example.ticketbooker.DTO.Invoice.AddInvoiceDTO;
+import com.example.ticketbooker.DTO.Seats.AddSeatDTO;
+import com.example.ticketbooker.DTO.Ticket.AddTicketRequest;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
+import com.example.ticketbooker.Service.InvoiceService;
+import com.example.ticketbooker.Service.TicketService;
 import com.example.ticketbooker.Service.TripService;
+import com.example.ticketbooker.Util.Enum.PaymentMethod;
+import com.example.ticketbooker.Util.Enum.PaymentStatus;
+import com.example.ticketbooker.Util.Utils.CookieUtils;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/fuba")
 public class MainController {
     @Autowired
     private TripService tripService;
+    @Autowired
+    TicketService ticketService;
+    @Autowired
+    InvoiceService invoiceService;
 
     @GetMapping()
     public String showMainPage(Model model) {
@@ -64,10 +83,30 @@ public class MainController {
     }
 
     @GetMapping("/thankyou")
-    public String showPaymentSuccess() {
-        // cookie: String customer name customer phone email grandtotal selectedseat int tripId bookerId(them vao cookie) (tao dc seat vs invoice)
+    public String showPaymentSuccess(HttpServletRequest request, Model model, @RequestParam int paymentStatus) {
+        // cookie: String customerName customerPhone email grandTotal seatIds int tripId bookerId(them vao cookie) (tao dc seat vs invoice)
         // ticket can them ticketStatus (used)
 
+        int tripId = Integer.parseInt(CookieUtils.getCookieValue(request, "tripId", "0"));
+        String customerName = CookieUtils.getCookieValue(request, "customerName", "");
+
+        String grandTotal = CookieUtils.getCookieValue(request, "grandTotal", "");
+        String email = CookieUtils.getCookieValue(request, "email", "");
+        String customerPhone = CookieUtils.getCookieValue(request, "customerPhone", "");
+        String seadIds = CookieUtils.getCookieValue(request, "seadIds", "");
+
+        AddInvoiceDTO addInvoiceDTO = new AddInvoiceDTO(
+                Integer.parseInt(grandTotal),
+                paymentStatus == 1 ? PaymentStatus.PAID : PaymentStatus.PENDING,
+                LocalDateTime.now(),
+                PaymentMethod.EWALLET
+        );
+
+        int invoiceCreated = invoiceService.addInvoice(addInvoiceDTO);
+
+        AddTicketRequest addRequest = new AddTicketRequest();
+
+        CookieUtils.getCookieValue(request, "customerName", "");
         return "View/User/Basic/Thankyou";
     }
 

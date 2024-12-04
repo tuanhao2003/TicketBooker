@@ -5,7 +5,7 @@ import com.example.ticketbooker.DTO.Invoice.RequestInvoiceDTO;
 import com.example.ticketbooker.DTO.Invoice.ResponseInvoiceDTO;
 
 public interface InvoiceService {
-    public boolean addInvoice(AddInvoiceDTO dto);
+    public int addInvoice(AddInvoiceDTO dto);
     public ResponseInvoiceDTO getAllInvoices();
     ResponseInvoiceDTO searchInvoices(RequestInvoiceDTO requestDTO);
 }

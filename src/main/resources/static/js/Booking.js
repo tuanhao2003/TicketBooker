@@ -60,6 +60,7 @@
                     var customerName = document.querySelector('[name="customerName"]')?.value || "";
                     var customerPhone = document.querySelector('[name="customerPhone"]')?.value || "";
                     var email = document.querySelector('[name="email"]')?.value || "";
+
                     if (!selectedSeats || !customerName || !customerPhone || !email) {
                         alert("Vui lòng điền đầy đủ thông tin!");
                         return;

@@ -1,0 +1,53 @@
+package com.example.ticketbooker.Controller.Api;
+
+import com.example.ticketbooker.DTO.Seats.AddSeatDTO;
+import com.example.ticketbooker.Service.SeatsService;
+import com.example.ticketbooker.Util.Utils.CookieUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/seats")
+public class SeatsApi {
+
+    @Autowired
+    private SeatsService seatsService;
+
+    @PostMapping("/add")
+    public ResponseEntity<List<Integer>> addSeats(@RequestBody AddSeatDTO addSeatDTO) {
+        try {
+            // Gọi service để thêm ghế và nhận danh sách seatId
+            List<Integer> seatIds = seatsService.addSeats(addSeatDTO);
+
+            // Trả về danh sách seatId sau khi ghế được thêm thành công
+            return ResponseEntity.ok(seatIds);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+//    khi bam nut thanh toan => fetch toi day => ket qua: list parse to string up len cookie ten la seatIds
+    @PostMapping("/prebooking-seat")
+    public List<Integer> preBookingSeat(HttpServletRequest request) {
+        try {
+            int tripId = Integer.parseInt(CookieUtils.getCookieValue(request, "tripId", "0"));
+            String selectedSeats = CookieUtils.getCookieValue(request, "selectedSeats", "");
+            String[] seats = selectedSeats.split(",\\s*");
+
+            AddSeatDTO addSeatDTO = new AddSeatDTO();
+            addSeatDTO.setTripId(tripId);
+            addSeatDTO.setSeatCode(selectedSeats);
+
+            return seatsService.addSeats(addSeatDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}

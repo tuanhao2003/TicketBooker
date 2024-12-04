@@ -8,6 +8,7 @@ import com.example.ticketbooker.Entity.Tickets;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 @Component
@@ -75,10 +76,17 @@ public class TicketMapper {
 
     public static PaymentInforResponse toPaymentInfor(Tickets entity) {
         return PaymentInforResponse.builder()
+                .id(entity.getId())
                 .customerName(entity.getCustomerName())
                 .customerPhone(entity.getCustomerPhone())
                 .paymentTime(LocalDate.from(entity.getInvoice().getPaymentTime()))
+                .email(entity.getBooker().getEmail())
                 .totalAmount(entity.getInvoice().getTotalAmount())
+                .estimatedTime(LocalTime.from(entity.getTrip().getRoute().getEstimatedTime()))
+                .departureLocation(entity.getTrip().getRoute().getDepartureLocation())
+                .arrivalLocation(entity.getTrip().getRoute().getArrivalLocation())
+                .departureTime(LocalDate.from(entity.getTrip().getDepartureTime()))
+                .arrivalTime(LocalDate.from(entity.getTrip().getArrivalTime()))
                 .build();
     }
 }
