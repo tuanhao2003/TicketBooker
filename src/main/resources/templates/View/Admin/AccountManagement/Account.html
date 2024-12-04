@@ -152,7 +152,7 @@
             <tbody>
             <tr th:each="account : ${accounts}" class="text-center">
                 <td class="py-2 px-4 border-b" th:text="${account.id}">1</td>
-                <td class="py-2 px-4 border-b" th:text="${account.userId?.id}"></td>
+                <td class="py-2 px-4 border-b" th:text="${account.user?.id}"></td>
                 <td class="py-2 px-4 border-b" th:text="${account.username}">Nguyen Van A</td>
                 <td class="py-2 px-4 border-b" th:text="${account.email}">abc123@gmail.com</td>
                 <td class="py-2 px-4 border-b" th:text="${account.password}">*************</td>
