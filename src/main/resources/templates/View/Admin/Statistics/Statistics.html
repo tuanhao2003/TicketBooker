@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thống Kê</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div layout:fragment="content">
+<div class="container mx-auto mt-10">
+  <div class="text-center mb-10">
+    <h1 class="text-4xl font-bold text-gray-800">Trang Thống Kê</h1>
+    <p class="text-lg text-gray-600 mt-2">Chọn loại thống kê bạn muốn xem</p>
+  </div>
+
+  <div class="flex flex-col items-center space-y-8">
+    <!-- Thống Kê Doanh Thu -->
+    <div class="w-full max-w-sm">
+      <a href="/admin/statistics/revenue"
+         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-12 w-full block text-center rounded-lg shadow-lg text-xl">
+        Thống Kê Doanh Thu
+      </a>
+    </div>
+
+    <!-- Thống Kê Vé Bán Ra -->
+    <div class="w-full max-w-sm">
+      <a href="/admin/statistics/ticket"
+         class="bg-green-500 hover:bg-green-700 text-white font-bold py-6 px-12 w-full block text-center rounded-lg shadow-lg text-xl">
+        Thống Kê Vé Bán Ra
+      </a>
+    </div>
+
+    <!-- Thống Kê Chuyến Đi -->
+    <div class="w-full max-w-sm">
+      <a href="/admin/statistics/trip"
+         class="bg-red-500 hover:bg-red-700 text-white font-bold py-6 px-12 w-full block text-center rounded-lg shadow-lg text-xl">
+        Thống Kê Chuyến Đi
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>

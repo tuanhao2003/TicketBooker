@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -134,5 +135,57 @@ public class TicketServiceImp implements TicketService {
             System.out.println(e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public TicketStatsDTO getTicketStats(String period, LocalDate selectedDate) {
+        LocalDate previousDate = getPreviousDate(period, selectedDate);
+
+        int currentPeriodCount = getTicketCountByPeriod(period, selectedDate);
+        int previousPeriodCount = getTicketCountByPeriod(period, previousDate);
+
+        return TicketStatsDTO.builder()
+                .period(period)
+                .selectedDate(selectedDate)
+                .currentPeriodTicketCount(currentPeriodCount)
+                .previousPeriodTicketCount(previousPeriodCount)
+                .build();
+    }
+
+
+    private int getTicketCountByPeriod(String period, LocalDate date) {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        switch (period) {
+            case "Day":
+                start = date.atStartOfDay();
+                end = date.plusDays(1).atStartOfDay();
+                break;
+            case "Month":
+                start = date.withDayOfMonth(1).atStartOfDay();
+                end = date.plusMonths(1).withDayOfMonth(1).atStartOfDay();
+                break;
+            case "Year":
+                start = date.withDayOfYear(1).atStartOfDay();
+                end = date.plusYears(1).withDayOfYear(1).atStartOfDay();
+                break;
+        }
+
+        return ticketRepository.countTicketsByPaymentTimeBetween(start, end);
+    }
+
+
+    private LocalDate getPreviousDate(String period, LocalDate date) {
+        switch (period) {
+            case "Day":
+                return date.minusDays(1);
+            case "Month":
+                return date.minusMonths(1);
+            case "Year":
+                return date.minusYears(1);
+            default:
+                return date;
+        }
     }
 }
