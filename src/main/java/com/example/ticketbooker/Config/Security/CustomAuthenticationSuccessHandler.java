@@ -37,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             if(customOAuth2User.getAccount().getPassword().isEmpty()) {
                 response.sendRedirect("/new-password");
             }else
-                response.sendRedirect("/profile/info");
+                response.sendRedirect("/admin/users");
         }
     }
 }

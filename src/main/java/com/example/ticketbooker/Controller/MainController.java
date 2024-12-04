@@ -44,9 +44,6 @@ public class MainController {
             Account account = SecurityUtils.extractAccount(principal);
             if(account != null) {
                 model.addAttribute("fullname", account.getUser().getFullName());
-//                model.addAttribute("email", account.getEmail());
-//                model.addAttribute("role", account.getRole().toString());
-//                model.addAttribute("user", account.getUser());
             }else{
                 model.addAttribute("fullname","not logedin");
             }
