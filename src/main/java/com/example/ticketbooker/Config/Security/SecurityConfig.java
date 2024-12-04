@@ -76,7 +76,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/fuba","/register","/access-denied","/404", "/api/accounts/exist",
-                        "/zalopay","vnpay","/submitOrder","/vnpay-payment-return")
+                        "/zalopay","vnpay","/submitOrder","/vnpay-payment-return",
+                        "/admin/trips/*","/api/seats/prebooking-seat")
                                 .permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/fuba/**").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/favicon.icon").permitAll()
