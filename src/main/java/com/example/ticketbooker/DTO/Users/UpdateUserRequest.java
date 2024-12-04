@@ -11,7 +11,6 @@ import java.sql.Date;
 @Builder
 public class UpdateUserRequest {
     private Integer userId;
-    private Integer accountId;
     private String fullName;
     private String phone;
     private String address;
@@ -22,7 +21,6 @@ public class UpdateUserRequest {
 
     public UpdateUserRequest() {
         this.userId = null;
-        this.accountId = null;
         this.fullName = "";
         this.phone = "";
         this.address = null;
@@ -32,9 +30,8 @@ public class UpdateUserRequest {
         this.status = UserStatus.ACTIVE;
     }
 
-    public UpdateUserRequest(Integer userId, Integer accountId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus status) {
+    public UpdateUserRequest(Integer userId, String fullName, String phone, String address, Date dateOfBirth, Gender gender, byte[] profilePhoto, UserStatus status) {
         this.userId = userId;
-        this.accountId = accountId;
         this.fullName = fullName;
         this.phone = phone;
         this.address = address;

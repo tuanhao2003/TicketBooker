@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- ajax -->
+  <!-- <link rel="stylesheet" th:href="@{/css/TailwindCSS/Tailwind.css}"> -->
+  <link rel="stylesheet" th:href="@{/css/AdminLayout.css}">
+  <script th:src="@{/js/AdminLayout.js}"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .font-montserrat {
+        font-family: 'Montserrat', sans-serif;
+      }
+      .text-2xs {
+        font-size: 0.5rem /* 12px */;
+        line-height: 0.75rem /* 16px */;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<section class="bg-white ">
+  <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+    <div class="mx-auto max-w-screen-sm text-center">
+      <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-violet-600">404</h1>
+      <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">Something's missing.</p>
+      <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">Sorry, we can't find that page. You'll find lots to explore on the home page. </p>
+      <a href="/fuba" class="inline-flex text-white bg-violet-600 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Back to Homepage</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>
