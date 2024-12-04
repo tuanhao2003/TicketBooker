@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SeatsServiceImp implements SeatsService {
@@ -56,5 +57,16 @@ public class SeatsServiceImp implements SeatsService {
         }
 
         return seatIds; // Trả về danh sách seatId đã lưu
+    }
+
+    @Override
+    public List<String> getBookedSeatsForTrip(Integer tripId) {
+        // Truy vấn ghế đã được đặt cho chuyến đi với tripId
+        List<Seats> bookedSeats = seatsRepository.findByTripId(tripId);
+
+        // Trả về danh sách mã ghế đã đặt
+        return bookedSeats.stream()
+                .map(Seats::getSeatCode)  // Lấy mã ghế từ đối tượng Seats
+                .collect(Collectors.toList());
     }
 }

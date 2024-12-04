@@ -119,17 +119,17 @@ public class VNPayController {
         int invoiceCreated = invoiceService.addInvoice(addInvoiceDTO);
         System.out.println(invoiceCreated);
 
-        // Gọi service để thêm ghế và nhận danh sách các seatId
-        AddSeatDTO addSeatDTO = new AddSeatDTO();
-        addSeatDTO.setTripId(tripId);
-        addSeatDTO.setSeatCode(selectedSeats);
-
-        List<Integer> seatIds = seatsService.addSeats(addSeatDTO);
-
-        System.out.println("Danh sách Seat ID vừa được tạo:");
-        for (Integer seatId : seatIds) {
-            System.out.println(seatId); // In từng Seat ID
-        }
+//        // Gọi service để thêm ghế và nhận danh sách các seatId
+//        AddSeatDTO addSeatDTO = new AddSeatDTO();
+//        addSeatDTO.setTripId(tripId);
+//        addSeatDTO.setSeatCode(selectedSeats);
+//
+//        List<Integer> seatIds = seatsService.addSeats(addSeatDTO);
+//
+//        System.out.println("Danh sách Seat ID vừa được tạo:");
+//        for (Integer seatId : seatIds) {
+//            System.out.println(seatId); // In từng Seat ID
+//        }
 
         // Truyền thông tin vào model
         model.addAttribute("orderId", orderInfo);
@@ -142,7 +142,7 @@ public class VNPayController {
         model.addAttribute("selectedSeats", selectedSeats);
         model.addAttribute("grandTotal", grandTotal);
         model.addAttribute("tripId", tripId);
-        model.addAttribute("seatIds", seatIds); // Truyền danh sách seatIds vào model
+//        model.addAttribute("seatIds", seatIds); // Truyền danh sách seatIds vào model
 
         return paymentStatus == 1 ? "ordersuccess" : "orderfail";
     }
