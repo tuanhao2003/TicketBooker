@@ -75,8 +75,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/fuba","/register","/access-denied","/404",
-                        "/api/accounts/exist").permitAll() // Các URL yêu cầu đăng nhập
+                        .requestMatchers("/fuba","/register","/access-denied","/404", "/api/accounts/exist",
+                        "/zalopay","vnpay","/submitOrder","/vnpay-payment-return")
+                                .permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/fuba/**").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/favicon.icon").permitAll()
                         .requestMatchers("/auth").anonymous()
