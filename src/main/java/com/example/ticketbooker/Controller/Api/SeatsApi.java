@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Seats.AddSeatDTO;
+import com.example.ticketbooker.Entity.Seats;
 import com.example.ticketbooker.Service.SeatsService;
 import com.example.ticketbooker.Util.Utils.CookieUtils;
 import jakarta.servlet.http.Cookie;
@@ -80,6 +81,12 @@ public class SeatsApi {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while pre-booking seats.");
         }
+    }
+
+    @GetMapping("/{tripId}/booked")
+    public List<String> getBookedSeats(@PathVariable Integer tripId) {
+        // Lấy danh sách các ghế đã được đặt cho chuyến đi theo tripId
+        return seatsService.getBookedSeatsForTrip(tripId);
     }
 
 }

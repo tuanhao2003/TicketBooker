@@ -15,4 +15,6 @@ public interface TripService {
     public boolean deleteTrip(RequestIdTripDTO dto); // Thêm phương thức xóa chuyến xe
     public ResponseTripDTO searchTrip(SearchTripRequest dto);
     Trips getTripById(Integer tripId);
+    public Trips getTripByIdpath(int tripId);
+
 }

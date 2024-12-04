@@ -1,14 +1,17 @@
 package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Trips.RequestIdTripDTO;
+import com.example.ticketbooker.DTO.Trips.ResponseTripByIdDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.SearchTripRequest;
+import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.ticketbooker.Entity.Trips;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @RestController
@@ -42,18 +45,30 @@ public class TripApi {
     }
 
     @GetMapping("/{tripId}")
-    public ArrayList<Trips> getTripById(@PathVariable int tripId) {
+    public ResponseTripByIdDTO getTripById(@PathVariable int tripId) {
         try {
-            ResponseTripDTO trip = tripService.getTripById(tripId);
-            System.out.println("Trip: " + trip);
-            if (trip != null) {
-                return trip.getListTrips();
-            } else {
-                return null;
+            // Tìm chuyến xe bằng tripId
+            Trips trip = tripService.getTripByIdpath(tripId);
+            if (trip == null) {
+                return null; // Không tìm thấy chuyến xe
             }
+
+            // Lấy thông tin tuyến xe từ đối tượng trip
+            Routes route = trip.getRoute();
+
+            // Tạo DTO trả về với thông tin cần thiết
+            ResponseTripByIdDTO response = new ResponseTripByIdDTO();
+            response.setDepartureLocation(route.getDepartureLocation()); // Lấy departureLocation từ Route
+            response.setArrivalLocation(route.getArrivalLocation()); // Lấy arrivalLocation từ Route
+            response.setDepartureTime(trip.getDepartureTime().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"))); // Định dạng thời gian xuất bến
+            response.setTotalPrice(String.valueOf(trip.getPrice()));
+
+            // Trả về đối tượng DTO chứa thông tin chuyến xe
+            return response;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return null; // Lỗi trong quá trình xử lý
         }
     }
 }
