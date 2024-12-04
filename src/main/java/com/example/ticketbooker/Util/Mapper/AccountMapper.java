@@ -8,19 +8,21 @@ import org.springframework.stereotype.Component;
 public class AccountMapper {
 
     public static AccountDTO toDTO(Account account) {
-        return new AccountDTO(
-                account.getId(),
-                account.getUsername(),
-                account.getPassword(),
-                account.getEmail(),
-                account.getRole(),
-                account.getAccountStatus()
-        );
+        return AccountDTO.builder()
+                .id(account.getId())
+                .userId(account.getUser()) // Mapping Users entity
+                .username(account.getUsername())
+                .password(account.getPassword())
+                .email(account.getEmail())
+                .role(account.getRole())
+                .accountStatus(account.getAccountStatus())
+                .build();
     }
 
     public static Account toEntity(AccountDTO accountDTO) {
         return Account.builder()
                 .id(accountDTO.getId())
+                .user(accountDTO.getUserId()) // Mapping Users entity from DTO
                 .username(accountDTO.getUsername())
                 .password(accountDTO.getPassword())
                 .email(accountDTO.getEmail())

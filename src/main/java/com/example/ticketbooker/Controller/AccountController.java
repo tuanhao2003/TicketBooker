@@ -2,6 +2,7 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.Service.AccountService;
+import com.example.ticketbooker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private UserService userService;
 
     //Hiển thị danh sách accounts
     @GetMapping()
@@ -41,6 +45,7 @@ public class AccountController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("accountDTO", new AccountDTO());
+        model.addAttribute("users", userService.getAllUsers().getListUsers()); // Lấy danh sách user
         return "View/Admin/AccountManagement/AccountForm";
     }
 
@@ -58,6 +63,7 @@ public class AccountController {
         AccountDTO accountDTO = accountService.getAccountById(id);
         if (accountDTO != null) {
             model.addAttribute("accountDTO", accountDTO);
+            model.addAttribute("users", userService.getAllUsers().getListUsers()); // Lấy danh sách user
             return "View/Admin/AccountManagement/AccountForm";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy tài khoản với ID: " + id);
