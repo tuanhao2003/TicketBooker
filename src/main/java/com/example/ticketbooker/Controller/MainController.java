@@ -82,11 +82,16 @@ public class MainController {
     public String showBooking(@RequestParam int tripId, Model model) {
         model.addAttribute("bookingInformation", tripService.getTripById(tripId));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Account account = SecurityUtils.extractAccount(authentication.getPrincipal());
-
-        model.addAttribute("fullname",account.getUser().getFullName());
-        model.addAttribute("phone",account.getUser().getPhone());
-        model.addAttribute("email",account.getEmail());
+        boolean isLoggedIn = SecurityUtils.isLoggedIn();
+        if(isLoggedIn) {
+            Account account = SecurityUtils.extractAccount(authentication.getPrincipal());
+            Integer accountId = account.getId();
+            model.addAttribute("accountId",accountId);
+            model.addAttribute("fullname",account.getUser().getFullName());
+            model.addAttribute("phone",account.getUser().getPhone());
+            model.addAttribute("email",account.getEmail());
+            return "View/User/Basic/Booking";
+        }
         return "View/User/Basic/Booking";
     }
 

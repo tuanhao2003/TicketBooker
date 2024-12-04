@@ -47,9 +47,9 @@ public class VNPayController {
 
         // Loại bỏ dấu phẩy và chữ "đ"
         if (grandTotal != null && !grandTotal.isEmpty()) {
-            grandTotal = grandTotal.replace(",", "").replace("đ", "").trim();
+            grandTotal = grandTotal.replace(".", "").replace("đ", "").trim();
         }
-
+        System.out.println(grandTotal);
         model.addAttribute("grandTotal", grandTotal);
 
         return "createOrder";
@@ -166,9 +166,6 @@ public class VNPayController {
         }
         return defaultValue; // Trả về giá trị mặc định nếu không tìm thấy cookie
     }
-
-
-
 
     // Helper method để parse thời gian thanh toán từ VNPay
     private LocalDateTime parsePaymentTime(String paymentTime) {
