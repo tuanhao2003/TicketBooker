@@ -118,10 +118,10 @@
         }
 
 // Gọi fetchTripDetails khi trang được tải
-document.addEventListener('DOMContentLoaded', function () {
-    fetchTripDetails();
-    booking();
-});
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchTripDetails();
+            booking();
+        });
 
 
         function handlePayment() {
@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     var customerPhone = document.querySelector('[name="customerPhone"]')?.value || "";
                     var email = document.querySelector('[name="email"]')?.value || "";
 
+                    // grandTotal = grandTotal.replace(/[^0-9]/g, ""); // "100000"
+                    // grandTotal = parseInt(grandTotal, 10);
                     if (!selectedSeats || !customerName || !customerPhone || !email) {
                         alert("Vui lòng điền đầy đủ thông tin!");
                         return;
