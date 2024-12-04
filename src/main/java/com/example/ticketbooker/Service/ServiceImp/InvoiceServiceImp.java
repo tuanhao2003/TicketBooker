@@ -59,6 +59,11 @@ public class InvoiceServiceImp implements InvoiceService {
     }
 
     @Override
+    public Invoices getById(int id) {
+        return this.invoicesRepo.findById(id).orElse(null);
+    }
+
+    @Override
     public RevenueStatsDTO getRevenueStats(String period, LocalDate selectedDate) {
         LocalDate previousDate;
         switch (period) {

@@ -21,6 +21,7 @@ public class TicketMapper {
                 .customerPhone(dto.getCustomerPhone())
                 .seat(dto.getSeat())
                 .ticketStatus(dto.getTicketStatus())
+                .invoice(dto.getInvoices())
                 .build();
     }
 

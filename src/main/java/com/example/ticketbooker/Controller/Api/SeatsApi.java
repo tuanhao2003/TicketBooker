@@ -39,7 +39,6 @@ public class SeatsApi {
         }
     }
 
-//    khi bam nut thanh toan => fetch toi day => ket qua: list parse to string up len cookie ten la seatIds
     @PostMapping("/prebooking-seat")
     public ResponseEntity<String> preBookingSeat(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -80,6 +79,14 @@ public class SeatsApi {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while pre-booking seats.");
+        }
+    }
+
+    @PostMapping("/delete")
+    public void deleteSeats(@RequestBody String seatIds) {
+        String[] seats = seatIds.split(" ");
+        for(int i = 0; i < seats.length; i++) {
+            seatsService.deleteSeat(Integer.parseInt(seats[i]));
         }
     }
 

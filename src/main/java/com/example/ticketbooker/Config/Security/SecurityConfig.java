@@ -79,7 +79,7 @@ public class SecurityConfig {
                         "/zalopay","/vnpay","/submitOrder","/vnpay-payment-return",
                         "/admin/trips/*","/api/**",
                         "/css/**","/js/**","/components/**",
-                        "/admin/routes/get-routes")
+                        "/admin/routes/get-routes", "/vnpay/**", "/payment/**")
                                 .permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/fuba/**").permitAll() // Các URL yêu cầu đăng nhập
                         .requestMatchers("/favicon.icon").permitAll()
