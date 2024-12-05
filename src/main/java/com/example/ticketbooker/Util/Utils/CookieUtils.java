@@ -2,6 +2,7 @@ package com.example.ticketbooker.Util.Utils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -22,5 +23,15 @@ public class CookieUtils {
             }
         }
         return defaultValue;
+    }
+
+    public static void addCookie(HttpServletResponse response, String cookieName, String cookieValue, String path, int maxAge) {
+        Cookie cookie = new Cookie(cookieName, cookieValue);
+//        cookie.setHttpOnly(true); // Cookie chỉ có thể được truy cập qua HTTP, bảo vệ khỏi JS
+        cookie.setPath(path);
+        if(maxAge > 0){
+            cookie.setMaxAge(maxAge);
+        }
+        response.addCookie(cookie);
     }
 }
