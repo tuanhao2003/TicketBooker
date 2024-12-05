@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Entity;
 
 import com.example.ticketbooker.Util.Enum.TicketStatus;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +22,9 @@ public class Tickets {
     @JoinColumn(name = "tripId")
     private Trips trip;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookerId")
+    @Nullable
     private Account booker;
 
     @ManyToOne(fetch = FetchType.LAZY)

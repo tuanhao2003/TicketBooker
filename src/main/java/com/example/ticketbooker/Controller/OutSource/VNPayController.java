@@ -8,6 +8,7 @@ import com.example.ticketbooker.Service.InvoiceService;
 import com.example.ticketbooker.Service.SeatsService;
 import com.example.ticketbooker.Util.Enum.PaymentMethod;
 import com.example.ticketbooker.Util.Enum.PaymentStatus;
+import com.example.ticketbooker.Util.Utils.CookieUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -144,7 +145,7 @@ public class VNPayController {
         model.addAttribute("tripId", tripId);
 //        model.addAttribute("seatIds", seatIds); // Truyền danh sách seatIds vào model
 
-        return paymentStatus == 1 ? "ordersuccess" : "orderfail";
+        return paymentStatus == 1 ? "redirect: /fuba/thankyou?paymentStatus=1" : "redirect: /fuba/thankyou?paymentStatus=0";
     }
 
 
@@ -172,5 +173,31 @@ public class VNPayController {
         // VNPay trả về thời gian dạng yyyyMMddHHmmss
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         return LocalDateTime.parse(paymentTime, formatter);
+    }
+
+    @PostMapping("/vnpay-payment-status")
+    public int getPaymentStatus(HttpServletRequest request) {
+        while (true) {
+            if (Integer.parseInt(CookieUtils.getCookieValue(request, "paymentStatus", "-1")) == 2) {
+                try {
+                    System.out.println("pending");
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (Integer.parseInt(CookieUtils.getCookieValue(request, "paymentStatus", "-1")) == 1) {
+                break;
+            } else {
+                String seadIdsString = CookieUtils.getCookieValue(request, "seatIds", "");
+                if (seadIdsString != "") {
+                    String[] seadIds = seadIdsString.split(" ");
+                    for (String seadId : seadIds) {
+                        seatsService.deleteSeat(Integer.parseInt(seadId));
+                    }
+                    break;
+                }
+            }
+        }
+        return Integer.parseInt(CookieUtils.getCookieValue(request, "paymentStatus", "-1"));
     }
 }

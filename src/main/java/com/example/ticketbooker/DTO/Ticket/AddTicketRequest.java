@@ -21,4 +21,5 @@ public class AddTicketRequest {
     private String customerPhone;
     private Seats seat;
     private TicketStatus ticketStatus;
+    private Invoices invoices;
 }

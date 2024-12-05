@@ -48,9 +48,8 @@ public class ZaloPayService {
         int randomId = rand.nextInt(1000000);
         String appTransId = getCurrentTimeString("yyMMdd") + "_" + randomId;
         Map embedData = new HashMap(){{
-            put("redirecturl", "http://localhost:8080/fuba/thankyou");
+            put("redirecturl", "http://localhost:8080/fuba/thankyou?paymentStatus=1");
         }};
-
         Map<String, Object> order = new HashMap<>() {{
             put("app_id", appId);
             put("app_trans_id", appTransId);

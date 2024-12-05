@@ -137,8 +137,8 @@
                     var customerPhone = document.querySelector('[name="customerPhone"]')?.value || "";
                     var email = document.querySelector('[name="email"]')?.value || "";
 
-                    // grandTotal = grandTotal.replace(/[^0-9]/g, ""); // "100000"
-                    // grandTotal = parseInt(grandTotal, 10);
+                    grandTotal = grandTotal.replace(/[^0-9]/g, ""); // "100000"
+                    grandTotal = parseInt(grandTotal, 10);
                     if (!selectedSeats || !customerName || !customerPhone || !email) {
                         alert("Vui lòng điền đầy đủ thông tin!");
                         return;
@@ -175,7 +175,42 @@
                         if (paymentMethod === "VNPay") {
                             window.location.href = '/vnpay';
                         } else {
-                            window.location.href = '/zalopay';
+                            (
+                                function () {
+                                    const total = document.getElementById("totalPrice").innerText.replace(",", "").replace("đ", "");
+                                    const fullName = document.querySelector(".apiField[name='customerName']").value;
+                                    const phone = document.querySelector(".apiField[name='customerPhone']").value;
+                                    const email = document.querySelector(".apiField[name='email']").value;
+                                    const descript = Date.now().toString(36) + Math.random().toString(36).substring(2)
+                                    console.log(total);
+
+                                    fetch("http://localhost:8080/payment/zalo-payment", {
+                                        method: "POST",
+                                        headers: {"Content-Type": "application/json"},
+                                        body: JSON.stringify({appUser: fullName, amount: total, description: descript})
+                                    }).then(
+                                        respone => respone.json()
+                                    ).then(
+                                        data => {
+                                            if (data.returnCode === 1) {
+                                                fetch("http://localhost:8080/payment/zalo-payment-status", {
+                                                    method: "POST",
+                                                    headers: {"Content-Type": "application/json"},
+                                                    body: JSON.stringify(data)
+                                                }).then(async response => {
+                                                    await response.json()
+                                                }).then(
+                                                    data => {
+                                                        console.log(data.returnMessage)
+                                                    }).catch(e => console.log(e));
+                                                window.location.href = data.returnUrl;
+                                            }
+                                        }
+                                    ).catch(
+                                        e => console.log(e)
+                                    );
+                                }
+                            )();
                         }
                     } else {
                         console.log("Không có phương thức thanh toán nào được chọn.");

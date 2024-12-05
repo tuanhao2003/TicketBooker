@@ -130,9 +130,10 @@ public class TripServiceImp implements TripService {
                 prevEndDate = endDate.minusMonths(1);
                 break;
             case "Year":
-                endDate = startDate.plusYears(1);
-                prevStartDate = startDate.minusYears(1);
-                prevEndDate = endDate.minusYears(1);
+                startDate = selectedDate.withDayOfYear(1).atStartOfDay();  // Ngày 1 tháng 1 của năm được chọn
+                endDate = startDate.plusYears(1);  // Đến hết năm
+                prevStartDate = startDate.minusYears(1);  // Ngày đầu của năm trước
+                prevEndDate = endDate.minusYears(1);  // Ngày cuối năm trước
                 break;
             default:
                 throw new IllegalArgumentException("Invalid period: " + period);
