@@ -1,5 +1,6 @@
 package com.example.ticketbooker.Controller;
 
+import com.example.ticketbooker.DTO.Ticket.TicketIdRequest;
 import com.example.ticketbooker.Entity.Account;
 import com.example.ticketbooker.Service.*;
 import com.example.ticketbooker.Util.Enum.TicketStatus;
@@ -129,28 +130,35 @@ public class MainController {
         String paymentStatusParam = allParams.get("paymentStatus");
         int paymentStatus = (paymentStatusParam != null) ? Integer.parseInt(paymentStatusParam) : 0;
 
+        if (paymentStatus == 1) {
+            AddInvoiceDTO addInvoiceDTO = new AddInvoiceDTO(
+                    Integer.parseInt(grandTotal),
+                    paymentStatus == 1 ? PaymentStatus.PAID : PaymentStatus.PENDING,
+                    LocalDateTime.now(),
+                    PaymentMethod.EWALLET
+            );
 
-        AddInvoiceDTO addInvoiceDTO = new AddInvoiceDTO(
-                Integer.parseInt(grandTotal),
-                paymentStatus == 1 ? PaymentStatus.PAID : PaymentStatus.PENDING,
-                LocalDateTime.now(),
-                PaymentMethod.EWALLET
-        );
+            int invoiceCreated = invoiceService.addInvoice(addInvoiceDTO);
 
-        int invoiceCreated = invoiceService.addInvoice(addInvoiceDTO);
-
-        for (String s : seatIdList) {
-            AddTicketRequest addRequest = new AddTicketRequest();
-            addRequest.setCustomerName(customerName);
-            addRequest.setCustomerPhone(customerPhone);
-            addRequest.setTrip(tripService.getTripById(tripId).getListTrips().get(0));
-            addRequest.setSeat(seatsService.getSeatById(Integer.parseInt(s)));
-//            addRequest.setBooker(accountService.getAccountById(bookerId) != null ? AccountMapper.toEntity(accountService.getAccountById(bookerId)) : null);
-            addRequest.setTicketStatus(TicketStatus.BOOKED);
-            addRequest.setInvoices(invoiceService.getById(invoiceCreated));
-            ticketService.addTicket(addRequest);
+            for (String s : seatIdList) {
+                AddTicketRequest addRequest = new AddTicketRequest();
+                addRequest.setCustomerName(customerName);
+                addRequest.setCustomerPhone(customerPhone);
+                addRequest.setTrip(tripService.getTripById(tripId).getListTrips().get(0));
+                addRequest.setSeat(seatsService.getSeatById(Integer.parseInt(s)));
+                if(bookerId != 0) {
+                    addRequest.setBooker(AccountMapper.toEntity(accountService.getAccountById(bookerId)));
+                }
+                addRequest.setTicketStatus(TicketStatus.BOOKED);
+                addRequest.setInvoices(invoiceService.getById(invoiceCreated));
+                ticketService.addTicket(addRequest);
+            }
+            CookieUtils.addCookie(response, "paymentStatus", Integer.toString(paymentStatus), "/", -1);
+        } else if (paymentStatus == 0) {
+            for (String s : seatIdList) {
+                ticketService.deleteTicket(new TicketIdRequest(Integer.parseInt(s)));
+            }
         }
-        CookieUtils.addCookie(response, "paymentStatus", Integer.toString(paymentStatus), "/", -1);
         return "View/User/Basic/Thankyou";
     }
 
