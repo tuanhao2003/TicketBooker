@@ -144,8 +144,8 @@ public class VNPayController {
         model.addAttribute("grandTotal", grandTotal);
         model.addAttribute("tripId", tripId);
 //        model.addAttribute("seatIds", seatIds); // Truyền danh sách seatIds vào model
+        return paymentStatus == 1 ? "redirect:/fuba/thankyou?paymentStatus=1" : "redirect:/fuba/thankyou?paymentStatus=0";
 
-        return paymentStatus == 1 ? "redirect: /fuba/thankyou?paymentStatus=1" : "redirect: /fuba/thankyou?paymentStatus=0";
     }
 
 
