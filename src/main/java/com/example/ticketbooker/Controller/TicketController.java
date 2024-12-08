@@ -63,11 +63,24 @@ public class TicketController {
     }
 
     @GetMapping("/export/excel")
-    public ResponseEntity<InputStreamResource> exportTicketsToExcel(@RequestParam("tripId") int tripId) {
-        ByteArrayInputStream in = ticketService.exportTicketsToExcelByTripId(tripId);
+    public ResponseEntity<InputStreamResource> exportTicketsToExcel(@RequestParam(value = "tripId", required = false) Integer tripId) {
+        ByteArrayInputStream in;
+
+        // Kiểm tra xem có chọn chuyến không, nếu không sẽ lấy toàn bộ vé
+        if (tripId != null) {
+            in = ticketService.exportTicketsToExcelByTripId(tripId);
+        } else {
+            in = ticketService.exportAllTicketsToExcel(); // Thêm phương thức mới để xuất toàn bộ vé
+        }
+
+        // Đặt tên file
+        String fileName = "tickets.xlsx";
+        if (tripId != null) {
+            fileName = "tickets_trip_" + tripId + ".xlsx";
+        }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=tickets.xlsx");
+        headers.add("Content-Disposition", "attachment; filename=" + fileName); // Câu lệnh này sẽ yêu cầu trình duyệt mở hộp thoại lưu file
 
         return ResponseEntity
                 .ok()
@@ -75,4 +88,5 @@ public class TicketController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new InputStreamResource(in));
     }
+
 }

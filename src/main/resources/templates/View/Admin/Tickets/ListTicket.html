@@ -33,18 +33,20 @@
 <div layout:fragment="content">
     <h1 class="text-2xl font-bold mb-4">Danh Sách Vé</h1>
 
-    <form action="#" method="get" class="mb-4">
-        <label for="tripId" class="mr-2">Lọc theo chuyến:</label>
-        <select name="tripId" id="tripId" class="px-3 py-2 border rounded-md">
-            <option value="" th:text="'Chọn chuyến đi'"></option>
-            <option th:each="trip : ${trips}" th:value="${trip.id}" th:text="${trip.id} + ' ' + ${trip.departureStation} + ' - ' + ${trip.arrivalStation}"></option>
-        </select>
-        <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Lọc</button>
-    </form>
+    <div class="flex justify-between mb-4">  <!-- Added flex container -->
+        <form action="#" method="get" class="inline-block"> <!-- Added inline-block -->
+            <label for="tripId" class="mr-2">Lọc theo chuyến:</label>
+            <select name="tripId" id="tripId" class="px-3 py-2 border rounded-md">
+                <option value="" th:text="'Chọn chuyến đi'"></option>
+                <option th:each="trip : ${trips}" th:value="${trip.id}" th:text="${trip.id} + ' ' + ${trip.departureStation} + ' - ' + ${trip.arrivalStation}"></option>
+            </select>
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Lọc</button>
+        </form>
 
-    <!-- Nút để xuất file Excel -->
-    <a th:href="@{/admin/tickets/export/excel(tripId=${param.tripId})}" class="px-4 py-2 bg-green-500 text-white rounded-md">Xuất Excel</a>
-
+        <!-- Nút để xuất file Excel (now aligned to the right) -->
+        <a th:href="@{/admin/tickets/export/excel(tripId=${param.tripId != null ? param.tripId : ''})}" class="px-4 py-2 bg-green-500 text-white rounded-md inline-block">Xuất Excel</a> <!-- Added inline-block -->
+    </div>
+    
     <table class="min-w-full bg-white">
         <thead>
         <tr>

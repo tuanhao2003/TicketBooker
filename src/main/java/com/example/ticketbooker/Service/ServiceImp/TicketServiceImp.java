@@ -245,4 +245,44 @@ public class TicketServiceImp implements TicketService {
             return null;
         }
     }
+
+    @Override
+    public ByteArrayInputStream exportAllTicketsToExcel() {
+        List<Tickets> tickets = ticketRepository.findAll(); // Lấy toàn bộ danh sách vé
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Tickets");
+
+            // Tạo hàng đầu tiên (header row)
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"Ticket ID", "Customer Name", "Customer Phone", "Seat ID", "Ticket Status"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // Thêm dữ liệu vé vào file
+            int rowIdx = 1;
+            for (Tickets ticket : tickets) {
+                Row row = sheet.createRow(rowIdx++);
+
+                row.createCell(0).setCellValue(ticket.getId());
+                row.createCell(1).setCellValue(ticket.getCustomerName());
+                row.createCell(2).setCellValue(ticket.getCustomerPhone());
+                row.createCell(3).setCellValue(ticket.getSeat().getId());
+                row.createCell(4).setCellValue(ticket.getTicketStatus().name());
+            }
+
+            // Ghi dữ liệu ra ByteArrayOutputStream
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

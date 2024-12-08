@@ -22,4 +22,5 @@ public interface TicketService {
     TicketResponse getAllTickets(Pageable pageable); // Add Pageable parameter
     public TicketResponse getTicketsByTripId(int tripId, Pageable pageable);
     ByteArrayInputStream exportTicketsToExcelByTripId(int tripId);
+    ByteArrayInputStream exportAllTicketsToExcel();
 }
