@@ -87,14 +87,12 @@
 
         try {
             const currentLocation = await getCurrentLocation();
-            const finalInput = "Currentlocation: " + currentLocation + ". " + transcript;
+            const finalInput = "Vị trí hiện tại của tôi là: " + currentLocation + ".Hãy tìm cho tôi tuyến đường " + transcript;
             console.log("Final input:", finalInput);
             document.getElementById("search-input").value = finalInput;
-            console.log("finalInput: "+document.getElementById("search-input").value)
             // Gửi request tới API của ChatGPT
             const chatGPTResponse = await sendTextToChatGPT(finalInput);
             document.getElementById("search-input").value = chatGPTResponse;  // Cập nhật kết quả vào input
-            console.log("chatGPTResponse: "+document.getElementById("search-input").value)
         } catch (error) {
             console.error("Error getting location or ChatGPT response:", error);
             document.getElementById("search-input").value = transcript;  // Fallback chỉ sử dụng transcript nếu có lỗi
