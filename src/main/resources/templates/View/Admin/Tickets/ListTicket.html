@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{View/Layout/AdminLayout.html}">
 
 <head>
@@ -46,7 +46,7 @@
         <!-- Nút để xuất file Excel (now aligned to the right) -->
         <a th:href="@{/admin/tickets/export/excel(tripId=${param.tripId != null ? param.tripId : ''})}" class="px-4 py-2 bg-green-500 text-white rounded-md inline-block">Xuất Excel</a> <!-- Added inline-block -->
     </div>
-    
+
     <table class="min-w-full bg-white">
         <thead>
         <tr>
@@ -71,7 +71,13 @@
             <td class="py-2 px-4 border-b" th:text="${ticket.customerPhone}"></td>
             <td class="py-2 px-4 border-b" th:text="${ticket.seat.id}"></td>
             <td class="py-2 px-4 border-b" th:text="${ticket.qrCode}"></td>
-            <td class="py-2 px-4 border-b" th:text="${ticket.ticketStatus}"></td>
+            <td class="py-2 px-4 border-b">
+                <span th:text="${ticket.ticketStatus}"
+                      th:classappend="${ticket.ticketStatus == T(com.example.ticketbooker.Util.Enum.TicketStatus).USED} ? 'bg-green-500 text-white px-2 py-1 rounded' :
+                                           (${ticket.ticketStatus == T(com.example.ticketbooker.Util.Enum.TicketStatus).CANCELLED} ? 'bg-red-500 text-white px-2 py-1 rounded' :
+                                           'bg-yellow-500 text-white px-2 py-1 rounded')">
+                </span>
+            </td>
         </tr>
         </tbody>
     </table>
