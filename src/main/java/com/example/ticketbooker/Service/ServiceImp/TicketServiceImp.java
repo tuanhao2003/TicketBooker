@@ -10,6 +10,8 @@ import com.example.ticketbooker.Util.Enum.TicketStatus;
 import com.example.ticketbooker.Util.Mapper.TicketMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -187,5 +189,11 @@ public class TicketServiceImp implements TicketService {
             default:
                 return date;
         }
+    }
+
+    @Override
+    public TicketResponse getAllTickets(Pageable pageable) {
+        Page<Tickets> ticketPage = ticketRepository.findAll(pageable);
+        return new TicketResponse(ticketPage);
     }
 }

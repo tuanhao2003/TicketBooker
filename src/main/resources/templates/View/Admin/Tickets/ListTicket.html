@@ -31,6 +31,7 @@
 
 <body>
 <div layout:fragment="content">
+    <h1 class="text-2xl font-bold mb-4">Danh Sách Vé</h1>
     <table class="min-w-full bg-white">
         <thead>
         <tr>
@@ -59,6 +60,24 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- Pagination controls -->
+    <div class="flex justify-center mt-4">
+        <ul class="flex">
+            <li th:if="${ticketResponse.currentPage > 1}">
+                <a th:href="@{/admin/tickets(page=${ticketResponse.currentPage - 1})}" class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300">&lt; Previous</a>
+            </li>
+
+            <li th:each="i : ${#numbers.sequence(1, ticketResponse.totalPages)}">
+                <a th:href="@{/admin/tickets(page=${i - 1})}" th:text="${i}" class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300" th:classappend="${ticketResponse.currentPage == i} ? 'bg-blue-500 text-white'"></a>
+            </li>
+
+            <li th:if="${ticketResponse.currentPage < ticketResponse.totalPages}">
+                <a th:href="@{/admin/tickets(page=${ticketResponse.currentPage})}" class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300">Next &gt;</a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 </body>
 </html>
