@@ -1,77 +1,126 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{View/Layout/AdminLayout.html}">
-
 <head>
-  <title>Quản lý tài xế</title>
+  <meta charset="UTF-8">
+  <title>Form Lái Xe</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-
-<body>
+<body class="bg-gray-100">
 <div layout:fragment="content">
-  <div class="w-full md:px-10 flex flex-col justify-start items-center h-full rounded-2xl bg-white">
-    <div class="text-start w-full">
-      <div class="font-bold text-3xl capitalize text-gray-700">thông tin tài xế</div>
-      <div class="text-lg capitalize text-gray-700 italic">quản lý và chỉnh sửa thông tin tài xế</div>
-      <hr class="w-full text-gray-800">
-    </div>
-    <form th:action="@{/admin/drivers/update}" th:object="${updateDriverForm}" method="post"
-          class="flex-grow w-full grid grid-cols-12 md:py-5">
-      <div class="col-span-4 flex flex-col justify-center items-center">
-        <div class="h-1/6">
-          <img th:src="@{/components/noavt_male.png}"
-               class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-          <!--                    <img th:if="*{profilePhoto == null and gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
-          <!--                         th:src="@{/components/noavt_other.png}"-->
-          <!--                         class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
-        </div>
+  <div class="container mx-auto p-4">
+    <h1 th:if="${driverDTO.id} == null" class="text-2xl font-bold mb-4">Form Thêm Lái Xe</h1>
+    <h1 th:if="${driverDTO.id} != null" class="text-2xl font-bold mb-4">Form Sửa Lái Xe</h1>
+
+    <!-- Form để thêm mới (khi driverDTO.id là null) -->
+    <form th:if="${driverDTO.id} == null" th:action="@{/admin/drivers/add}" method="post"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <!-- Tên -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="nameNew">Tên Lái Xe</label>
+        <input type="text" name="name" id="nameNew" th:field="*{driverDTO.name}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
       </div>
-      <div class="col-span-8 border border-transparent border-l-gray-800 border-dashed flex flex-col justify-center items-start md:p-10 w-full h-full">
-        <input type="hidden" th:field="*{driverId}" />
-        <div class="flex justify-start items-center w-full h-10">
-          <label for="name" class="text-gray-700 italic text-lg w-2/6">Họ và tên: </label>
-          <input id="name" type="text" th:field="*{name}"
-                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
-        </div>
-        <div class="flex justify-start items-center w-full h-10">
-          <label for="phone" class="text-gray-700 italic text-lg w-2/6">Số điện thoại:</label>
-          <input id="phone" type="text" th:field="*{phone}"
-                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
-        </div>
-        <div class="flex justify-start items-center w-full h-10">
-          <label for="address" class="text-gray-700 italic text-lg w-2/6">Địa chỉ liên hệ:</label>
-          <input id="address" type="text" th:field="*{address}"
-                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
-        </div>
-        <div class="flex justify-start items-center w-full h-10">
-          <label for="licenseNumber" class="text-gray-700 italic text-lg w-2/6">Bằng lái:</label>
-          <input id="licenseNumber" type="text" th:field="*{licenseNumber}"
-                 class="bg-transparent border-none outline-none focus:outline-none text-lg">
-        </div>
-        <div class="flex justify-start items-center w-full h-10">
-          <label for="driverStatus" class="text-gray-700 italic text-lg w-2/6">Trạng thái:</label>
-          <select id="driverStatus" th:field="*{driverStatus}"
-                  class="bg-transparent border-none outline-none focus:outline-none text-lg">
-            <option th:value="${T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}"
-                    th:text="${T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}"
-                    th:selected="*{driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}">
-            </option>
-            <option th:value="${T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}"
-                    th:text="${T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}"
-                    th:selected="*{driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}">
-            </option>
-          </select>
-        </div>
-        <div class="flex justify-end w-full h-10">
-          <button
-                  class="add-user-open px-3 font-semibold w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
-            Lưu
-          </button>
-        </div>
+      <!-- Số Giấy Phép -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="licenseNumberNew">Số Giấy Phép</label>
+        <input type="text" name="licenseNumber" id="licenseNumberNew" th:field="*{driverDTO.licenseNumber}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Số Điện Thoại -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="phoneNew">Số Điện Thoại</label>
+        <input type="text" name="phone" id="phoneNew" th:field="*{driverDTO.phone}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Địa Chỉ -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="addressNew">Địa Chỉ</label>
+        <input type="text" name="address" id="addressNew" th:field="*{driverDTO.address}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Trạng Thái -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="driverStatusNew">Trạng Thái</label>
+        <select name="driverStatus" id="driverStatusNew" required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="ACTIVE"
+                  th:selected="${driverDTO.driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}">
+            ACTIVE
+          </option>
+          <option value="INACTIVE"
+                  th:selected="${driverDTO.driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}">
+            INACTIVE
+          </option>
+        </select>
+      </div>
+      <div class="flex items-center justify-between">
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Thực hiện
+        </button>
+        <a href="/admin/drivers"
+           class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+      </div>
+    </form>
+
+    <!-- Form để chỉnh sửa (khi driverDTO.id không null) -->
+    <form th:if="${driverDTO.id} != null" th:action="@{/admin/drivers/update}" method="post"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <!-- Driver ID -->
+      <input type="hidden" name="driverId" th:value="${driverDTO.id}" required>
+      <!-- Tên -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Tên Lái Xe</label>
+        <input type="text" name="name" id="name" th:field="*{driverDTO.name}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Số Giấy Phép -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="licenseNumber">Số Giấy Phép</label>
+        <input type="text" name="licenseNumber" id="licenseNumber" th:field="*{driverDTO.licenseNumber}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Số Điện Thoại -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">Số Điện Thoại</label>
+        <input type="text" name="phone" id="phone" th:field="*{driverDTO.phone}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Địa Chỉ -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="address">Địa Chỉ</label>
+        <input type="text" name="address" id="address" th:field="*{driverDTO.address}" required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+      <!-- Trạng Thái -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="driverStatus">Trạng Thái</label>
+        <select name="driverStatus" id="driverStatus" required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="ACTIVE"
+                  th:selected="${driverDTO.driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).ACTIVE}">
+            ACTIVE
+          </option>
+          <option value="INACTIVE"
+                  th:selected="${driverDTO.driverStatus == T(com.example.ticketbooker.Util.Enum.DriverStatus).INACTIVE}">
+            INACTIVE
+          </option>
+        </select>
+      </div>
+      <div class="flex items-center justify-between">
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Cập nhật
+        </button>
+        <a href="/admin/drivers"
+           class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
       </div>
     </form>
   </div>
 </div>
 </body>
-
 </html>
+
 <script type="text/javascript" th:src="@{/js/DriverManagement.js}"></script>

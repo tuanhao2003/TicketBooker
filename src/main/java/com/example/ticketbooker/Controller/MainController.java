@@ -156,7 +156,7 @@ public class MainController {
             CookieUtils.addCookie(response, "paymentStatus", Integer.toString(paymentStatus), "/", -1);
         } else if (paymentStatus == 0) {
             for (String s : seatIdList) {
-                ticketService.deleteTicket(new TicketIdRequest(Integer.parseInt(s)));
+                seatsService.deleteSeat(Integer.parseInt(s));
             }
         }
         return "View/User/Basic/Thankyou";

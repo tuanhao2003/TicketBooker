@@ -14,6 +14,7 @@ public class UpdateDriverDTO {
     private DriverStatus driverStatus;
 
     public UpdateDriverDTO() {
+        this.driverId = null;
         this.name = "";
         this.licenseNumber = null;
         this.phone = null;
