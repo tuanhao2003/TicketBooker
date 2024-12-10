@@ -88,7 +88,7 @@ public class PasswordCreationController {
                 accountDTO.setAccountStatus(AccountStatus.ACTIVE);
                 accountDTO.setUser(Users.builder().fullName(fullname).build());
                 if(accountService.createAccountWithUser(accountDTO) != null) {
-                    return "redirect:/auth/profile";
+                    return "redirect:/profile/info";
                 }
                 return "redirect:/new-password?error";
                 }

@@ -11,7 +11,7 @@
             deleteBtn.forEach(btn => {
                 btn.addEventListener("click", function () {
                     console.log(btn.dataset.id);
-                    fetch("http://localhost:8080/admin/routes/delete", {
+                    fetch("http://localhost:8080/admin/drivers/delete", {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json"

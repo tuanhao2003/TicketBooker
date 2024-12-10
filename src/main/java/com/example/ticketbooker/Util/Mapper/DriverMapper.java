@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Util.Mapper;
 
 import com.example.ticketbooker.DTO.Driver.AddDriverDTO;
+import com.example.ticketbooker.DTO.Driver.DriverDTO;
 import com.example.ticketbooker.DTO.Driver.ResponseDriverDTO;
 import com.example.ticketbooker.DTO.Driver.UpdateDriverDTO;
 import com.example.ticketbooker.Entity.Driver;
@@ -42,5 +43,16 @@ public class DriverMapper {
                 .driverCount(drivers.size())
                 .listDriver(drivers)
                 .build();
+    }
+    public static DriverDTO toDTO (Driver driver){
+        return DriverDTO.builder()
+                .id(driver.getDriverId())
+                .name(driver.getName())
+                .licenseNumber(driver.getLicenseNumber())
+                .phone(driver.getPhone())
+                .address(driver.getAddress())
+                .driverStatus(driver.getDriverStatus())
+                .build();
+
     }
 }

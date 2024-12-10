@@ -1,15 +1,14 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
-import com.example.ticketbooker.DTO.Users.AddUserRequest;
-import com.example.ticketbooker.DTO.Users.UserIdRequest;
-import com.example.ticketbooker.DTO.Users.UserResponse;
-import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
+import com.example.ticketbooker.DTO.Users.*;
 import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Repository.UserRepo;
 import com.example.ticketbooker.Service.UserService;
 import com.example.ticketbooker.Util.Enum.Gender;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +20,7 @@ public class UserServiceImp implements UserService {
     public boolean addUser(AddUserRequest dto) {
         try {
             Users user = UserMapper.fromAdd(dto);
+            System.out.println("User entity mapped object: "+user);
             this.usersRepo.save(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -75,6 +75,12 @@ public class UserServiceImp implements UserService {
             return result;
         }
         return result;
+    }
+
+    @Override
+    public Page<UserDTO> getAllUsers(Pageable pageable) {
+        Page<Users> userPages = this.usersRepo.findAll(pageable);
+        return userPages.map(UserMapper::toDTO);
     }
 
     @Override

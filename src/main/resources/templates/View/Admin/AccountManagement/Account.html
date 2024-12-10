@@ -8,28 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
-        // function deleteAccount(button) {
-        //     if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
-        //         var id = button.dataset.name;
-        //         console.log(`/api/accounts/${id}`);
-        //         fetch(`/api/accounts/${id}`, {
-        //             method: 'DELETE'
-        //         })
-        //             .then(response => {
-        //                 if (response.ok) {
-        //                     alert('Xóa tài khoản thành công!');
-        //                     window.location.reload();
-        //                 } else {
-        //                     alert('Xóa tài khoản thất bại!');
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 console.error('Error:', error);
-        //                 alert('Xóa tài khoản thất bại!');
-        //             });
-        //     }
-        // }
-
         function updateAccountStatus(select) {
             const accountId = select.dataset.accountid;
             const newStatus = select.value;
