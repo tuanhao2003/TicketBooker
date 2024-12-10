@@ -78,6 +78,16 @@
                                        class="rqData w-full h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500">
                             </div>
                         </div>
+                        <script>
+                            // Get the current date and time
+                            const now = new Date();
+
+                            // Format the date and time to the required format (YYYY-MM-DDTHH:mm)
+                            const formattedDate = now.toISOString().slice(0, 16);
+
+                            // Set the 'min' attribute to the current date and time
+                            document.getElementById("departureDate").setAttribute("min", formattedDate);
+                        </script>
 
                         <div>
                             <label class="block text-sm text-gray-600 mb-1.5">Số vé</label>

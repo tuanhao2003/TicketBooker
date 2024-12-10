@@ -81,7 +81,7 @@ public class TicketMapper {
                 .customerName(entity.getCustomerName())
                 .customerPhone(entity.getCustomerPhone())
                 .paymentTime(LocalDate.from(entity.getInvoice().getPaymentTime()))
-                .email(entity.getBooker().getEmail())
+                .email(entity.getBooker() != null ? entity.getBooker().getEmail() : "")
                 .totalAmount(entity.getInvoice().getTotalAmount())
                 .estimatedTime(LocalTime.from(entity.getTrip().getRoute().getEstimatedTime()))
                 .departureLocation(entity.getTrip().getRoute().getDepartureLocation())

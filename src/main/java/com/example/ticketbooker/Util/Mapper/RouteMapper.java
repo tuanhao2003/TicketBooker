@@ -2,6 +2,7 @@ package com.example.ticketbooker.Util.Mapper;
 
 
 import com.example.ticketbooker.DTO.Routes.AddRouteDTO;
+import com.example.ticketbooker.DTO.Routes.RouteDTO;
 import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
 import com.example.ticketbooker.Entity.Routes;
 
@@ -25,6 +26,15 @@ public class RouteMapper {
     }
     public static UpdateRouteDTO toUpdateDTO (Routes route){
         return UpdateRouteDTO.builder()
+                .routeId(route.getRouteId())
+                .departureLocation(route.getDepartureLocation())
+                .arrivalLocation(route.getArrivalLocation())
+                .estimatedTime(route.getEstimatedTime())
+                .status(route.getStatus())
+                .build();
+    }
+    public static RouteDTO toDTO (Routes route){
+        return RouteDTO.builder()
                 .routeId(route.getRouteId())
                 .departureLocation(route.getDepartureLocation())
                 .arrivalLocation(route.getArrivalLocation())

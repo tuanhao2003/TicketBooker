@@ -1,126 +1,235 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{View/Layout/AdminLayout.html}">-->
+
+<!--<head>-->
+<!--  <title>Quản lý tuyến xe</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div layout:fragment="content">-->
+<!--  <div class="col-6">-->
+<!--    <input type="text" class="form-control w-100 border border-1 border-success searchBox"-->
+<!--           placeholder="Search user">-->
+<!--    <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"-->
+<!--       aria-controls="searchCollapsed">-->
+<!--    </a>-->
+<!--    <div class="collapse" id="searchCollapsed"></div>-->
+<!--  </div>-->
+<!--  <div class="flex w-full h-20 md:px-5">-->
+<!--    <div class="flex w-1/2 h-full justify-start items-center">-->
+<!--      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách tuyến xe</div>-->
+<!--    </div>-->
+<!--    <div class="flex w-1/2 h-full justify-end items-center">-->
+<!--      <button-->
+<!--              class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">-->
+<!--        Thêm-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="block md:m-5 md:mt-0">-->
+<!--    <ul class="space-y-5 container mx-auto">-->
+<!--      <li th:each="route : ${response.list}"-->
+<!--          class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">-->
+<!--        <div class="flex h-full w-full justify-between">-->
+<!--          <div class="flex justify-start w-5/6 items-center space-x-10">-->
+
+<!--            <img th:src="@{/components/noavt_male.png}"-->
+<!--                 class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+
+<!--            <div class="flex flex-col items-start justify-center">-->
+<!--              <div th:text="'Bắt đầu từ:  ' + ${route.departureLocation}"></div>-->
+<!--              <div th:text="'Kết thúc ở: ' + ${route.arrivalLocation}"></div>-->
+<!--            </div>-->
+<!--            <div class="flex flex-col items-start justify-center">-->
+<!--              <div th:text="'Thời gian dự kiến:  ' + ${route.estimatedTime}"></div>-->
+<!--              <div th:text="'Trạng thái: ' + ${route.status}"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="flex justify-end flex-1 space-x-3 items-center">-->
+<!--            <button-->
+<!--                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white update-btn"-->
+<!--                    th:attr="data-id=${route.routeId}">-->
+<!--              Cập nhật-->
+<!--            </button>-->
+<!--            <button-->
+<!--                    class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-red-500 hover:bg-red-600 shadow shadow-gray-500 text-white delete-btn"-->
+<!--                    th:attr="data-id=${route.routeId}">-->
+<!--              Xóa-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div layout:fragment="popup">-->
+<!--  &lt;!&ndash; modal &ndash;&gt;-->
+<!--  <div-->
+<!--          class="flex items-start modal md:px-3 absolute bottom-0  md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">-->
+<!--    <div class="flex flex-grow flex-col justify-start items-start">-->
+<!--      <div-->
+<!--              class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-300">-->
+<!--        <div class="col-span-2">-->
+<!--          <button-->
+<!--                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">-->
+<!--            Hủy-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="col-span-8 text-center">-->
+
+<!--        </div>-->
+<!--        <div class="col-span-2 flex items-center justify-center">-->
+<!--          <button-->
+<!--                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">-->
+<!--            Thêm-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <form id="add-user-form" th:action="@{/admin/routes/create}" th:object="${createRouteForm}" method="post"-->
+<!--            class="w-full h-full md:px-5 md:mt-7">-->
+<!--        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--          <label for="departureLocation" class="capitalize font-medium">Địa điểm xuất phát: </label>-->
+<!--          <input id="departureLocation" type="text" th:field="*{departureLocation}"-->
+<!--                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"-->
+<!--                 required pattern="[a-zA-Z]" placeholder="Bắt đầu ở...">-->
+<!--        </div>-->
+<!--        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--          <label for="arrivalLocation" class="capitalize font-medium">Điểm đích: </label>-->
+<!--          <input id="arrivalLocation" type="text" th:field="*{arrivalLocation}"-->
+<!--                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"-->
+<!--                 required pattern="[a-zA-Z]" placeholder="Đi đến...">-->
+<!--        </div>-->
+<!--        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--          <label for="estimatedTime" class="capitalize font-medium">Thời gian dự kiến: </label>-->
+<!--          <input id="estimatedTime" type="time" th:field="*{estimatedTime}"-->
+<!--                 class="w-1/2 focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"-->
+<!--                 placeholder="Thời gian di chuyển...">-->
+<!--        </div>-->
+<!--        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--          <label for="status" class="capitalize font-medium">Trạng thái:</label>-->
+<!--          <select id="status" type="text" th:field="*{status}"-->
+<!--                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white">-->
+<!--            <option value="ACTIVE" selected> Active </option>-->
+<!--          </select>-->
+<!--        </div>-->
+
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  &lt;!&ndash; /modal &ndash;&gt;-->
+<!--</div>-->
+
+<!--</body>-->
+
+<!--</html>-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{View/Layout/AdminLayout.html}">
-
 <head>
-  <title>Quản lý tuyến xe</title>
+  <meta charset="UTF-8">
+  <title>Quản Lý Tuyến Đường</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script type="text/javascript" th:src="@{/js/RouteManagement.js}"></script>
+  <script>
+    function updateRouteStatus(select) {
+      const routeId = select.dataset.routeid;
+      alert(routeId);
+      const newStatus = select.value;
+      alert(newStatus);
+
+      fetch(`/admin/routes/${routeId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus })
+      })
+              .then(response => {
+                if (response.ok) {
+                  alert('Cập nhật trạng thái thành công!');
+                  window.location.reload();
+                } else {
+                  alert('Cập nhật trạng thái thất bại!');
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('Cập nhật trạng thái thất bại!');
+              });
+    }
+    function handleKeyPress(event) {
+      if (event.keyCode === 13) {
+        document.getElementById('searchForm').submit();
+      }
+    }
+  </script>
 </head>
-
-<body>
+<body class="bg-gray-100">
 <div layout:fragment="content">
-  <div class="col-6">
-    <input type="text" class="form-control w-100 border border-1 border-success searchBox"
-           placeholder="Search user">
-    <a class="btn d-none searchShow" data-bs-toggle="collapse" href="#searchCollapsed" aria-expanded="false"
-       aria-controls="searchCollapsed">
-    </a>
-    <div class="collapse" id="searchCollapsed"></div>
-  </div>
-  <div class="flex w-full h-20 md:px-5">
-    <div class="flex w-1/2 h-full justify-start items-center">
-      <div class="font-bold text-3xl capitalize text-gray-700 italic">Danh sách tuyến xe</div>
-    </div>
-    <div class="flex w-1/2 h-full justify-end items-center">
-      <button
-              class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
-        Thêm
-      </button>
-    </div>
-  </div>
-  <div class="block md:m-5 md:mt-0">
-    <ul class="space-y-5 container mx-auto">
-      <li th:each="route : ${response.list}"
-          class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">
-        <div class="flex h-full w-full justify-between">
-          <div class="flex justify-start w-5/6 items-center space-x-10">
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Quản Lý Tuyến Đường</h1>
 
-            <img th:src="@{/components/noavt_male.png}"
-                 class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-
-            <div class="flex flex-col items-start justify-center">
-              <div th:text="'Bắt đầu từ:  ' + ${route.departureLocation}"></div>
-              <div th:text="'Kết thúc ở: ' + ${route.arrivalLocation}"></div>
-            </div>
-            <div class="flex flex-col items-start justify-center">
-              <div th:text="'Thời gian dự kiến:  ' + ${route.estimatedTime}"></div>
-              <div th:text="'Trạng thái: ' + ${route.status}"></div>
-            </div>
-          </div>
-          <div class="flex justify-end flex-1 space-x-3 items-center">
-            <button
-                    class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-green-500 hover:bg-green-600 shadow shadow-gray-500 text-white update-btn"
-                    th:attr="data-id=${route.routeId}">
-              Cập nhật
-            </button>
-            <button
-                    class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-red-500 hover:bg-red-600 shadow shadow-gray-500 text-white delete-btn"
-                    th:attr="data-id=${route.routeId}">
-              Xóa
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-<div layout:fragment="popup">
-  <!-- modal -->
-  <div
-          class="flex items-start modal md:px-3 absolute bottom-0  md:w-2/3 h-1/2 bg-gray-100/90 border border-bg-white/95 backdrop-blur-lg md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
-    <div class="flex flex-grow flex-col justify-start items-start">
-      <div
-              class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-300">
-        <div class="col-span-2">
-          <button
-                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">
-            Hủy
-          </button>
-        </div>
-        <div class="col-span-8 text-center">
-
-        </div>
-        <div class="col-span-2 flex items-center justify-center">
-          <button
-                  class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">
-            Thêm
-          </button>
-        </div>
+    <!-- Search -->
+    <form id="searchForm" action="/admin/routes/search" method="get">
+      <div class="mb-4 flex items-center">
+        <input type="text" name="keyword" id="keyword" placeholder="Tìm kiếm theo địa điểm, mã tuyến"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" onkeydown="handleKeyPress(event)">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2">Tìm kiếm</button>
       </div>
-      <form id="add-user-form" th:action="@{/admin/routes/create}" th:object="${createRouteForm}" method="post"
-            class="w-full h-full md:px-5 md:mt-7">
-        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-          <label for="departureLocation" class="capitalize font-medium">Địa điểm xuất phát: </label>
-          <input id="departureLocation" type="text" th:field="*{departureLocation}"
-                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
-                 required pattern="[a-zA-Z]" placeholder="Bắt đầu ở...">
-        </div>
-        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-          <label for="arrivalLocation" class="capitalize font-medium">Điểm đích: </label>
-          <input id="arrivalLocation" type="text" th:field="*{arrivalLocation}"
-                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
-                 required pattern="[a-zA-Z]" placeholder="Đi đến...">
-        </div>
-        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-          <label for="estimatedTime" class="capitalize font-medium">Thời gian dự kiến: </label>
-          <input id="estimatedTime" type="time" th:field="*{estimatedTime}"
-                 class="w-1/2 focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
-                 placeholder="Thời gian di chuyển...">
-        </div>
-        <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-          <label for="status" class="capitalize font-medium">Trạng thái:</label>
-          <select id="status" type="text" th:field="*{status}"
-                 class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white">
-            <option value="ACTIVE" selected> Active </option>
-          </select>
-        </div>
+    </form>
 
-      </form>
+    <div class="mb-4">
+      <a href="/admin/routes/add"
+         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Tuyến Đường</a>
+    </div>
+
+    <table class="table-auto border-collapse border border-gray-300 w-full bg-white">
+      <thead>
+      <tr>
+        <th class="border border-gray-300 px-4 py-2">Mã Tuyến</th>
+        <th class="border border-gray-300 px-4 py-2">Điểm Khởi Hành</th>
+        <th class="border border-gray-300 px-4 py-2">Điểm Đến</th>
+        <th class="border border-gray-300 px-4 py-2">Thời Gian Ước Tính</th>
+        <th class="border border-gray-300 px-4 py-2">Trạng Thái</th>
+        <th class="border border-gray-300 px-4 py-2">Hành Động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="text-center" th:each="route : ${routes}">
+        <td class="py-2 px-4 border-b" th:text="${route.routeId}"></td>
+        <td class="py-2 px-4 border-b" th:text="${route.departureLocation}"></td>
+        <td class="py-2 px-4 border-b" th:text="${route.arrivalLocation}"></td>
+        <td class="py-2 px-4 border-b" th:text="${route.estimatedTime}"></td>
+        <td class="py-2 px-4 border-b">
+          <select th:data-routeid="${route.routeId}" onchange="updateRouteStatus(this)"
+                  th:classappend="${route.status == T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE} ? 'bg-green-200 text-green-700 border-green-400' : 'bg-red-200 text-red-700 border-red-400'"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-center">
+            <option value="ACTIVE" th:selected="${route.status == T(com.example.ticketbooker.Util.Enum.RouteStatus).ACTIVE}">ACTIVE</option>
+            <option value="INACTIVE" th:selected="${route.status == T(com.example.ticketbooker.Util.Enum.RouteStatus).INACTIVE}">INACTIVE</option>
+          </select>
+        </td>
+        <td class="py-2 px-4 border-b justify-center">
+          <a th:href="@{/admin/routes/{id}(id=${route.routeId})}"
+             class="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-2 rounded">Sửa</a>
+          <button type="button" th:attr="data-id=${route.routeId}"
+                  class="delete-btn bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">
+            Xóa
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="mt-4 flex justify-center">
+      <ul class="flex">
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="mx-1 px-3 py-2 rounded-lg"
+            th:classappend="${currentPage == i} ? 'bg-blue-500 text-white' : 'bg-gray-200'">
+          <a th:href="@{/admin/routes(page=${i}, size=10)}" th:text="${i + 1}"></a>
+        </li>
+      </ul>
     </div>
   </div>
-  <!-- /modal -->
 </div>
-
 </body>
-
 </html>
-<script type="text/javascript" th:src="@{/js/RouteManagement.js}"></script>
