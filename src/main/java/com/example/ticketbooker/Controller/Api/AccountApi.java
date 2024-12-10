@@ -1,10 +1,18 @@
 package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Account.AccountDTO;
+import com.example.ticketbooker.DTO.Account.ResetPasswordRequest;
 import com.example.ticketbooker.Service.AccountService;
+import com.example.ticketbooker.Service.OutSource.EmailService;
+import com.example.ticketbooker.Util.Mapper.AccountMapper;
+import com.example.ticketbooker.Util.Utils.NetworkInterfaceUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
+
+import java.net.SocketException;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -12,6 +20,8 @@ public class AccountApi {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmailService emailService;
 
     //Xóa account
     @DeleteMapping("/{id}")
@@ -65,4 +75,31 @@ public class AccountApi {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/confirm-reset")
+    public boolean resetPassword(@RequestBody ResetPasswordRequest request) {
+        Context context = new Context();
+        AccountDTO resettingAccount = accountService.getAccountByUsername(request.getUsername());
+        String currentIp = "";
+        try {
+            currentIp = NetworkInterfaceUtils.getIPv4Address();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//      vì đang là chạy localhost nên sẽ để url là ip của thiết bị server
+        String requestUrl = "http://"+currentIp+":8080/api/accounts/reset-password?accountId=" + resettingAccount.getId()+"&newPassword="+request.getNewPassword();
+        context.setVariable("resetLink", requestUrl);
+        return emailService.sendEmail(resettingAccount.getEmail(), "Reset Password Confirm", "EmailTemplate/ResetPassword", context);
+    }
+
+    @GetMapping("/reset-password")
+    public void resetPassword(@RequestParam int accountId, @RequestParam String newPassword, HttpServletResponse response) {
+        try {
+            AccountDTO accountDTO = accountService.getAccountById(accountId);
+            accountDTO.setPassword(newPassword);
+            accountService.updateAccount(accountDTO);
+            response.sendRedirect("/auth");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
