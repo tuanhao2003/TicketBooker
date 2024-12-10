@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Chuyến xe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div layout:fragment="content">
+    <div class="container mx-auto p-4">
+        <h1 th:if="${tripDTO.id} != null" class="text-2xl font-bold mb-4">Cập Nhật Chuyến Xe</h1>
+
+        <!-- Form để thêm mới hoặc cập nhật chuyến xe -->
+        <form th:action="${tripDTO.id == null} ? @{/admin/trips/add} : @{/admin/trips/update}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <!-- Trip ID (hidden for update) -->
+            <input th:if="${tripDTO.id != null}" type="hidden" name="id" th:value="${tripDTO.id}">
+
+            <!-- Route ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="routeId">Mã số tuyến</label>
+                <input type="number" name="route.routeId" id="routeId" th:value="${tripDTO.route?.routeId}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Trip Status -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="tripStatus">Trạng thái chuyến xe</label>
+                <select name="tripStatus" id="tripStatus" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="SCHEDULED" th:selected="${tripDTO.tripStatus == T(com.example.ticketbooker.Util.Enum.TripStatus).SCHEDULED}">SCHEDULED</option>
+                    <option value="COMPLETED" th:selected="${tripDTO.tripStatus == T(com.example.ticketbooker.Util.Enum.TripStatus).COMPLETED}">COMPLETED</option>
+                    <option value="CANCELLED" th:selected="${tripDTO.tripStatus == T(com.example.ticketbooker.Util.Enum.TripStatus).CANCELLED}">CANCELLED</option>
+                </select>
+            </div>
+
+            <!-- Bus ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="busId">Mã số xe</label>
+                <input type="text" name="bus.id" id="busId" th:value="${tripDTO.bus?.id}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Driver ID -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="driverId">Mã tài xế</label>
+                <input type="number" name="driver.driverId" id="driverId" th:value="${tripDTO.driver?.driverId}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Departure Station -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="departureStation">Điểm khởi hành</label>
+                <input type="text" name="departureStation" id="departureStation" th:value="${tripDTO.departureStation}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Arrival Station -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="arrivalStation">Điểm đến</label>
+                <input type="text" name="arrivalStation" id="arrivalStation" th:value="${tripDTO.arrivalStation}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Departure Time -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="departureTime">Thời gian khởi hành</label>
+                <input type="datetime-local" name="departureTime" id="departureTime" th:value="${tripDTO.departureTime}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Arrival Time -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="arrivalTime">Thời gian kết thúc</label>
+                <input type="datetime-local" name="arrivalTime" id="arrivalTime" th:value="${tripDTO.arrivalTime}"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Price -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Giá vé</label>
+                <input type="number" name="price" id="price" th:value="${tripDTO.price}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <!-- Available Seats -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="availableSeats">Chỗ ngồi còn trống</label>
+                <input type="number" name="availableSeats" id="availableSeats" th:value="${tripDTO.availableSeats}" required
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <span th:if="${tripDTO.id == null}">Thêm Chuyến Xe</span>
+                    <span th:if="${tripDTO.id != null}">Cập Nhật Chuyến Xe</span>
+                </button>
+                <a href="/admin/trips"
+                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

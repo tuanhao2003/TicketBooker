@@ -2,12 +2,14 @@ package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Routes.SearchRouteRequest;
 import com.example.ticketbooker.DTO.Trips.*;
+import com.example.ticketbooker.DTO.Users.UserResponse;
 import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Repository.TripRepo;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Mapper.TripMapper;
+import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -152,5 +154,17 @@ public class TripServiceImp implements TripService {
 
     public Trips getTripByIdpath(int tripId) {
         return tripRepo.findById(tripId);
+    }
+
+    @Override
+    public ResponseTripDTO getTripByIds(int tripId) {
+        ResponseTripDTO result = new ResponseTripDTO();
+        try {
+            result = TripMapper.toResponseDTO(this.tripRepo.findAllById(tripId));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return result;
+        }
+        return result;
     }
 }

@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //Hàm load Tài xế
         let driverOptions = '<option value="">Chọn tài xế</option>';
 
-        fetch('/admin/drivers/getAll')
+        fetch('/api/drivers/getAll')
             .then(response => response.json())
             .then (data => {
                 console.log(data)

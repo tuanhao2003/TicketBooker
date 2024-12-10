@@ -5,12 +5,14 @@ import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.TripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
 import com.example.ticketbooker.Entity.Trips;
 import com.example.ticketbooker.Service.BusService;
 import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Enum.TripStatus;
+import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,8 +96,6 @@ public class TripController {
         return "redirect:/admin/trips";
     }
 
-
-
     @PostMapping("/update")
     public String update(@ModelAttribute("updateTripForm") UpdateTripDTO updateTripDTO, Model model) {
         try {
@@ -112,5 +112,13 @@ public class TripController {
         return "redirect:/admin/trips";
     }
 
-
+    @GetMapping("/details/{id}")
+    public String tripDetails(@PathVariable int id, Model model) {
+        UpdateUserRequest updateUserRequest = new UpdateUserRequest();
+        if(tripService.getUserById(id).getUsersCount() == 1){
+            updateUserRequest = UserMapper.toUpdateDTO(userService.getUserById(id).getListUsers().get(0));
+        }
+        model.addAttribute("updateUserForm", updateUserRequest);
+        return "View/Admin/Users/UserDetails";
+    }
 }

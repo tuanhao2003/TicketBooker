@@ -78,7 +78,6 @@
                                     <select class="block w-full border border-gray-300 rounded px-2 py-1"
                                             id="driverName" name="driver.driverId" required>
                                         <option value=""></option>
-
                                     </select>
                                 </div>
                             </div>
@@ -245,81 +244,43 @@
             </div>
         </div>
         <!-- Bảng chuyến xe -->
-        <!-- Lặp qua danh sách chuyến xe -->
-        <div th:each="trip : ${trips}" class="bg-white rounded-lg shadow-lg mb-6 trip-container overflow-hidden">
-            <div class="px-4 py-3 rounded-t-lg flex flex-col sm:flex-row justify-between items-center bg-purple-700">
-                <div class="flex flex-col sm:flex-row items-center mb-2 sm:mb-0">
-                    <div class="flex items-center mb-1 sm:mb-0 sm:mr-4">
-                        <p class="text-xs sm:text-sm text-purple-200 mr-1">Mã chuyến xe:</p>
-                        <p class="text-xs sm:text-sm text-white font-semibold trip-id" th:text="${trip.id}"></p>
-                    </div>
-                    <div class="flex items-center">
-                        <p class="text-xs sm:text-sm text-purple-200 mr-1">Mã tuyến:</p>
-                        <p class="text-xs sm:text-sm text-white font-semibold route-id" th:text="${trip.route.routeId}"></p>
-                        <p class="text-xs sm:text-sm text-gray-500 bus-id hidden" th:text="${trip.bus.id}"></p>
-                        <p class="text-xs sm:text-sm text-gray-500 bus-id hidden" th:text="${trip.bus.id}"></p>
-                        <p class="text-xs sm:text-sm text-gray-500 driver-id hidden" th:text="${trip.driver.driverId}"></p>
-                        <p class="text-xs sm:text-sm text-gray-500 status hidden" th:text="${trip.tripStatus}"></p>
-                    </div>
-                </div>
-                <div class="flex space-x-2">
-                    <button
-                        class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded text-xs sm:text-sm transition duration-300 ease-in-out transform hover:scale-105"
-                        onclick="editTrip(this)">
-                        Chỉnh sửa
-                    </button>
-                    <button onclick="confirmDeleteTrip(this)"
-                        class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-xs sm:text-sm transition duration-300 ease-in-out transform hover:scale-105">
-                        Xóa
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded-b-lg shadow-inner p-4">
-                <div class="flex flex-col sm:flex-row justify-between items-center bg-white">
-                    <div class="text-center w-full sm:w-1/4 mb-4 sm:mb-0">
-                        <p class="text-3xl sm:text-4xl font-bold text-purple-700 departure-location"
-                            th:text="${trip.route.departureLocation}"></p>
-                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 departure-station">
-                            <span th:text="${trip.departureStation}"></span>
-                        </p>
-                    </div>
-                    <div class="text-center w-full sm:w-1/4 mb-4 sm:mb-0">
-                        <p class="text-gray-700 departureTime hidden" th:text="${trip.departureTime}"></p>
-                        <p class="text-gray-700 arrivalTime hidden" th:text="${trip.arrivalTime}"></p>
-                        <div class="flex justify-center items-center space-x-1">
-                            <p class="text-gray-700 text-sm sm:text-base font-medium" id="departureDate"></p>
-                            <p class="text-gray-700 text-sm sm:text-base font-medium" id="departureHour"></p>
-                        </div>
-                        <div class="flex items-center justify-center space-x-3 mt-2">
-                            <span class="text-yellow-500"><i class="fa-solid fa-bus text-lg"></i></span>
-                            <p class="text-gray-700 price text-sm sm:text-base font-semibold">
-                                <span th:text="${trip.price}"></span> VND
-                            </p>
-                            <span class="text-gray-400">|</span>
-                            <p
-                                class="text-gray-700 availableSeats text-sm sm:text-base font-semibold flex items-center">
-                                <span th:text="${trip.availableSeats}"></span> Chỗ trống
-                                <i class="fa-solid fa-angle-down ml-1"></i>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="text-center w-full sm:w-1/4 mb-4 sm:mb-0">
-                        <p class="text-3xl sm:text-4xl font-bold text-purple-700 arrival-location"
-                            th:text="${trip.route.arrivalLocation}"></p>
-                        <p class="text-lg sm:text-xl font-medium text-gray-600 mt-2 arrival-station">
-                            <span th:text="${trip.arrivalStation}"></span>
-                        </p>
-                    </div>
-                    <div class="flex flex-col items-center w-full sm:w-1/4">
-                        <img src="https://cdn.pixabay.com/photo/2020/08/05/13/28/eco-5465481_1280.png" alt="Eco class"
-                            class="w-12 mb-2">
-                        <p class="text-sm text-gray-600 mb-1 license" th:text="${trip.bus.licensePlate}">51B-051.78</p>
-                        <p class="text-xl sm:text-2xl text-red-600 font-bold" th:text="${trip.driver.name}">Phan Văn Tài
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <table class="table-auto w-full bg-white rounded-lg shadow-lg mb-6 border-collapse">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2 border">Mã chuyến xe</th>
+                <th class="px-4 py-2 border">Mã tuyến</th>
+                <th class="px-4 py-2 border">Điểm đi</th>
+                <th class="px-4 py-2 border">Điểm đến</th>
+                <th class="px-4 py-2 border">Thời gian khởi hành</th>
+                <th class="px-4 py-2 border">Giá vé</th>
+                <th class="px-4 py-2 border">Chỗ trống</th>
+                <th class="px-4 py-2 border">Biển số xe</th>
+                <th class="px-4 py-2 border">Tài xế</th>
+                <th class="px-4 py-2 border">Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Lặp qua danh sách chuyến xe -->
+            <tr th:each="trip : ${trips}" class="text-gray-700 hover:bg-gray-100">
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.id}"></td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.route.routeId}"></td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.route.departureLocation}"></td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.route.arrivalLocation}"></td>
+                <td class="px-4 py-2 text-center border-b">
+                    <span th:text="${trip.departureTime}"></span>
+                </td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.price} + ' VND'"></td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.availableSeats} + ' chỗ'"></td>
+                <td class="px-4 py-2 text-center border-b" th:text="${trip.bus.licensePlate}"></td>
+                <td class="px-4 py-2 text-center font-semibold border-b" th:text="${trip.driver.name}"></td>
+                <td class="py-2 text-center border-b">
+                    <a href="/admin/trip/1" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Phân trang -->
         <div class="pagination-container flex justify-center items-center mt-4">
             <ul class="flex space-x-2">
                 <li th:if="${currentPage > 0}">
@@ -339,6 +300,7 @@
                 </li>
             </ul>
         </div>
+
     </div>
 </body>
 
