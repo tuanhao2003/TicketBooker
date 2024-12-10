@@ -1,10 +1,9 @@
 package com.example.ticketbooker.Service;
 
-import com.example.ticketbooker.DTO.Users.AddUserRequest;
-import com.example.ticketbooker.DTO.Users.UserIdRequest;
-import com.example.ticketbooker.DTO.Users.UserResponse;
-import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
+import com.example.ticketbooker.DTO.Users.*;
 import com.example.ticketbooker.Util.Enum.Gender;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     boolean addUser(AddUserRequest dto);
@@ -12,6 +11,7 @@ public interface UserService {
     boolean updateUser(UpdateUserRequest dto);
     boolean deleteUser(UserIdRequest dto);
     UserResponse getAllUsers();
+    Page<UserDTO> getAllUsers(Pageable pageable);
     UserResponse getUserById(int userId);
     UserResponse getAllUserByName(String username);
     UserResponse getAllUsersByGender(Gender gender);

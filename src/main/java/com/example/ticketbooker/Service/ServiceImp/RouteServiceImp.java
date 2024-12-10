@@ -7,6 +7,8 @@ import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Util.Enum.RouteStatus;
 import com.example.ticketbooker.Util.Mapper.RouteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,6 +79,13 @@ public class RouteServiceImp implements RouteService {
             return null;
         }
         return result;
+    }
+
+    @Override
+    public Page<RouteDTO> findAllRoutes(Pageable pageable) {
+        Page<Routes> routes = this.routeRepo.findAll(pageable);
+        System.out.println(routes.toString());
+        return routes.map(RouteMapper::toDTO);
     }
 
     @Override

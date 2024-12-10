@@ -2,13 +2,18 @@ package com.example.ticketbooker.Controller;
 
 import com.example.ticketbooker.DTO.Users.AddUserRequest;
 import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
+import com.example.ticketbooker.DTO.Users.UserDTO;
 import com.example.ticketbooker.Service.UserService;
 import com.example.ticketbooker.Util.Enum.UserStatus;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -17,9 +22,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public String allUsers(Model model) {
-        model.addAttribute("responseDTO", userService.getAllUsers());
+    public String allUsers(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "size",defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<UserDTO> userDTOPage = this.userService.getAllUsers(pageable);
         model.addAttribute("createUserForm", new AddUserRequest());
+        model.addAttribute("users", userDTOPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userDTOPage.getTotalPages());
         return "View/Admin/Users/ListUsers";
     }
 
@@ -37,6 +48,7 @@ public class UserController {
     public String createUser(@ModelAttribute("createUserForm") AddUserRequest addUserRequest, Model model) {
         try {
             addUserRequest.setStatus(UserStatus.ACTIVE);
+            System.out.println("add user object: "+addUserRequest);
             boolean result = userService.addUser(addUserRequest);
             if (result) {
                 model.addAttribute("successMessage", "Successfully created");
