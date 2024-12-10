@@ -3,12 +3,10 @@ package com.example.ticketbooker.Controller;
 import com.example.ticketbooker.DTO.Account.AccountDTO;
 import com.example.ticketbooker.DTO.Ticket.TicketResponse;
 import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
-import com.example.ticketbooker.DTO.Users.UserResponse;
 import com.example.ticketbooker.Entity.Account;
-import com.example.ticketbooker.Entity.CustomOAuth2User;
 import com.example.ticketbooker.Entity.CustomUserDetails;
-import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Service.AccountService;
+import com.example.ticketbooker.Service.OutSource.EmailService;
 import com.example.ticketbooker.Service.ServiceImp.CustomOAuthUserService;
 import com.example.ticketbooker.Service.ServiceImp.CustomUserDetailsService;
 import com.example.ticketbooker.Service.TicketService;
@@ -19,30 +17,22 @@ import com.example.ticketbooker.Util.Mapper.UserMapper;
 import com.example.ticketbooker.Util.SecurityUtils;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.Objects;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/profile")
@@ -55,6 +45,8 @@ public class ProfileController {
     private final CustomOAuthUserService customOAuthUserService;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
     // Constructor injection
     @Autowired
     public ProfileController(TicketService ticketService, AccountService accountService, UserService userService, CustomUserDetailsService customUserDetailsService, CustomOAuthUserService customOAuthUserService ,PasswordEncoder passwordEncoder) {

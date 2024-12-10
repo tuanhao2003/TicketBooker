@@ -172,5 +172,8 @@ public class MainController {
         return "View/User/Registered/Profile/TicketHistory";
     }
 
-
+    @GetMapping("/reset-password")
+    public String resetPassword() {
+        return "View/Util/ResetPassword";
+    }
 }

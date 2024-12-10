@@ -1,71 +1,47 @@
-//package com.example.ticketbooker.Service.OutSource;
-//
-//import java.net.InetAddress;
-//import java.net.NetworkInterface;
-//import java.net.SocketException;
-//import java.util.Enumeration;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.mail.SimpleMailMessage;
-//import org.springframework.mail.javamail.JavaMailSender;
-//import org.springframework.stereotype.Component;
-//
-//@Component
-//public class EmailService {
-//    @Autowired
-//    private JavaMailSender mailSender;
-//
-//    private String getIPv4() throws SocketException {
-//        // lay tat ca interface mang
-//        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-//
-//        // lap qua tung mang
-//        while (networkInterfaces.hasMoreElements()) {
-//            NetworkInterface networkInterface = networkInterfaces.nextElement();
-//            if (networkInterface.isUp() && !networkInterface.isLoopback()) {
-//                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
-//
-//                // lap qua tung ip cua mang
-//                while (inetAddresses.hasMoreElements()) {
-//                    InetAddress inetAddress = inetAddresses.nextElement();
-//                    if (inetAddress instanceof java.net.Inet4Address) {
-//                        return inetAddress.getHostAddress();
-//                    }
-//                }
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public void emailTemplate(String reciever, String bareid) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(reciever);
-//        message.setSubject("Reset password response");
-//        try {
-//            message.setText(getIPv4() == null ? "" : "Please click the link below to reset your password: \nhttp://" + getIPv4() + ":8080/request_reset?bareid="+bareid);
-//        } catch (SocketException e) {
-//            System.out.println(e);
-//        }
-//        message.setFrom("matauhu174@gmail.com");
-//        mailSender.send(message);
-//    }
-//
-////    @Override
-////    public int sendEmail(int id, String newpass) {
-////        try {
-////            thanhVien member = this.thanhVienRepository.findByMatv(id);
-////            if (member != null) {
-////                if (member.getEmail() != null && member.getEmail() != "") {
-////                    this.emailSender.emailTemplate(member.getEmail(),
-////                            bareEncode(id) + "&password=" + bareEncodeStr(newpass));
-////                    return 1;
-////                }else{
-////                    return 2;
-////                }
-////            }
-////        } catch (Exception e) {
-////            System.out.println(e);
-////        }
-////        return 0;
-////    }
-//}
+package com.example.ticketbooker.Service.OutSource;
+
+import java.net.SocketException;
+
+import jakarta.mail.internet.MimeMessage;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+@Component
+@NoArgsConstructor
+public class EmailService {
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    @Value("${spring.mail.username}")
+    private String sender;
+
+    public boolean sendEmail(String reciever, String title, String htmlTemplate, Context context) {
+        MimeMessage htmlMessage = mailSender.createMimeMessage();
+        MimeMessageHelper htmlMail = new MimeMessageHelper(htmlMessage, "utf-8");
+
+        try {
+
+            htmlMail.setFrom(sender);
+            htmlMail.setTo(reciever);
+            htmlMail.setSubject(title);
+
+            String htmlContent = templateEngine.process(htmlTemplate, context);
+
+            htmlMail.setText(htmlContent, true);
+
+            mailSender.send(htmlMessage);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}
