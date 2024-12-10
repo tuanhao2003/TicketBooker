@@ -1,110 +1,275 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--    layout:decorate="~{View/Layout/AdminLayout.html}">-->
+
+<!--<head>-->
+<!--    <title>Quản lý người dùng</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div layout:fragment="content">-->
+<!--        <div class="flex w-full h-20 md:px-5">-->
+<!--            <div class="flex w-1/2 h-full justify-start items-center">-->
+<!--                <div class="font-bold text-3xl capitalize text-gray-700 italic">danh sách tài khoản</div>-->
+<!--            </div>-->
+<!--            <div class="flex w-1/2 h-full justify-end items-center">-->
+<!--                <button-->
+<!--                    class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">-->
+<!--                    Thêm-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="block md:m-5 md:mt-0">-->
+<!--            <ul class="space-y-5 container mx-auto">-->
+<!--                <li th:each="user : ${responseDTO.listUsers}"-->
+<!--                    class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">-->
+<!--                    <div class="flex h-full w-full justify-between">-->
+<!--                        <div class="flex justify-start w-5/6 items-center space-x-10">-->
+
+<!--                            <img th:if="${user.profilePhoto != null}" th:src="${user.profilePhoto}"-->
+<!--                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"-->
+<!--                                th:src="@{/components/noavt_male.png}"-->
+<!--                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"-->
+<!--                                th:src="@{/components/noavt_female.png}"-->
+<!--                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+<!--                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"-->
+<!--                                th:src="@{/components/noavt_other.png}"-->
+<!--                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">-->
+
+<!--                            <div class="flex flex-col items-start justify-center">-->
+<!--                                <div th:text="${user.fullName}"> </div>-->
+<!--&lt;!&ndash;                                <div th:text="${user.account != null ? user.account.email : 'No email'}"></div>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="flex justify-end flex-1 space-x-3 items-center">-->
+<!--                            <button-->
+<!--                                class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-gray-500 hover:bg-gray-600 shadow shadow-gray-500 text-white details-btn"-->
+<!--                                th:attr="data-id=${user.id}">-->
+<!--                                Chi tiết-->
+<!--                            </button>-->
+<!--                            <button-->
+<!--                                class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-violet-500 hover:bg-violet-600 shadow shadow-gray-500 text-white delete-btn"-->
+<!--                                th:attr="data-id=${user.id}">-->
+<!--                                Xóa-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div layout:fragment="popup">-->
+<!--        &lt;!&ndash; modal &ndash;&gt;-->
+<!--        <div-->
+<!--            class="flex items-start modal md:px-3 absolute -bottom-5 -bottom-full md:w-2/3 h-1/2 bg-gray-50/75 border border-white/95 backdrop-blur md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">-->
+<!--            <div class="flex flex-grow flex-col justify-start items-start">-->
+<!--                <div-->
+<!--                    class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-400">-->
+<!--                    <div class="col-span-2">-->
+<!--                        <button-->
+<!--                            class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">-->
+<!--                            Hủy-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div class="col-span-8 text-center">-->
+<!--                        Thông tin khách hàng-->
+<!--                    </div>-->
+<!--                    <div class="col-span-2 flex items-center justify-center">-->
+<!--                        <button-->
+<!--                            class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">-->
+<!--                            Thêm-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <form id="add-user-form" th:action="@{/admin/users/create}" th:object="${createUserForm}" method="post"-->
+<!--                    class="w-full h-full md:px-5 md:mt-7">-->
+<!--                    <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--                        <label for="customerFullName" class="capitalize font-medium">Họ và tên:</label>-->
+<!--                        <input id="customerFullName" type="text" th:field="*{fullName}"-->
+<!--                            class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"-->
+<!--                            required pattern="[a-zA-Z]" placeholder="Họ tên khách hàng">-->
+<!--                    </div>-->
+<!--                    <div class="w-full flex flex-col md:my-3 items-start justify-evenly">-->
+<!--                        <label for="customerPhone" class="capitalize font-medium">Số điện thoại:</label>-->
+<!--                        <input id="customerPhone" type="text" th:field="*{phone}"-->
+<!--                            class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"-->
+<!--                            required pattern="[0-9]{10}" placeholder="Số điện thoại khách hàng">-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; /modal &ndash;&gt;-->
+<!--    </div>-->
+
+<!--</body>-->
+
+<!--</html>-->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{View/Layout/AdminLayout.html}">
-
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{View/Layout/AdminLayout.html}">
 <head>
-    <title>Quản lý người dùng</title>
-</head>
+    <meta charset="UTF-8">
+    <title>Quản lý Người Dùng</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        function updateUserStatus(select) {
+            const userId = select.dataset.userid;
+            const newStatus = select.value;
 
-<body>
-    <div layout:fragment="content">
-        <div class="flex w-full h-20 md:px-5">
-            <div class="flex w-1/2 h-full justify-start items-center">
-                <div class="font-bold text-3xl capitalize text-gray-700 italic">danh sách tài khoản</div>
+            fetch(`/api/users/${userId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cập nhật trạng thái thành công!');
+                        window.location.reload();
+                    } else {
+                        alert('Cập nhật trạng thái thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Cập nhật trạng thái thất bại!');
+                });
+        }
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit();
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+<div layout:fragment="content">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Quản Lý Người Dùng</h1>
+
+        <!-- Search -->
+        <form id="searchForm" action="/admin/users/search" method="get">
+            <div class="mb-4 flex items-center">
+                <input type="text" name="keyword" id="keyword" placeholder="Tìm kiếm theo tên, số điện thoại"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" onkeydown="handleKeyPress(event)">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2">Tìm kiếm</button>
             </div>
-            <div class="flex w-1/2 h-full justify-end items-center">
-                <button
-                    class="add-user-open px-3 font-semibold h-1/2 w-1/6 rounded-lg bg-green-500 hover:bg-green-600 text-white">
-                    Thêm
-                </button>
+        </form>
+
+        <!-- Thông báo thành công hoặc lỗi -->
+        <div>
+            <div th:if="${successMessage}"
+                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+                 role="alert">
+                <span th:text="${errorMessage}"></span>
             </div>
         </div>
 
-        <div class="block md:m-5 md:mt-0">
-            <ul class="space-y-5 container mx-auto">
-                <li th:each="user : ${responseDTO.listUsers}"
-                    class="rounded-2xl md:h-24 shadow-md border text-black md:py-3 md:px-10 bg-white">
-                    <div class="flex h-full w-full justify-between">
-                        <div class="flex justify-start w-5/6 items-center space-x-10">
+        <div class="flex justify-end mb-4">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded add-user-open">
+                Thêm Người Dùng
+            </button>
+        </div>
 
-                            <img th:if="${user.profilePhoto != null}" th:src="${user.profilePhoto}"
-                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).MALE}"
-                                th:src="@{/components/noavt_male.png}"
-                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).FEMALE}"
-                                th:src="@{/components/noavt_female.png}"
-                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-                            <img th:if="${user.profilePhoto == null and user.gender == T(com.example.ticketbooker.Util.Enum.Gender).OTHER}"
-                                th:src="@{/components/noavt_other.png}"
-                                class="rounded-full shadow-inner h-full aspect-square border shadow-gray-500">
-
-                            <div class="flex flex-col items-start justify-center">
-                                <div th:text="${user.fullName}"> </div>
-<!--                                <div th:text="${user.account != null ? user.account.email : 'No email'}"></div>-->
-                            </div>
-                        </div>
-                        <div class="flex justify-end flex-1 space-x-3 items-center">
-                            <button
-                                class=" md:w-28 capitalize px-3 font-semibold h-3/5 rounded-lg bg-gray-500 hover:bg-gray-600 shadow shadow-gray-500 text-white details-btn"
-                                th:attr="data-id=${user.id}">
-                                Chi tiết
-                            </button>
-                            <button
-                                class="lg:w-28 capitalize px-3 font-semibold h-3/5 rounded-md bg-violet-500 hover:bg-violet-600 shadow shadow-gray-500 text-white delete-btn"
-                                th:attr="data-id=${user.id}">
-                                Xóa
-                            </button>
-                        </div>
-                    </div>
+        <table class="min-w-full bg-white">
+            <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Tên</th>
+                <th class="py-2 px-4 border-b">Số Điện Thoại</th>
+                <th class="py-2 px-4 border-b">Địa Chỉ</th>
+                <th class="py-2 px-4 border-b">Ngày Sinh</th>
+                <th class="py-2 px-4 border-b">Giới Tính</th>
+                <th class="py-2 px-4 border-b">Trạng Thái</th>
+                <th class="py-2 px-4 border-b">Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}" class="text-center">
+                <td class="py-2 px-4 border-b" th:text="${user.userId}"></td>
+                <td class="py-2 px-4 border-b" th:text="${user.fullName}"></td>
+                <td class="py-2 px-4 border-b" th:text="${user.phone}"></td>
+                <td class="py-2 px-4 border-b" th:text="${user.address}"></td>
+                <td class="py-2 px-4 border-b" th:text="${#dates.format(user.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                <td class="py-2 px-4 border-b" th:text="${user.gender}"></td>
+                <td class="py-2 px-4 border-b">
+                    <select th:data-userid="${user.userId}" onchange="updateUserStatus(this)"
+                            th:classappend="${user.status == T(com.example.ticketbooker.Util.Enum.UserStatus).ACTIVE} ? 'bg-green-200 text-green-700 border-green-400' : 'bg-red-200 text-red-700 border-red-400'"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-center">
+                        <option value="ACTIVE" th:selected="${user.status == T(com.example.ticketbooker.Util.Enum.UserStatus).ACTIVE}">ACTIVE</option>
+                        <option value="INACTIVE" th:selected="${user.status == T(com.example.ticketbooker.Util.Enum.UserStatus).INACTIVE}">INACTIVE</option>
+                    </select>
+                </td>
+                <td class="py-2 px-4 border-b">
+                    <p th:attr="data-id=${user.userId}"
+                       class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-5 rounded mr-2 details-btn">Sửa</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="mt-4 flex justify-center">
+            <ul class="flex">
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="mx-1 px-3 py-2 rounded-lg"
+                    th:classappend="${currentPage == i} ? 'bg-blue-500 text-white' : 'bg-gray-200'">
+                    <a th:href="@{/admin/users(page=${i}, size=10)}" th:text="${i + 1}"></a>
                 </li>
             </ul>
         </div>
     </div>
-    <div layout:fragment="popup">
-        <!-- modal -->
-        <div
+</div>
+<div layout:fragment="popup">
+    <!-- modal -->
+    <div
             class="flex items-start modal md:px-3 absolute -bottom-5 -bottom-full md:w-2/3 h-1/2 bg-gray-50/75 border border-white/95 backdrop-blur md:rounded-2xl shadow-md shadow-gray-200 ease-in-out transition-all duration-700">
-            <div class="flex flex-grow flex-col justify-start items-start">
-                <div
+        <div class="flex flex-grow flex-col justify-start items-start">
+            <div
                     class="text-center w-full uppercase font-semibold grid grid-cols-12 md:py-4 border border-transparent border-b-zinc-400">
-                    <div class="col-span-2">
-                        <button
+                <div class="col-span-2">
+                    <button
                             class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-close">
-                            Hủy
-                        </button>
-                    </div>
-                    <div class="col-span-8 text-center">
-                        Thông tin khách hàng
-                    </div>
-                    <div class="col-span-2 flex items-center justify-center">
-                        <button
-                            class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">
-                            Thêm
-                        </button>
-                    </div>
+                        Hủy
+                    </button>
                 </div>
-                <form id="add-user-form" th:action="@{/admin/users/create}" th:object="${createUserForm}" method="post"
-                    class="w-full h-full md:px-5 md:mt-7">
-                    <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-                        <label for="customerFullName" class="capitalize font-medium">Họ và tên:</label>
-                        <input id="customerFullName" type="text" th:field="*{fullName}"
-                            class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
-                            required pattern="[a-zA-Z]" placeholder="Họ tên khách hàng">
-                    </div>
-                    <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
-                        <label for="customerPhone" class="capitalize font-medium">Số điện thoại:</label>
-                        <input id="customerPhone" type="text" th:field="*{phone}"
-                            class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
-                            required pattern="[0-9]{10}" placeholder="Số điện thoại khách hàng">
-                    </div>
-                </form>
+                <div class="col-span-8 text-center">
+                    Thông tin khách hàng
+                </div>
+                <div class="col-span-2 flex items-center justify-center">
+                    <button
+                            class="font-semibold text-blue-500 no-underline outline-none hover:outline-none add-user-submit">
+                        Thêm
+                    </button>
+                </div>
             </div>
+            <form id="add-user-form" th:action="@{/admin/users/create}" th:object="${createUserForm}" method="post"
+                  class="w-full h-full md:px-5 md:mt-7">
+                <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+                    <label for="customerFullName" class="capitalize font-medium">Họ và tên:</label>
+                    <input id="customerFullName" type="text" th:field="*{fullName}"
+                           class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                           required pattern="[a-zA-Z]" placeholder="Họ tên khách hàng">
+                </div>
+                <div class="w-full flex flex-col md:my-3 items-start justify-evenly">
+                    <label for="customerPhone" class="capitalize font-medium">Số điện thoại:</label>
+                    <input id="customerPhone" type="text" th:field="*{phone}"
+                           class="w-full focus:outline-none flex-grow shadow-inner shadow-gray-200 rounded-md p-1 border border-gray-400 bg-white"
+                           required pattern="[0-9]{10}" placeholder="Số điện thoại khách hàng">
+                </div>
+            </form>
         </div>
-        <!-- /modal -->
     </div>
-
+    <!-- /modal -->
+</div>
 </body>
-
 </html>
+
 <script type="text/javascript" th:src="@{/js/UserManagement.js}"></script>

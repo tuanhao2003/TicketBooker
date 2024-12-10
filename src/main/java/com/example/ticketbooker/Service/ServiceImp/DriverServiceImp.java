@@ -1,6 +1,7 @@
 package com.example.ticketbooker.Service.ServiceImp;
 
 import com.example.ticketbooker.DTO.Driver.AddDriverDTO;
+import com.example.ticketbooker.DTO.Driver.DriverDTO;
 import com.example.ticketbooker.DTO.Driver.ResponseDriverDTO;
 import com.example.ticketbooker.DTO.Driver.UpdateDriverDTO;
 import com.example.ticketbooker.Entity.Driver;
@@ -8,8 +9,9 @@ import com.example.ticketbooker.Repository.DriverRepo;
 import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Util.Enum.DriverStatus;
 import com.example.ticketbooker.Util.Mapper.DriverMapper;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -79,6 +81,17 @@ public class DriverServiceImp implements DriverService {
             return null;
         }
         return response;
+    }
+
+    @Override
+    public Page<DriverDTO> findAll(Pageable pageable) {
+        try{
+            Page<Driver> drivers = this.driverRepo.findAll(pageable);
+            return drivers.map(DriverMapper::toDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override

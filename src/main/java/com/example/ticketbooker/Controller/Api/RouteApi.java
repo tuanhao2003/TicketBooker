@@ -2,9 +2,13 @@ package com.example.ticketbooker.Controller.Api;
 
 import com.example.ticketbooker.DTO.Routes.RequestRouteIdDTO;
 import com.example.ticketbooker.DTO.Routes.ResponseRouteDTO;
+import com.example.ticketbooker.DTO.Routes.RouteDTO;
+import com.example.ticketbooker.DTO.Routes.UpdateRouteDTO;
 import com.example.ticketbooker.Entity.Routes;
 import com.example.ticketbooker.Service.RouteService;
+import com.example.ticketbooker.Util.Mapper.RouteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,6 +29,18 @@ public class RouteApi {
             return false;
         }
         return result;
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateAccountStatus(@PathVariable("id") Integer id, @RequestBody RouteDTO routeDTO) {
+        UpdateRouteDTO existingRoute = RouteMapper.toUpdateDTO(routeService.getRoute(id));
+        if (existingRoute != null) {
+            existingRoute.setStatus(routeDTO.getStatus()); // Update only the status
+            routeService.updateRoute(existingRoute);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/search")
