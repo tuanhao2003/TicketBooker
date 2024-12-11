@@ -268,7 +268,9 @@
     </table>
     <div class="mt-4 flex justify-center">
       <ul class="flex">
-        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="mx-1 px-3 py-2 rounded-lg"
+        <!-- Hiển thị 3 trang trước và 3 trang sau -->
+        <li th:each="i : ${#numbers.sequence((currentPage - 3) > 0 ? (currentPage - 3) : 0, (currentPage + 3) < (totalPages - 1) ? (currentPage + 3) : (totalPages - 1))}"
+            class="mx-1 px-3 py-2 rounded-lg"
             th:classappend="${currentPage == i} ? 'bg-blue-500 text-white' : 'bg-gray-200'">
           <a th:href="@{/admin/drivers(page=${i}, size=10)}" th:text="${i + 1}"></a>
         </li>
