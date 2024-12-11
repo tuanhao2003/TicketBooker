@@ -77,6 +77,8 @@ public class MainController {
         if (!model.containsAttribute("responseTripDTO")) {
             model.addAttribute("responseTripDTO", new ResponseTripDTO());
         }
+        LocalDateTime currentDate = LocalDateTime.now();
+        model.addAttribute("currentDate", currentDate);
         return "View/User/Basic/FindTrip";
     }
 
