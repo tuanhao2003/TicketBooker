@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,22 +40,17 @@ public class StatisticsController {
                                 Model model) throws JsonProcessingException {
 
         if(startDate == null && endDate == null) {
-            startDate = LocalDate.now().minusMonths(4);
+            startDate = LocalDate.now().minusMonths(1);
             endDate = LocalDate.now();
         }
         List<ChartData> chartDataList = statisticsService.getStatistics(startDate, endDate);
         //Đếm só user
         int totalUsers = statisticsService.countAllUser();
-        //Láy Hóađơn mới trong tháng
-        System.out.println(chartDataList);
-        int newMonthlyOrders = 0;
-        int newMonthlyTickets = 0;
-        for(ChartData chartData : chartDataList) {
-            if(chartData.getPaymentDate().isAfter(LocalDate.now().minusMonths(4))) {
-                newMonthlyOrders += chartData.getOrderCount();
-                newMonthlyTickets += chartData.getTicketCount();
-            }
-        }
+
+        //Đếm Hóa đơn, vé mới trong tháng
+        int newMonthlyOrders = statisticsService.countOrders(LocalDate.now().minusMonths(1), LocalDate.now());
+        int newMonthlyTickets = statisticsService.countTickets(LocalDate.now().minusMonths(1), LocalDate.now());
+
         // Chuyển đổi dữ liệu thành JSON để hiển thị trên biểu đồ
         Map<String, Object> chartDataJson = new HashMap<>();
         chartDataJson.put("ticketCounts", chartDataList.stream()
