@@ -34,7 +34,7 @@ public class StatisticsController {
     @Autowired
     StatisticsService statisticsService;
 
-    @GetMapping("/thongke")
+    @GetMapping()
     public String getStatistics(@RequestParam(value = "startDate",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
                                 @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate,
                                 Model model) throws JsonProcessingException {
@@ -74,7 +74,7 @@ public class StatisticsController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @GetMapping()
+    @GetMapping("/thongke")
     public String statistics() {
         return "View/Admin/Statistics/Statistics";  // Trả về view của Thymeleaf
     }

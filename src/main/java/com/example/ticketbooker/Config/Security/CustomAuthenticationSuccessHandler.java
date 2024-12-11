@@ -30,9 +30,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             request.getSession().setAttribute("email", userDetails.getAccount().getEmail());
             // Chuyển hướng đến trang đích sau khi đăng nhập thành công
             if(account.getRole().toString().equals("MANAGER")){
-                response.sendRedirect("/admin/users");
+                response.sendRedirect("/admin/statistics");
             }else {
-                response.sendRedirect("/profile/info");
+                response.sendRedirect("/fuba");
             }
 
         } else if (principal instanceof CustomOAuth2User customOAuth2User) {
@@ -41,7 +41,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             if(customOAuth2User.getAccount().getPassword().isEmpty()) {
                 response.sendRedirect("/new-password");
             }else
-                response.sendRedirect("/profile/info");
+                response.sendRedirect("/fuba");
         }
     }
 }

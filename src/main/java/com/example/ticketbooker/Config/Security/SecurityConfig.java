@@ -79,13 +79,14 @@ public class SecurityConfig {
                         "/zalopay","/vnpay","/submitOrder","/vnpay-payment-return",
                         "/admin/trips/*","/api/**",
                         "/css/**","/js/**","/components/**",
-                        "/admin/routes/get-routes", "/admin/**",
+                        "/admin/routes/get-routes",
+//                        "/admin/**",
                         "/vnpay/**", "/payment/**")
-                                .permitAll() // Các URL yêu cầu đăng nhập
-                        .requestMatchers("/fuba/**").permitAll() // Các URL yêu cầu đăng nhập
+                                .permitAll()
+                        .requestMatchers("/fuba/**").permitAll() // Các URL khong yêu cầu đăng nhập
                         .requestMatchers("/favicon.icon").permitAll()
                         .requestMatchers("/auth").anonymous()
-//                                .requestMatchers("/admin/**").hasRole("MANAGER")
+                                .requestMatchers("/admin/**").hasRole("MANAGER")
 //                                .requestMatchers("").hasRole("CUSTOMER")
 //                                .requestMatchers("").hasRole("STAFF")
                         .anyRequest().authenticated() // Các URL còn lại cần xác thực
@@ -111,7 +112,7 @@ public class SecurityConfig {
                 ) // Kích hoạt tính năng remember-me
                 .logout((logout) -> logout
                         .logoutUrl("/logout") // Đường dẫn để đăng xuất
-                        .logoutSuccessUrl("/login") // Chuyển hướng sau khi đăng xuất
+                        .logoutSuccessUrl("/fuba") // Chuyển hướng sau khi đăng xuất
                         .deleteCookies("JSESSIONID") // Xóa cookie sau khi đăng xuất
                 )
                 .exceptionHandling(exception -> exception

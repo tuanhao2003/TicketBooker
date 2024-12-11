@@ -3,6 +3,7 @@ package com.example.ticketbooker.Controller;
 import com.example.ticketbooker.DTO.Ticket.TicketIdRequest;
 import com.example.ticketbooker.Entity.Account;
 import com.example.ticketbooker.Service.*;
+import com.example.ticketbooker.Util.Enum.Role;
 import com.example.ticketbooker.Util.Enum.TicketStatus;
 import com.example.ticketbooker.Util.Mapper.AccountMapper;
 import com.example.ticketbooker.Util.SecurityUtils;
@@ -51,10 +52,11 @@ public class MainController {
         if (isLoggedIn) {
             Object principal = authentication.getPrincipal();
             Account account = SecurityUtils.extractAccount(principal);
-            if (account != null) {
+            if (account != null && !account.getPassword().isEmpty()) {
                 model.addAttribute("fullname", account.getUser().getFullName());
+                model.addAttribute("isAdmin", account.getRole().compareTo(Role.MANAGER) == 0);
             } else {
-                model.addAttribute("fullname", "not logedin");
+                return("redirect:/logout");
             }
         }
         model.addAttribute("searchData", new SearchTripRequest());
