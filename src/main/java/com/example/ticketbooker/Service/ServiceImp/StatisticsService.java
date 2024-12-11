@@ -37,4 +37,10 @@ public class StatisticsService {
     public int countAllUser(){
         return statisticRepo.countAllUser();
     }
+    public int countOrders(LocalDate startDate, LocalDate endDate) {
+        return statisticRepo.countOrders(startDate, endDate);
+    }
+    public int countTickets(LocalDate startDate, LocalDate endDate) {
+        return statisticRepo.countTickets(startDate, endDate);
+    }
 }

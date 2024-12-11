@@ -24,5 +24,9 @@ public interface StatisticRepo extends JpaRepository<Tickets,Long> {
     List<Object[]> fetchStatistics(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
     @Query("SELECT COUNT(*) from Users")
     int countAllUser();
+    @Query("SELECT COUNT(*) from Invoices i where DATE(i.paymentTime) between :startDate and :endDate")
+    int countOrders(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT COUNT(distinct t.id) from Invoices i join Tickets t on i.id = t.invoice.id where DATE(i.paymentTime) between :startDate and :endDate")
+    int countTickets(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }
