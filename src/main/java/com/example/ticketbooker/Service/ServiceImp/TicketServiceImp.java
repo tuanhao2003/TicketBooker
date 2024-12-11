@@ -10,13 +10,20 @@ import com.example.ticketbooker.Util.Enum.TicketStatus;
 import com.example.ticketbooker.Util.Mapper.TicketMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @Service
 public class TicketServiceImp implements TicketService {
@@ -188,4 +195,94 @@ public class TicketServiceImp implements TicketService {
                 return date;
         }
     }
+
+    @Override
+    public TicketResponse getAllTickets(Pageable pageable) {
+        Page<Tickets> ticketPage = ticketRepository.findAll(pageable);
+        return new TicketResponse(ticketPage);
+    }
+
+    @Override
+    public TicketResponse getTicketsByTripId(int tripId, Pageable pageable) {
+        Page<Tickets> ticketPage = ticketRepository.findAllByTripId(tripId, pageable);
+        return new TicketResponse(ticketPage);
+    }
+
+    @Override
+    public ByteArrayInputStream exportTicketsToExcelByTripId(int tripId) {
+        List<Tickets> tickets = ticketRepository.findAllByTripId(tripId);
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Tickets");
+
+            // Tạo hàng đầu tiên (header row)
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"Ticket ID", "Customer Name", "Customer Phone", "Seat ID", "Ticket Status"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // Thêm dữ liệu vé vào file
+            int rowIdx = 1;
+            for (Tickets ticket : tickets) {
+                Row row = sheet.createRow(rowIdx++);
+
+                row.createCell(0).setCellValue(ticket.getId());
+                row.createCell(1).setCellValue(ticket.getCustomerName());
+                row.createCell(2).setCellValue(ticket.getCustomerPhone());
+                row.createCell(3).setCellValue(ticket.getSeat().getId());
+                row.createCell(4).setCellValue(ticket.getTicketStatus().name());
+            }
+
+            // Ghi dữ liệu ra ByteArrayOutputStream
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ByteArrayInputStream exportAllTicketsToExcel() {
+        List<Tickets> tickets = ticketRepository.findAll(); // Lấy toàn bộ danh sách vé
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Tickets");
+
+            // Tạo hàng đầu tiên (header row)
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"Ticket ID", "Customer Name", "Customer Phone", "Seat ID", "Ticket Status"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // Thêm dữ liệu vé vào file
+            int rowIdx = 1;
+            for (Tickets ticket : tickets) {
+                Row row = sheet.createRow(rowIdx++);
+
+                row.createCell(0).setCellValue(ticket.getId());
+                row.createCell(1).setCellValue(ticket.getCustomerName());
+                row.createCell(2).setCellValue(ticket.getCustomerPhone());
+                row.createCell(3).setCellValue(ticket.getSeat().getId());
+                row.createCell(4).setCellValue(ticket.getTicketStatus().name());
+            }
+
+            // Ghi dữ liệu ra ByteArrayOutputStream
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

@@ -2,6 +2,8 @@ package com.example.ticketbooker.Repository;
 
 import com.example.ticketbooker.Entity.Tickets;
 import com.example.ticketbooker.Util.Enum.TicketStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,4 +35,8 @@ public interface TicketRepo extends JpaRepository<Tickets, Integer> {
 
     @Query("SELECT COUNT(t) FROM Tickets t WHERE t.invoice.paymentTime BETWEEN :start AND :end")
     int countTicketsByPaymentTimeBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    Page<Tickets> findAllByTripId(int tripId, Pageable pageable);
+    // Phương thức mới để trả về toàn bộ danh sách vé mà không phân trang
+    List<Tickets> findAllByTripId(int tripId);
 }

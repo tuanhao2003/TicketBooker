@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{View/Layout/AdminLayout.html}">
 
 <head>
@@ -31,6 +31,22 @@
 
 <body>
 <div layout:fragment="content">
+    <h1 class="text-2xl font-bold mb-4">Danh Sách Vé</h1>
+
+    <div class="flex justify-between mb-4">  <!-- Added flex container -->
+        <form action="#" method="get" class="inline-block"> <!-- Added inline-block -->
+            <label for="tripId" class="mr-2">Lọc theo chuyến:</label>
+            <select name="tripId" id="tripId" class="px-3 py-2 border rounded-md">
+                <option value="" th:text="'Chọn chuyến đi'"></option>
+                <option th:each="trip : ${trips}" th:value="${trip.id}" th:text="${trip.id} + ' ' + ${trip.departureStation} + ' - ' + ${trip.arrivalStation}"></option>
+            </select>
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Lọc</button>
+        </form>
+
+        <!-- Nút để xuất file Excel (now aligned to the right) -->
+        <a th:href="@{/admin/tickets/export/excel(tripId=${param.tripId != null ? param.tripId : ''})}" class="px-4 py-2 bg-green-500 text-white rounded-md inline-block">Xuất Excel</a> <!-- Added inline-block -->
+    </div>
+
     <table class="min-w-full bg-white">
         <thead>
         <tr>
@@ -55,10 +71,41 @@
             <td class="py-2 px-4 border-b" th:text="${ticket.customerPhone}"></td>
             <td class="py-2 px-4 border-b" th:text="${ticket.seat.id}"></td>
             <td class="py-2 px-4 border-b" th:text="${ticket.qrCode}"></td>
-            <td class="py-2 px-4 border-b" th:text="${ticket.ticketStatus}"></td>
+            <td class="py-2 px-4 border-b">
+                <span th:text="${ticket.ticketStatus}"
+                      th:classappend="${ticket.ticketStatus == T(com.example.ticketbooker.Util.Enum.TicketStatus).USED} ? 'bg-green-500 text-white px-2 py-1 rounded' :
+                                           (${ticket.ticketStatus == T(com.example.ticketbooker.Util.Enum.TicketStatus).CANCELLED} ? 'bg-red-500 text-white px-2 py-1 rounded' :
+                                           'bg-yellow-500 text-white px-2 py-1 rounded')">
+                </span>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <!-- Pagination controls -->
+    <div class="flex justify-center mt-4">
+        <ul class="flex">
+            <!-- Hiển thị trang "Previous" -->
+            <li th:if="${ticketResponse.currentPage > 1}">
+                <a th:href="@{/admin/tickets(page=${ticketResponse.currentPage - 1})}" class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300">&lt; Previous</a>
+            </li>
+
+            <!-- Hiển thị 3 trang trước và 3 trang sau trang hiện tại -->
+            <li th:each="i : ${#numbers.sequence(ticketResponse.currentPage - 3 > 1 ? ticketResponse.currentPage - 3 : 1, ticketResponse.currentPage + 3 < ticketResponse.totalPages ? ticketResponse.currentPage + 3 : ticketResponse.totalPages)}"
+                class="mx-1">
+                <a th:href="@{/admin/tickets(page=${i - 1})}" th:text="${i}"
+                   class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300"
+                   th:classappend="${ticketResponse.currentPage == i} ? 'bg-blue-500 text-white'"></a>
+            </li>
+
+            <!-- Hiển thị trang "Next" -->
+            <li th:if="${ticketResponse.currentPage < ticketResponse.totalPages}">
+                <a th:href="@{/admin/tickets(page=${ticketResponse.currentPage + 1})}" class="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300">Next &gt;</a>
+            </li>
+        </ul>
+    </div>
+
+
 </div>
 </body>
 </html>
