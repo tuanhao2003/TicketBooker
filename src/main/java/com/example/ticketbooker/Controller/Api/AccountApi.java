@@ -79,14 +79,15 @@ public class AccountApi {
     public boolean resetPassword(@RequestBody ResetPasswordRequest request) {
         Context context = new Context();
         AccountDTO resettingAccount = accountService.getAccountByUsername(request.getUsername());
-        String currentIp = "";
-        try {
-            currentIp = NetworkInterfaceUtils.getIPv4Address();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String currentIp = "";
+//        try {
+//            currentIp = NetworkInterfaceUtils.getIPv4Address();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //      vì đang là chạy localhost nên sẽ để url là ip của thiết bị server
-        String requestUrl = "http://"+currentIp+":8080/api/accounts/reset-password?accountId=" + resettingAccount.getId()+"&newPassword="+request.getNewPassword();
+//        String requestUrl = "http://"+currentIp+":8080/api/accounts/reset-password?accountId=" + resettingAccount.getId()+"&newPassword="+request.getNewPassword();
+        String requestUrl = "http://localhost:8080/api/accounts/reset-password?accountId=" + resettingAccount.getId()+"&newPassword="+request.getNewPassword();
         context.setVariable("resetLink", requestUrl);
         return emailService.sendEmail(resettingAccount.getEmail(), "Reset Password Confirm", "EmailTemplate/ResetPassword", context);
     }

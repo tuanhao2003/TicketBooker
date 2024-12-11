@@ -6,8 +6,10 @@ import com.example.ticketbooker.DTO.Trips.AddTripDTO;
 import com.example.ticketbooker.DTO.Trips.ResponseTripDTO;
 import com.example.ticketbooker.DTO.Trips.TripDTO;
 import com.example.ticketbooker.DTO.Trips.UpdateTripDTO;
+import com.example.ticketbooker.DTO.Users.UpdateUserRequest;
 import com.example.ticketbooker.Entity.Buses;
 import com.example.ticketbooker.Entity.Trips;
+import com.example.ticketbooker.Entity.Users;
 import com.example.ticketbooker.Util.Enum.TripStatus;
 
 import java.time.LocalDateTime;
@@ -53,6 +55,7 @@ public class TripMapper {
     public static ResponseTripDTO toResponseDTO(ArrayList<Trips> trips) {
         return ResponseTripDTO.builder()
                 .listTrips(trips)
+                .tripsCount(trips.size())
                 .build();
     }
 
@@ -72,5 +75,21 @@ public class TripMapper {
         tripDTO.setAvailableSeats(trip.getAvailableSeats());
         tripDTO.setTripStatus(trip.getTripStatus());
         return tripDTO;
+    }
+
+    public static UpdateTripDTO toUpdateDTO(Trips entity) {
+        return UpdateTripDTO.builder()
+                .tripId(entity.getId())
+                .route(entity.getRoute())
+                .bus(entity.getBus())
+                .driver(entity.getDriver())
+                .departureStation(entity.getDepartureStation())
+                .arrivalStation(entity.getArrivalStation())
+                .departureTime(entity.getDepartureTime())
+                .arrivalTime(entity.getArrivalTime())
+                .price(entity.getPrice())
+                .availableSeats(entity.getAvailableSeats())
+                .tripStatus(entity.getTripStatus())
+                .build();
     }
 }

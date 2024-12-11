@@ -12,6 +12,7 @@ import com.example.ticketbooker.Service.DriverService;
 import com.example.ticketbooker.Service.RouteService;
 import com.example.ticketbooker.Service.TripService;
 import com.example.ticketbooker.Util.Enum.TripStatus;
+import com.example.ticketbooker.Util.Mapper.TripMapper;
 import com.example.ticketbooker.Util.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -100,6 +101,7 @@ public class TripController {
     public String update(@ModelAttribute("updateTripForm") UpdateTripDTO updateTripDTO, Model model) {
         try {
             System.out.println("Update trip: " + updateTripDTO);
+            int id = updateTripDTO.getTripId();
             boolean result = tripService.updateTrip(updateTripDTO);
             if (result) {
                 model.addAttribute("successMessage", "Successfully updated");
@@ -109,16 +111,21 @@ public class TripController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/admin/trips";
+        return "redirect:/admin/trips/details/"+ updateTripDTO.getTripId();
+
     }
 
     @GetMapping("/details/{id}")
     public String tripDetails(@PathVariable int id, Model model) {
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest();
-        if(tripService.getUserById(id).getUsersCount() == 1){
-            updateUserRequest = UserMapper.toUpdateDTO(userService.getUserById(id).getListUsers().get(0));
+        UpdateTripDTO updateTripDTO = new UpdateTripDTO();
+        if(tripService.getTripByIds(id).getTripsCount() == 1){
+            updateTripDTO = TripMapper.toUpdateDTO(tripService.getTripByIds(id).getListTrips().get(0));
         }
-        model.addAttribute("updateUserForm", updateUserRequest);
-        return "View/Admin/Users/UserDetails";
+        System.out.println(tripService.getTripByIds(id).getTripsCount());
+        System.out.println(tripService.getTripByIds(id).getListTrips().get(0));
+        System.out.println(updateTripDTO.getTripId());
+
+        model.addAttribute("updateTripForm", updateTripDTO);
+        return "View/Admin/Trips/TripDetail";
     }
 }
