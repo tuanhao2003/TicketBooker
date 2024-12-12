@@ -177,7 +177,7 @@
                         } else {
                             (
                                 function () {
-                                    const total = document.getElementById("totalPrice").innerText.replace(".", "").replace("đ", "");
+                                    const total = document.getElementById("totalPrice").innerText.replace(".", "").replace(",", "").replace("đ", "");
                                     const fullName = document.querySelector(".apiField[name='customerName']").value;
                                     const phone = document.querySelector(".apiField[name='customerPhone']").value;
                                     const email = document.querySelector(".apiField[name='email']").value;
