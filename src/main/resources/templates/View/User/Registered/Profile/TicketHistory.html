@@ -20,7 +20,7 @@
             </div>
 
             <!-- Search Filters -->
-            <form method="get" th:action="@{'/fuba/history-booking/'}">
+            <form method="get" th:action="@{'/profile/history-booking'}">
                 <div class="grid grid-cols-5 gap-4 mb-8">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Mã vé</label>
@@ -68,7 +68,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr th:each="ticket : ${ticketResponse.listTickets}">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200" th:text="${ticket.id}"></td>
-                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200" th:text="${ticket.trip.departureStation} + ' - ' + ${ticket.trip.arrivalStation}"></td> <!-- Adjust based on your Trip entity -->
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center border border-gray-200" th:text="${ticket.trip.route.departureLocation} + ' - ' + ${ticket.trip.route.arrivalLocation}"></td> <!-- Adjust based on your Trip entity -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200" th:text="${ticket.trip.departureTime}"></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center border border-gray-200" th:text="${ticket.trip.price}"></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center border border-gray-200" th:text="${ticket.invoice.paymentMethod}"></td> <!-- Adjust based on your Seat entity -->

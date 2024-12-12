@@ -47,7 +47,7 @@ public class ProfileController {
 
     @Autowired
     private EmailService emailService;
-    // Constructor injection
+    // Constructor injection    
     @Autowired
     public ProfileController(TicketService ticketService, AccountService accountService, UserService userService, CustomUserDetailsService customUserDetailsService, CustomOAuthUserService customOAuthUserService ,PasswordEncoder passwordEncoder) {
         this.ticketService = ticketService;
